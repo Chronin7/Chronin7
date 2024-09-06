@@ -1,7 +1,11 @@
-yes = input("woud you like celces to farinight (y/n): ")
+yes = input("woud you like celsius to fahrenheit (y/n): ")
 if yes == "y":
-    tempofcelses = input("what is the temp in celces: ") 
+    tempofcelsius = int(input("what is the temp in celsius: ")) 
+    print ("the temp for fahrenheit is {tempofcelsius*(9/5)+32}")
 if yes == "n":
-    no = input("woud you like celces to farinight (y/n): ")
-if no == "y":
-    tempforfarinight = input("what is the temp in farinhight: ") 
+    no = input("woud you like celsius to fahrenheit (y/n): ")
+    if no == "y":
+        tempforfahrenheit = int(input("what is the temp in fahrenheit: ")) 
+        print("the temp for celsius is {tempforfahrenheit-32*(5/9)}")
+
+quit
