@@ -8,4 +8,10 @@ if yes == "n":
     if no == "y":
         tempforfahrenheit = int(input("what is the temp in fahrenheit: ")) 
         print("the temp for celsius when fahrenheight is ",tempforfahrenheit,"is",tempforfahrenheit-32*(5/9))
+<<<<<<< HEAD
 quit
+=======
+
+
+quit
+>>>>>>> a2fa861a4d6ef59b2a049129e610d62530f1ed65
