@@ -1,2 +1,3 @@
-banana = int(input ("hi"))
-if banana < 3 : print("yay")
+word = input("hi:")
+
+print(word.find("a"))

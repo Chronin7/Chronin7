@@ -1,6 +1,6 @@
 import random
 
-easterEggCount = 100+1
+easterEggCount = 100
 maxGuessCount = 20
 
 minGuess = 1
@@ -13,7 +13,7 @@ while playAgain:
 	playCount += 1
 
 	if playCount == easterEggCount:
-		print("WHY DID YOU WASTE YOUR TIME ON THIS DUMB GAME! DO SOMETHING BETIER WITH YOUR TIME!")
+		print("WHY DID YOU WASTE YOUR TIME ON THIS DUMB GAME! DO SOMETHING BETTER WITH YOUR TIME!")
 		exit()
 
 
