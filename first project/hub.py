@@ -22,7 +22,7 @@ def hub():
 
 		hubo = 0
 
-		hubo = int(input("1 for calculator 2 for guessing game 3 for palindrome detector and 0 to quit: "))
+		hubo = int(input("1 for calculator 2 for guessing game 3 for palindrome detector 4 for madlibs and 0 to quit: "))
     
 		if hubo ==0:
 			print("goodby please come back soon! ##connection terminated by:Hubby##")
@@ -50,7 +50,10 @@ def hub():
 			palindrome()
 			time.sleep(1)
 		if hubo ==4:
-			print("sorry this option is not available yet.")
+			print("ok sending you to liby.")
+			time.sleep(1)
+			madlib()
+			time.sleep(1)
 		if hubo ==5:
 			print("sorry this option is not available yet.")
 		if hubo ==6:
@@ -65,7 +68,7 @@ def hub():
 			print("sorry this option is not available yet.")
 		if hubo ==31415926:
 			print("you broke it.")
-			brake()
+			
 		else:
 			print("sorry this option is not available yet.")
 
@@ -268,6 +271,42 @@ def palindrome():
 						doagennP = False
 
 						return
+
+
+# madlib profishensy test
+def madlib():
+	runlib = True
+	if runlib == True:
+		madlim = int(input("This is liby chose one for starwars madlib and more are coming soon!: "))
+		one = str(input("this is a mad lib. Choose a adjictive: "))
+		two = str(input("Choose a noun: "))
+		tree = str(input("Choose a adjective: "))
+		forr = str(input("Choose a noun; place: "))
+		five = str(input("Choose a adjictive: "))
+		six = str(input("Choose a adjictive: "))
+		seven = str(input("Choose a pleral noun; vehical: "))
+		ate = str(input("Choose a adjictive: "))
+		nine = str(input("Choose a adjective: "))
+		ten = str(input("Choose a plural noun: "))
+		elevin = str(input("Choose a adjictive: "))
+		twelve = str(input("Choose a plural noun: "))
+		thrteen = str(input("Choose a plural noun: "))
+		forteen = str(input("Choose a adjictive: "))
+		fifteen = str(input("Choose a noun: "))
+		sixteen = str(input("Choose a verb: "))
+		seventeen = str(input("Choose a adjective: "))
+		eating = str(input("Choose a verb: "))
+		nineteen = str(input("Choose a pleral noun: "))
+		twonty = str(input("Choose a pleral noun; type of job: "))
+		twuntyone = str(input("Choose a ajictive: "))
+		twuntytwo = str(input("Choose a verb: "))
+		twontytree = str(input("Choose a adjective: "))
+		print(f"Star Wars is a {one} {two} of {tree} versus evil in a {forr} far far away. There are {five} battles between {six} {seven} in {ate} space and {nine} duels with {ten} called {elevin} sabers. {twelve} called droids are helpers and {thrteen} tho the heroes. A {forteen} power caled The {fifteen} {sixteen}s people to do {seventeen} things, like {eating} {nineteen}. The Jedi {twonty} use The Force for the {twuntyone} side and the sith {twuntytwo} it for the {twontytree} side.")
+		libbs = input("do you want to do another one? (y/n):")
+		if libbs == "n":
+			print("ok")
+			runlib = False
+			return
 
 print("initiating")
 time.sleep(1.5)
