@@ -1,6 +1,6 @@
 # madlib profishensy test
 # i moved the finlal print statmet very far down so it dusent get spoiled it is on line 500
-one = str(input("this is a mad lib. Choose a adjictive: "))
+one = str(input("Choose a adjictive: "))
 two = str(input("Choose a noun: "))
 tree = str(input("Choose a adjective: "))
 forr = str(input("Choose a noun; place: "))
