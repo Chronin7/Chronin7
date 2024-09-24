@@ -5,23 +5,27 @@ deleted = ""
 not_a_string = ""
 output = ""
 decoded = ""
+debuging = 0
 j = 0
 i = 0
 x = 0
 def second_half(num):
     return (input_word[num:])
 def check():
-    print(f"#iteration: {iteration}")
-    print(f"#input_word: {input_word}")
-    print(f"#split: {split}")
-    print(f"#deleted: {deleted}")
-    print(f"#not_a_string: {not_a_string}")
-    print(f"#output: {output}")
-    print(f"#concinints {consinints}")
-    print(f"#decoded {decoded}")
-    print(f"#")
-    print(f"#")
-    print(f"#")
+    if debuging == 1:
+        print(f"#iteration: {iteration}")
+        print(f"#input_word: {input_word}")
+        print(f"#split: {split}")
+        print(f"#deleted: {deleted}")
+        print(f"#not_a_string: {not_a_string}")
+        print(f"#output: {output}")
+        print(f"#concinints {consinints}")
+        print(f"#decoded {decoded}")
+        print(f"#")
+        print(f"#")
+        print(f"#")
+    else:
+        return
 iteration = 1
 consinints = []
 if len(input_word) < 3:
