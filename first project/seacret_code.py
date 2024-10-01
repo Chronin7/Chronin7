@@ -12,9 +12,9 @@ if code_decode == 1:
         list_o_coded.append(((ord(x))))
     for y in list_o_coded:
         if loops_o_codeing == 0:
-            output = str(int(y)+seed)
+            output = str(int(y)*seed)
         else:
-            output = output +","+ str(int(y)+seed)
+            output = output +","+ str(int(y)*seed)
         loops_o_codeing += 1
     print(output)
 if code_decode == 2:
@@ -22,6 +22,6 @@ if code_decode == 2:
     seed_o_decodeing = int(input("what is the seed: "))
     list_o_decoding = (coded_decoder.split(","))
     for z in list_o_decoding:
-        var = str(chr(int(z)-seed_o_decodeing))
+        var = str(chr(int(z)/seed_o_decodeing))
         decoded = decoded + var
     print(decoded)
