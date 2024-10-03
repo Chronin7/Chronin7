@@ -1,21 +1,21 @@
 # This function should return the sum of all even numbers in the list, but it returns the wrong value. Find the bug.
 def sum_even_numbers(numbers):
 
-     sum = 0
+	 sum = 0
 
-     for num in numbers:
+	 for num in numbers:
 
-          if num % 2 == 0:
+		  if num % 2 == 0:
 
-               sum += num
+			   sum += num
 
-          else:
+		  else:
 
-               return 0
+			   return 0
 
-     return sum
+	 return sum
 print(sum_even_numbers(int(input(":"))))
 
 in
 for x in inpit:
-     print x
+	 print x

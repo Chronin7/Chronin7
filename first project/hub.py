@@ -23,7 +23,7 @@ def hub():
 		hubo = 0
 
 		hubo = int(input("1 for calculator 2 for guessing game 3 for palindrome detector 4 for madlibs and 0 to quit: "))
-    
+	
 		if hubo ==0:
 			print("goodby please come back soon! ##connection terminated by:Hubby##")
 			time.sleep(1)
