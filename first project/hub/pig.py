@@ -1,13 +1,20 @@
 import random
 import time
 #this function is from geeks for geeks
+def check():
+	print(space)
+	print(input_word)
+	print(iteration)
+	print(not_a_string)
+	print(not_a)
+	print(oouutt)
 def check_space(stringer):
     count = 0
     for i in range(0, len(stringer)):
         if stringer[i] == " ":
             count += 1
-         
     return count
+#this function is from me
 def type_text(text):
 	for x in text:
 		print(x, end = "", flush = True)
@@ -17,10 +24,11 @@ out = []
 outer_iteration = 1
 oouutt = ""
 while True:
-	inp = input("I am Pig what do you want to translate:")
+	inp = str(input("I am Pig what do you want to translate:"))
 	if inp == "":
 		print("oops looks like you are a bit trigerhappy")
 	else:
+		space = check_space(inp)
 		imp = inp.split(" ")
 		for i in imp:
 			input_word = i
@@ -74,7 +82,7 @@ while True:
 				else:
 					out.append(" ")
 					out.append(input_word)
-				if len(out) == len(imp):
+				if len(out) == len(imp) + space:
 					break
 				else:
 					outer_iteration += 1
