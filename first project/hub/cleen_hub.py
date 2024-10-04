@@ -4,7 +4,7 @@ import time
 import random
 def type_text(te):
 	for c in str(te):
-		print(c, end = "")
+		print(c, end = "", flush = True)
 		time.sleep(random.uniform(.01,.1))
 	print("")
 def hub():
@@ -14,7 +14,7 @@ def hub():
 		type_text("0 to stop")
 		type_text("1 for calculator")
 		type_text("2 for number game")
-		type_text("3 for paladrome deteector")
+		type_text("3 for palindrome detector")
 		type_text("4 for pig latin translator")
 		type_text("5 for anagram maker")
 		type_text("6 for averager")
@@ -22,7 +22,7 @@ def hub():
 		type_text("8 for area calculator")
 		hubo = int(input("what do you want: "))
 		if hubo == "":
-			type_text("opps looks like you are a bit trigerhappy")
+			type_text("oops looks like you are a bit trigerhappy")
 		else:
 			if hubo ==0:
 				type_text("Goodby please come back soon! ##connection terminated by:Hubby##")
@@ -52,7 +52,7 @@ def hub():
 			type_text("Ok sending you to AV (she is a bit crazy).")
 			import avrage
 		elif hubo ==7:
-			type_text("Ok sending you to Kelven.")
+			type_text("Ok sending you to Kelvin.")
 			import temp_calculater_hub
 		elif hubo ==8:
 			type_text("Ok sending you to Arion.")

@@ -1,6 +1,6 @@
 import time
 import random
-input_o_code = input("shhhh. this is a seacret i am liam what is the code(only numbers pleese): ")
+input_o_code = input("shhhh. this is a secret i am liam what is the code(only numbers please): ")
 break_it = 1
 binary = ""
 check = 0
@@ -17,7 +17,7 @@ if binary == "0b11011100b11001010b11101100b11001010b11100100b1000000b11001110b11
 		list_o_decoding = []
 		if code_decode == 1:
 			code = input("what is the uncoded word: ")
-			seed = int(input("what is the decoding seed (whole numbers pleese): "))
+			seed = int(input("what is the decoding seed (whole numbers please): "))
 			for x in code:
 				list_o_coded.append(((ord(x))))
 			for y in list_o_coded:

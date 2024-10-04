@@ -2,7 +2,7 @@ import random
 import time
 def type_text(text):
 	for x in text:
-		print(x, end = "")
+		print(x, end = "", flush = True)
 		time.sleep(random.uniform(.01,1.0))
 	print("")
 
@@ -62,7 +62,7 @@ while True:
 				not_a = not_a +''+i
 			output = not_a + deleted +"ay"
 			print(output)
-			go = input("Do you want to translate anoter word? (y/n): ")
+			go = input("Do you want to translate another word? (y/n): ")
 			if input_word == "":
 				print ("oops looks like you are a bit trigerhappy")
 			else:

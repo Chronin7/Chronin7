@@ -1,9 +1,8 @@
-
 import time
 import random
 def type_text(text):
 	for x in text:
-		print(x, end = "")
+		print(x, end = "", flush = True)
 		time.sleep(random.uniform(.01,1.0))
 	print("")
 while True:

@@ -2,7 +2,7 @@ import random
 import time					
 def type_text(text):
 	for x in text:
-		print(x, end = "")
+		print(x, end = "", flush = True)
 		time.sleep(random.uniform(.01,1.0))
 	print("")
 #just to have a bit of fun
@@ -14,7 +14,7 @@ minGuess = 1
 maxGuess = 100
 def type_text(text):
 	for x in text:
-		print(x, end = "")
+		print(x, end = "", flush = True)
 		time.sleep(random.uniform(.01,1.0))
 	print("")
 playCount = 0
@@ -29,7 +29,7 @@ while playAgain:
 	while True:
 		guess = int(input(f'Guess a number {minGuess}-{maxGuess}: '))  
 		if guess == "":
-			type_text("opps looks like you are a bit trigerhappy")
+			type_text("oops looks like you are a bit trigerhappy")
 		else:
 			break
 	for x in range(maxGuessCount): 
@@ -37,12 +37,12 @@ while playAgain:
 				if guess < num :
 					guess = int(input ("the number is larger: "))
 					if guess == "":
-						type_text("opps looks like you are a bit trigerhappy")
+						type_text("oops looks like you are a bit trigerhappy")
 				elif guess > num :
 					guess = int(input ("the number is smaller: "))
 					break
 				elif guess == "":
-					type_text("opps looks like you are a bit trigerhappy")
+					type_text("oops looks like you are a bit trigerhappy")
 				else:
 					if guess == num : 
 						print ("you got it")

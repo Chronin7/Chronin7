@@ -2,14 +2,15 @@ import random
 import time
 def type_text(text):
 	for x in text:
-		print(x, end = "")
+		print(x, end = "", flush = True)
 		time.sleep(random.uniform(.01,.1))
 	print("")
+type_text("Hi i am Anny")
 while True:
 	anagram = []
 	output = ""
 	doit = "12345"
-	word = input("hi i am Anny what is the word that you want into anagram or type stop to stop: ")
+	word = input("what is the word that you want into anagram or type stop to stop: ")
 	if word == "stop":
 		type_text("sending you back to Hubby")
 		break
