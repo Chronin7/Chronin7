@@ -21,14 +21,24 @@ while True:
 				iteration += 1
 			print("___________________________")
 			while True:
-				remove = int(input("what do you want to remove: "))
-				if remove > len(thelist):
-					print(f"you dont have a item at {remove}")
-				elif remove < 1:
+				remove = input("what do you want to remove: ")
+				iterr = 1
+				for x in thelist:
+					if remove != iterr:
+						notimpresed = 1
+					else:
+						continue
+					iterr += 1
+				if notimpresed == 1:
 					print("i am not impressed with your efforts to brake me")
 				else:
-					del thelist[remove-1]
-					break
+					if remove > len(thelist):
+						print(f"you dont have a item at {remove}")
+					elif remove < 1:
+						print("i am not impressed with your efforts to brake me")
+					else:
+						del thelist[remove-1]
+						break
 		elif action == "3":
 			print()
 			print(f"          {clist}          ")
