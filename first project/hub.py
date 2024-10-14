@@ -426,9 +426,11 @@ def hub():
 				type_text(f"Star Wars is a {one} {two} of {tree} versus evil in a {forr} far far away. There are {five} battles between {six} {seven} in {ate} space and {nine} duels with {ten} called {elevin} sabers. {twelve} called droids are helpers and {thrteen} tho the heroes. A {forteen} power caled The {fifteen} {sixteen}s people to do {seventeen} things, like {eating} {nineteen}. The Jedi {twonty} use The Force for the {twuntyone} side and the sith {twuntytwo} it for the {twontytree} side.")
 				libbs = input("do you want to do another one? (y/n):")
 				if libbs == "n":
-					type_text("ok")
+					type_text("ok sending you back to the hub")
 					runlib = False
-					hub()
+					break
+				else:
+					type_text
 		elif hubo ==10:
 			type_text("Ok sending you to lil'lister")
 			time.sleep(1)
@@ -437,13 +439,16 @@ def hub():
 			thelist = []
 			while True:
 				action = input("""what do you want to do
-0 to go back to hub#jfdajflkdsajf;laksf
+0 to go back to hub
 1 add item
 2 remove item
 3 to print and leave the list (note this also deletes it): """)
-				if action != "1" and action != "2" and action != "3":
+				if action != "1" and action != "2" and action != "3" and action != "0":
 					type_text("i am not impressed with your efforts to brake me")
-				if action == "1" or action == "2" or action == "3":	
+				if action == "1" or action == "2" or action == "3" and action == "0":	
+					if action == 0:
+						type_text("ok sending you back to the hub")
+						break
 					if action == "1":
 						inpuy = input("what do you want to add: ")
 						thelist.append(inpuy)
