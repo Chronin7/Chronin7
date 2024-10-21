@@ -1,7 +1,7 @@
 
-import random
+turn = ""
+board = [None,None,None,None,None,None,None,None,None]
 def print_ui(board):
-	def p_board(board):
 	iteration = -1
 	for x in board:
 		iteration += 1
@@ -292,3 +292,53 @@ def print_ui(board):
                                  ██		               ██
 """
 	print(q1, flush=True)
+def check_win(board):
+	for c in ["X","O"]:
+		if board[0] == c and board[1] == c and board[2] == c:
+			return c
+		elif board[3] == c and board[4] == c and board[5] == c:
+			return c
+		elif board[6] == c and board[7] == c and board[8] == c:
+			return c
+		elif board[0] == c and board[3] == c and board[6] == c:
+			return c
+		elif board[1] == c and board[4] == c and board[7] == c:
+			return c
+		elif board[2] == c and board[5] == c and board[8] == c:
+			return c
+		elif board[0] == c and board[4] == c and board[8] == c:
+			return c
+		elif board[2] == c and board[4] == c and board[6] == c:
+			return c
+	for x in board:
+		if x == None:
+			return None
+	return "tie"
+def meet_o_code():
+	while True:
+		play_it = ("play again(y/n): ")
+		if play_it == "n":
+			quit
+		else:
+			p1 = input("who is player 1: ")
+			p2 = input("who is player 2: ")
+			go = input(f"1 for {p1} to go first 2 for {p2} to go first: ")
+			if go == "1":
+				turn = "p1"
+			else:
+				turn = "p2"
+			while True:
+				win = check_win(board)
+				if win == "tie":
+					print("tie")
+					break
+				elif win == "X":
+					print(f"{p1} wins")
+					break
+				elif win == "O":
+					print(f"{p2} wins")
+					break
+				else:
+					print_ui(board)
+				if turn == "p1":
+					peese = input(f"{p1} where do you want to go(use the number of place like top left is 1):")
