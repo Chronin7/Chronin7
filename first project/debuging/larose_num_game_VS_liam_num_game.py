@@ -3,16 +3,12 @@ import random
 def start_game():
     print("Welcome to the Number Guessing Game!")
     print("I'm thinking of a number between 1 and 100.")
-    guess = 50
     number_to_guess = random.randint(1, 100)
     max_attempts = 10
     attempts = 0
     game_over = False
     while not game_over:
-        guess = int(input("Enter your guess: "))
-        if attempts >= max_attempts:
-            print(f"Sorry, you've used all {max_attempts} attempts. The number was {number_to_guess}.")
-            game_over = True
+        guess = int(input("Enter your guess: "))#needs to be int
         if guess == number_to_guess:
             print("Congratulations! You've guessed the number!")
             game_over = True
@@ -20,7 +16,10 @@ def start_game():
             print("Too high! Try again.")
         elif guess < number_to_guess:
             print("Too low! Try again.")  
-        continue
+        if attempts >= max_attempts:
+            print(f"Sorry, you've used all {max_attempts} attempts. The number was {number_to_guess}.")#just moved this after the cheacks for better readabilaty
+            game_over = True
+        attempts += 1 #no atempt counter
     print("Game Over. Thanks for playing!")
 start_game()
 #liams game
@@ -60,4 +59,5 @@ def game():
 							return
 						else:
 							type_text("ok")
+							break
 game()
