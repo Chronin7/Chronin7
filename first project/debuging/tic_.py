@@ -420,6 +420,7 @@ while True:
 		print(check_win(board))
 		break
 	while True:
+		choose_move(board, "X")
 		print_board(board)
 		if check_win(board) != None:
 			break
