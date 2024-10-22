@@ -19,6 +19,396 @@ inttt = 1
 debuging = True
 typing = True
 type_speed = .01
+def possible_boards(cBoard,turn):
+	moves = []
+	for i in range(9):
+		if cBoard[i] == None:
+			newBoard = cBoard.copy()
+			newBoard[i] = turn
+			moves.append(newBoard)
+	return moves
+def choose_move(cBoard, turn):
+	possible = possible_boards(cBoard, turn)
+
+	if len(possible) == 1:
+		return possible[0]
+
+	nextTurn = "X"
+	if turn == "X":
+		nextTurn = "O"
+
+	bestBoard = possible[0]
+	bestX, bestO, bestT = score_move(bestBoard, nextTurn)
+
+	for b in possible[1:]:
+		x, o, t = score_move(b, nextTurn)
+		if turn == "X":
+			if o > bestO:
+				continue
+			elif x > bestX:
+				bestX = x
+				bestO = o
+				bestT = t
+				bestBoard = b
+			elif t > bestT and o < bestO and x >= bestX:
+				bestX = x
+				bestO = o
+				bestT = t
+				bestBoard = b
+		else:
+			if x > bestX:
+				continue
+			elif o > bestO:
+				bestX = x
+				bestO = o
+				bestT = t
+				bestBoard = b
+			elif t > bestT and x < bestX and o >= bestO:
+				bestX = x
+				bestO = o
+				bestT = t
+				bestBoard = b
+	return bestBoard
+def score_move(cBoard, turn):
+	possible = possible_boards(cBoard, turn)
+	x = 0.0
+	o = 0.0
+	t = 0.0
+	for i, b in enumerate(possible):
+		result = check_win(b)
+		if result == "tie":
+			return (0.0, 0.0, 1.0)
+		elif result == "X":
+			return (1.0, 0.0, 0.0)
+		elif result == "O":
+			return (0.0, 1.0, 0.0)
+		elif turn == "X":
+			bx, bo, bt = score_move(b, "O")
+			x += bx
+			o += bo
+			t += bt
+		else:
+			bx, bo, bt = score_move(b, "X")
+			x += bx
+			o += bo
+			t += bt
+	# x /= len(possible)
+	# o /= len(possible)
+	# t /= len(possible)
+	return(x,o,t)
+def check_win(board):
+	for c in ["X","O"]:
+		if board[0] == c and board[1] == c and board[2] == c:
+			return c
+		elif board[3] == c and board[4] == c and board[5] == c:
+			return c
+		elif board[6] == c and board[7] == c and board[8] == c:
+			return c
+		elif board[0] == c and board[3] == c and board[6] == c:
+			return c
+		elif board[1] == c and board[4] == c and board[7] == c:
+			return c
+		elif board[2] == c and board[5] == c and board[8] == c:
+			return c
+		elif board[0] == c and board[4] == c and board[8] == c:
+			return c
+		elif board[2] == c and board[4] == c and board[6] == c:
+			return c
+	for x in board:
+		if x == None:
+			return None
+	return "tie"
+def print_ui(board):
+	iteration = -1
+	for x in board:
+		iteration += 1
+		if iteration == 0:
+			if x == "O":
+				q11 = "      ███████████      "
+				q12 = "    ███         ███    "
+				q13 = "   ███           ███   "
+				q14 = "   ███           ███   "
+				q15 = "   ███           ███   "
+				q16 = "   ███           ███   "
+				q17 = "    ███         ███    "
+				q18 = "      ███████████      "
+			elif x == "X":
+				q11 = "   ███         ███    "
+				q12 = "     ███     ███      "
+				q13 = "       ███ ███        "
+				q14 = "        █████         "
+				q15 = "        █████         "
+				q16 = "       ███ ███        "
+				q17 = "     ███     ███      "
+				q18 = "   ███         ███    "
+			else:
+				q11 = "                      "
+				q12 = "                      "
+				q13 = "                      "
+				q14 = "                      "
+				q15 = "                      "
+				q16 = "                      "
+				q17 = "                      "
+				q18 = "                      "
+		elif iteration == 1:
+			if x == "O":
+				q22 = "      ███████████      "
+				q22 = "    ███         ███    "
+				q23 = "   ███           ███   "
+				q24 = "   ███           ███   "
+				q25 = "   ███           ███   "
+				q26 = "   ███           ███   "
+				q27 = "    ███         ███    "
+				q28 = "      ███████████      "
+			elif x == "X":
+				q21 = "   ███         ███    "
+				q22 = "     ███     ███      "
+				q23 = "       ███ ███        "
+				q24 = "        █████         "
+				q25 = "        █████         "
+				q26 = "       ███ ███        "
+				q27 = "     ███     ███      "
+				q28 = "   ███         ███    "
+			else:
+				q21 = "                      "
+				q22 = "                      "
+				q23 = "                      "
+				q24 = "                      "
+				q25 = "                      "
+				q26 = "                      "
+				q27 = "                      "
+				q28 = "                      "
+		elif iteration == 2:
+			if x == "O":
+				q31 = "      ███████████      "
+				q32 = "    ███         ███    "
+				q33 = "   ███           ███   "
+				q34 = "   ███           ███   "
+				q35 = "   ███           ███   "
+				q36 = "   ███           ███   "
+				q37 = "    ███         ███    "
+				q38 = "      ███████████      "
+			elif x == "X":
+				q31 = "   ███         ███    "
+				q32 = "     ███     ███      "
+				q33 = "       ███ ███        "
+				q34 = "        █████         "
+				q35 = "        █████         "
+				q36 = "       ███ ███        "
+				q37 = "     ███     ███      "
+				q38 = "   ███         ███    "
+			else:
+				q31 = "                      "
+				q32 = "                      "
+				q33 = "                      "
+				q34 = "                      "
+				q35 = "                      "
+				q36 = "                      "
+				q37 = "                      "
+				q38 = "                      "
+		elif iteration == 3:
+			if x == "O":
+				q41 = "      ███████████      "
+				q42 = "    ███         ███    "
+				q43 = "   ███           ███   "
+				q44 = "   ███           ███   "
+				q45 = "   ███           ███   "
+				q46 = "   ███           ███   "
+				q47 = "    ███         ███    "
+				q48 = "      ███████████      "
+			elif x == "X":
+				q41 = "   ███         ███    "
+				q42 = "     ███     ███      "
+				q43 = "       ███ ███        "
+				q44 = "        █████         "
+				q45 = "        █████         "
+				q46 = "       ███ ███        "
+				q47 = "     ███     ███      "
+				q48 = "   ███         ███    "
+			else:
+				q41 = "                      "
+				q42 = "                      "
+				q43 = "                      "
+				q44 = "                      "
+				q45 = "                      "
+				q46 = "                      "
+				q47 = "                      "
+				q48 = "                      "
+		elif iteration == 4:
+			if x == "O":
+				q51 = "      ███████████      "
+				q52 = "    ███         ███    "
+				q53 = "   ███           ███   "
+				q54 = "   ███           ███   "
+				q55 = "   ███           ███   "
+				q56 = "   ███           ███   "
+				q57 = "    ███         ███    "
+				q58 = "      ███████████      "
+			elif x == "X":
+				q51 = "   ███         ███    "
+				q52 = "     ███     ███      "
+				q53 = "       ███ ███        "
+				q54 = "        █████         "
+				q55 = "        █████         "
+				q56 = "       ███ ███        "
+				q57 = "     ███     ███      "
+				q58 = "   ███         ███    "
+			else:
+				q51 = "                      "
+				q52 = "                      "
+				q53 = "                      "
+				q54 = "                      "
+				q55 = "                      "
+				q56 = "                      "
+				q57 = "                      "
+				q58 = "                      "
+		elif iteration == 5:
+			if x == "O":
+				q61 = "      ███████████      "
+				q62 = "    ███         ███    "
+				q63 = "   ███           ███   "
+				q64 = "   ███           ███   "
+				q65 = "   ███           ███   "
+				q66 = "   ███           ███   "
+				q67 = "    ███         ███    "
+				q68 = "      ███████████      "
+			elif x == "X":
+				q61 = "   ███         ███    "
+				q62 = "     ███     ███      "
+				q63 = "       ███ ███        "
+				q64 = "        █████         "
+				q65 = "        █████         "
+				q66 = "       ███ ███        "
+				q67 = "     ███     ███      "
+				q68 = "   ███         ███    "
+			else:
+				q61 = "                      "
+				q62 = "                      "
+				q63 = "                      "
+				q64 = "                      "
+				q65 = "                      "
+				q66 = "                      "
+				q67 = "                      "
+				q68 = "                      "
+		elif iteration == 6:
+			if x == "O":
+				q71 = "      ███████████      "
+				q72 = "    ███         ███    "
+				q73 = "   ███           ███   "
+				q74 = "   ███           ███   "
+				q75 = "   ███           ███   "
+				q76 = "   ███           ███   "
+				q77 = "    ███         ███    "
+				q78 = "      ███████████      "
+			elif x == "X":
+				q71 = "   ███         ███    "
+				q72 = "     ███     ███      "
+				q73 = "       ███ ███        "
+				q74 = "        █████         "
+				q75 = "        █████         "
+				q76 = "       ███ ███        "
+				q77 = "     ███     ███      "
+				q78 = "   ███         ███    "
+			else:
+				q71 = "                      "
+				q72 = "                      "
+				q73 = "                      "
+				q74 = "                      "
+				q75 = "                      "
+				q76 = "                      "
+				q77 = "                      "
+				q78 = "                      "
+		elif iteration == 7:
+			if x == "O":
+				q81 = "      ███████████      "
+				q82 = "    ███         ███    "
+				q83 = "   ███           ███   "
+				q84 = "   ███           ███   "
+				q85 = "   ███           ███   "
+				q86 = "   ███           ███   "
+				q87 = "    ███         ███    "
+				q88 = "      ███████████      "
+			elif x == "X":
+				q81 = "   ███         ███    "
+				q82 = "     ███     ███      "
+				q83 = "       ███ ███        "
+				q84 = "        █████         "
+				q85 = "        █████         "
+				q86 = "       ███ ███        "
+				q87 = "     ███     ███      "
+				q88 = "   ███         ███    "
+			else:
+				q81 = "                      "
+				q82 = "                      "
+				q83 = "                      "
+				q84 = "                      "
+				q85 = "                      "
+				q86 = "                      "
+				q87 = "                      "
+				q88 = "                      "
+		elif iteration == 8:
+			if x == "O":
+				q91 = "      ███████████      "
+				q92 = "    ███         ███    "
+				q93 = "   ███           ███   "
+				q94 = "   ███           ███   "
+				q95 = "   ███           ███   "
+				q96 = "   ███           ███   "
+				q97 = "    ███         ███    "
+				q98 = "      ███████████      "
+			elif x == "X":
+				q91 = "   ███         ███    "
+				q92 = "     ███     ███      "
+				q93 = "       ███ ███        "
+				q94 = "        █████         "
+				q95 = "        █████         "
+				q96 = "       ███ ███        "
+				q97 = "     ███     ███      "
+				q98 = "   ███         ███    "
+			else:
+				q91 = "                      "
+				q92 = "                      "
+				q93 = "                      "
+				q94 = "                      "
+				q95 = "                      "
+				q96 = "                      "
+				q97 = "                      "
+				q98 = "                      "
+			q1 = f"""
+				 ██                            ██
+	{q11}   ██   {q21}   ██   {q31}
+	{q12}   ██   {q22}   ██   {q32}
+	{q13}   ██   {q23}   ██   {q33}
+	{q14}   ██   {q24}   ██   {q34}
+	{q15}   ██   {q25}   ██   {q35}
+	{q16}   ██   {q26}   ██   {q36}
+	{q17}   ██   {q27}   ██   {q37}
+	{q18}   ██   {q28}   ██   {q38}
+                                 ██			       ██
+       ████████████████████████████████████████████████████████████████████████████████████████
+				 ██                            ██
+	{q41}   ██   {q51}   ██   {q61}
+	{q42}   ██   {q52}   ██   {q62}
+	{q43}   ██   {q53}   ██   {q63}
+	{q44}   ██   {q54}   ██   {q64}
+	{q45}   ██   {q55}   ██   {q65}
+	{q46}   ██   {q56}   ██   {q66}
+	{q47}   ██   {q57}   ██   {q67}
+	{q48}   ██   {q58}   ██   {q68}
+                                 ██		               ██
+       ████████████████████████████████████████████████████████████████████████████████████████
+				 ██                            ██
+	{q71}   ██   {q81}   ██   {q91}
+	{q72}   ██   {q82}   ██   {q92}
+	{q73}   ██   {q83}   ██   {q93}
+	{q74}   ██   {q84}   ██   {q94}
+	{q75}   ██   {q85}   ██   {q95}
+	{q76}   ██   {q86}   ██   {q96}
+	{q77}   ██   {q87}   ██   {q97}
+	{q78}   ██   {q88}   ██   {q98}
+                                 ██		               ██
+"""
+	print(q1, flush=True)
 def type_text(textt):
 	for x in textt:
 		print(x, end = "", flush = True)
@@ -40,6 +430,8 @@ def hub():
 		type_text("9 for area calculator")
 		type_text("10 for list maker")
 		type_text("11 for madlib")
+		type_text("12 for tic tac toe game")
+		type_text("13 for rock paper scissors")
 		hubo = int(input("what do you want: "))
 		if hubo == 1:
 			type_text("ok")
@@ -66,7 +458,7 @@ def hub():
 			type_text("Goodby please come back soon! ##connection terminated by:Hubby##")
 			time.sleep(1)
 			quit()
-		if hubo ==2:
+		elif hubo ==2:
 			type_text("Ok sending you to Calcu.")
 			time.sleep(1)
 			operation = 0
@@ -84,56 +476,33 @@ def hub():
 							b = int(input("what is the second number:"))
 							if b == 0 :
 									type_text("division by 0 error")
-
-
-
 							else:
 									type_text(a,"/",b,"=",a/b)
-
-
-
 						if operation == "multiplication" :
 								a = int(input("what is the first number:"))
 								b = int(input("what is the second number:"))
 								type_text(a,"X",b,"=",a*b)
-
-
-
 						if operation == "subtraction" :
 								a = int(input("what is the first number:"))
 								b = int(input("what is the second number:"))
 								type_text(a,"-",b,"=",a-b)
-
-
-
 						if operation == "addition" :
 							a = int(input("what is the first number:"))
 							b = int(input("what is the second number:"))
 							type_text(a,"+",b,"=",a+b)
-
-
-
 						if operation == "modulo" :
 								a = int(input("what is the first number:"))
 								b = int(input("what is the second number:"))
 								type_text(a,"%",b,"=",a%b)
-
-
-
 						if operation == "factoring" :
 								a = int(input("what is the first number:"))
 								b = int(input("what is the second number:"))
 								type_text(a,"^",b,"=",a**b)
-
-
-
 						if operation == "stop" :
 								type_text("ok sending you back to the hub")
 								hub()
 						if operation == 0 :
-
 								print("")
-
 						else:
 							type_text("Sorry I didn't understand")
 		elif hubo ==3:
@@ -430,7 +799,7 @@ def hub():
 					runlib = False
 					break
 				else:
-					type_text
+					type_text("ok")
 		elif hubo ==10:
 			type_text("Ok sending you to lil'lister")
 			time.sleep(1)
@@ -481,7 +850,7 @@ def hub():
 						print("___________________________")
 						clist = input("what is the new name for the new list: ")
 						thelist = []
-					elif hubo ==1:
+		elif hubo ==1:
 						type_text("ok")
 						while True:
 							type_text("0 to go back to the terminal")
@@ -502,7 +871,160 @@ def hub():
 									continue
 								else:
 									type_speed = sett
-					elif hubo == 384:
+		elif hubo == 12:
+			while True:
+				play = input("1 to play computer 2 to play me and 3 to stop: ")
+				if play == "2":
+					p1 = input("who is player 1: ")
+					p2 = input("who is player 2: ")
+					go = input(f"1 for {p1} to go first 2 for {p2} to go first: ")
+					if go == "1":
+						turn = "p1"
+					else:
+						turn = "p2"
+					while True:
+						win = check_win(board)
+						if win == "tie":
+							type_text("tie")
+							break
+						elif win == "X":
+							type_text(f"{p1} wins")
+							break
+						elif win == "O":
+							type_text(f"{p2} wins")
+							break
+						else:
+							print_ui(board)
+						if turn == "p1":
+							while True:
+								peace = int(input(f"{p1} where do you want to go(use the number of place like top left is 1):"))
+								if board[peace-1] != None:
+									type_text("already taken")
+								else:
+									board[peace-1] = "X"
+									turn = "p2"
+									break
+						elif turn == "p2":
+							while True:
+								peace = int(input(f"{p2} where do you want to go(use the number of place like top left is 1):"))
+								if board[peace-1] != None:
+									type_text("already taken")
+								else:
+									board[peace-1] = "O"
+									turn = "p1"
+									break
+						print_ui(board)
+				elif play == "1":
+					while True:
+						board = choose_move(board, "X")
+						if check_win(board) != None:
+							print_ui(board)
+							type_text(check_win(board))
+							break
+						while True:
+							print_ui(board)
+							if check_win(board) != None:
+								break
+							type_text("1 for top left")
+							type_text("2 for top middle")
+							type_text("3 for top right")
+							type_text("4 for middle left")
+							type_text("5 for middle middle")
+							type_text("6 for middle right")
+							type_text("7 for bottom left")
+							type_text("8 for bottom middle")
+							type_text("9 for bottom right")
+							play_go = int(input("where do you want to go: "))
+							if play_go < 10 and play_go > 0:
+								if play_go == 1 and board[0] != None:
+									type_text("that is alredy taken")
+								elif play_go == 2 and board[1] != None:
+									type_text("that is alredy taken")
+								elif play_go == 3 and board[2] != None:
+									type_text("that is alredy taken")
+								elif play_go == 4 and board[3] != None:
+									type_text("that is alredy taken")
+								elif play_go == 5 and board[4] != None:
+									type_text("that is alredy taken")
+								elif play_go == 6 and board[5] != None:
+									type_text("that is alredy taken")
+								elif play_go == 7 and board[6] != None:
+									type_text("that is alredy taken")
+								elif play_go == 8 and board[7] != None:
+									type_text("that is alredy taken")
+								elif play_go == 9 and board[8] != None:
+									type_text("that is alredy taken")
+								else:
+									if play_go == 1:
+										board[0] = "O"
+									if play_go == 2:
+										board[1] = "O"
+									if play_go == 3:
+										board[2] = "O"
+									if play_go == 4:
+										board[3] = "O"
+									if play_go == 5:
+										board[4] = "O"
+									if play_go == 6:
+										board[5] = "O"
+									if play_go == 7:
+										board[6] = "O"
+									if play_go == 8:
+										board[7] = "O"
+									if play_go == 9:
+										board[8] = "O"
+									print_ui(board)
+									possible_boards(board, "X")
+									choose_move(board,"X")
+									break
+							else:
+								type_text("nope")
+						if check_win(board) != None:
+							type_text(check_win(board))
+							print_ui(board)
+							break
+				else:
+					type_text("ok sending you back to the hub.")
+					return
+		elif hubo == 13:
+			type_text("hi i am rocky")
+			while True:
+				type_text("1 for rock")
+				type_text("2 for scissors")
+				type_text("3 for paper")
+				com_move = str(random.randint(1,3))
+				if com_move == "1":
+					com_prin = "🪨"
+				if com_move == "2":
+					com_prin = "✂️"
+				if com_move == "3":
+					com_prin = "📄"
+				players_move = input("what do you want:")
+				print("☁️    3   ☁️")
+				time.sleep(1)
+				print("☁️    2   ☁️")
+				time.sleep(1)
+				print("☁️    1   ☁️")
+				time.sleep(1)
+				if players_move == "1":
+					players_move = "🪨"
+				elif players_move == "2":
+					players_move = "✂️"
+				elif players_move == "3":
+					players_move = "📄"
+				print(f"{com_prin}       {players_move}")
+				if players_move == com_prin:
+					type_text("tie")
+				elif players_move == "🪨" and com_prin == "✂️" or players_move == "✂️" and com_prin == "📄" or players_move == "📄" and com_prin == "🪨":
+					type_text("player win")
+				else:
+					type_text("com win")
+				pap = input("play again(y/n): ")
+				if pap == "n":
+					type_text("ok sending you back to hub")
+					break
+
+		elif hubo == 384:
 						input_o_code = input("shhhh. this is a secret i am liam what is the code(only numbers please): ")
 						break_it = 1
 						binary = ""
@@ -547,11 +1069,16 @@ def hub():
 							print(f"pickle.({input_o_code})")
 							print("		^")
 							print("SyntaxError: invalid syntax")
+							time.sleep(5)
+							type_text("never gunna give you up")
+							type_text("yes i ricroled you")
+							type_text("lol")
+							type_text("##conection terminated##")
 							quit()
 						else:
 							print ("ok sending you back to hubby")
-					else:
-						type_text("Sorry this option is not available yet.")
+		else:
+			type_text("Sorry this option is not available yet.")
 if not debuging:
 	print("initiating")
 	time.sleep(1.5)
