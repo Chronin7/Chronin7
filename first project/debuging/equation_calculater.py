@@ -6,4 +6,4 @@ for x in e:
 	try:
 		out = int(x)
 	except:
-		if
+		if x == 
