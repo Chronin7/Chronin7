@@ -1,20 +1,10 @@
 
-# This function should return the sum of all even numbers in the list, but it returns the wrong value. Find the bug.
-# you returned if the number was not even wich stops the function
-# logic error
-def sum_even_numbers(numbers):
+# The function should return True if the number is between 10 and 20 (inclusive), but it doesn't. Find the bug.
+# l9ogic error you forgot to make it "or equal to"
+def is_between(num):
 
-     summ = 0
+     if num >= 10 and num <= 20:
 
-     for num in numbers:
+          return True
 
-          if num % 2 == 0:
-
-               summ += num
-
-          else:
-
-               continue
-
-     return summ
-print(sum_even_numbers([1,2,3,4,5,6,7,8,9,10]))
+     return False
