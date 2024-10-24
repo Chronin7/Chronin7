@@ -1,10 +1,14 @@
+num = ""
+i = input()
+def go():
+	for x in num:
+		print("-",end="",flush=False)
+	print("",flush=False)
 
-# The function should return True if the number is between 10 and 20 (inclusive), but it doesn't. Find the bug.
-# l9ogic error you forgot to make it "or equal to"
-def is_between(num):
-
-     if num >= 10 and num <= 20:
-
-          return True
-
-     return False
+go()
+for x in [1,2,3,4,5,6,7,8,9,10,11,12]:
+	print(int(i)*x)
+	num = ""
+	for x in str(int(i)*x):
+		num += x
+	go()
