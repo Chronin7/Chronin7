@@ -1,9 +1,16 @@
 eq = input()
 e = []
+out = []
 for x in eq:
 	e.append(x)
 for x in e:
 	try:
-		out = int(x)
+		out.append = int(x)
 	except:
-		if x == 
+		out.append(x)
+for x in out:
+	try:
+		x/3
+		
+	except:
+

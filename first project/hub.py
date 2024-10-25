@@ -20,6 +20,25 @@ typing = True
 type_speed = .01
 player_score = 0
 com_score = 0
+def val(inputt,typee):
+	try:
+		if typee == "num":
+			return int(inputt)
+		elif typee == "fl":
+			return float(inputt)
+	except:
+		type_text("thats not a valid input")
+		return "n"
+def time_table():
+	type_text("hi i am tate")
+	while True:
+		num = val(input("what times tables do you want: "),"num")
+		
+		for x in [1,2,3,4,5,6,7,8,9,10,11,12]:
+			type_text(num*x)
+		if input("go again (y/n): ") == "n":
+			type_text("ok sending you back to hub")
+			break
 def display_intro():
 	type_text("Welcome to the Mystic Forest Adventure! i am The DM")
 	type_text("You find yourself at the edge of a dark, mysterious forest.")
@@ -1326,10 +1345,9 @@ def hub():
 		type_text("11 for tic tac toe game")
 		type_text("12 for rock paper scissors")
 		type_text("13 for text adventure game (made by mis larose)")
+		type_text("14 for times table generater")
 		hubo = input("what do you want: ")
-		if check_input(hubo,[1,2,3,4,5,6,7,8,9,10,11]):
-			type_text("invalid input")
-		else:
+		try:
 			hubo = int(hubo)
 			if hubo == 0:
 				type_text("Goodby please come back soon! ##connection terminated by:Hubby##")
@@ -1359,29 +1377,42 @@ def hub():
 				anagram()
 			elif hubo ==7:
 				type_text("Ok sending you to AV (she is a bit crazy).")
+				time.sleep(1)
 				avrage()
 			elif hubo ==8:
 				type_text("Ok sending you to Kelvin.")
+				time.sleep(1)
 				farinhight451()
 			elif hubo ==9:
 				type_text("Ok sending you to Arion.")
+				time.sleep(1)
 				area()
 			elif hubo ==10:
 				type_text("Ok sending you to lil'lister")
+				time.sleep(1)
 				lists()
 			elif hubo ==11:
 				type_text("Ok sending you to The Gamer")
+				time.sleep(1)
 				meet_o_code(1)
 			elif hubo == 12:
 				type_text("ok sending you to The Rock")
+				time.sleep(1)
 				dwane_the_rock()
 			elif hubo == 13:
 				type_text("ok sendig you to The DM")
+				time.sleep(1)
 				play_gamre()
+			elif hubo == 14:
+				type_text("ok sending you to tate")
+				time.sleep(1)
+				time_table()
 			elif hubo == 7232010:
 				code()
 			else:
 				type_text("Sorry this option is not available yet.")
+		except:
+			type_text("invalid input")
 if debuging == False:
 	print("initiating")
 	time.sleep(1.5)
