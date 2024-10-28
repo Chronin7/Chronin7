@@ -137,10 +137,13 @@ def check_float(input):
 		type_text("not a valid input")
 		return""
 def type_text(textt):
-	for x in textt:
-		print(x, end = "", flush = True)
-		time.sleep(random.uniform(.01,type_speed))
-	print("")
+	if typing != False:
+		for x in textt:
+			print(x, end = "", flush = True)
+			time.sleep(random.uniform(.01,type_speed))
+		print("")
+	else:
+		print(textt, flush= True)
 def anagram():
 	type_text("Hi i am Anny")
 	while True:
@@ -170,8 +173,15 @@ def calculator():
 		type_text("Hi this is Calcu. What do you want me to calculate today")
 		operation = 0
 		while True:
-			operation = input("Do you want to do division, multiplication, subtraction, addition, modulo, factoring or type stop to stop (I am picky so type the operation the same as shown here.): ").lower()
-			if operation == "division" :
+			type_text("0 to stop")
+			type_text("1 for division")
+			type_text("2 for multiplication")
+			type_text("3 for subtraction")
+			type_text("4 for addition")
+			type_text("5 for modulo")
+			type_text("6 for factoring")
+			operation = input("what do you want: ")
+			if operation == "1" :
 				while True:
 					a = check_float(input("what is the first number:"))
 					if a != "":
@@ -184,7 +194,7 @@ def calculator():
 						type_text("division by 0 error")
 				else:
 						type_text(a,"/",b,"=",a/b)
-			if operation == "multiplication" :
+			if operation == "2" :
 				while True:
 					a = check_float(input("what is the first number:"))
 					if a != "":
@@ -194,7 +204,7 @@ def calculator():
 					if b != "":
 						break
 					type_text(a,"X",b,"=",a*b)
-			if operation == "subtraction" :
+			if operation == "3" :
 				while True:
 					a = check_float(input("what is the first number:"))
 					if a != "":
@@ -204,7 +214,7 @@ def calculator():
 					if b != "":
 						break
 					type_text(a,"-",b,"=",a-b)
-			if operation == "addition" :
+			if operation == "4" :
 				while True:
 					a = check_float(input("what is the first number:"))
 					if a != "":
@@ -214,7 +224,7 @@ def calculator():
 					if b != "":
 						break
 				type_text(a,"+",b,"=",a+b)
-			if operation == "modulo" :
+			if operation == "5" :
 				while True:
 					a = check_float(input("what is the first number:"))
 					if a != "":
@@ -224,7 +234,7 @@ def calculator():
 					if b != "":
 						break
 					type_text(a,"%",b,"=",a%b)
-			if operation == "factoring" :
+			if operation == "6" :
 				while True:
 					a = check_float(input("what is the first number:"))
 					if a != "":
@@ -234,11 +244,9 @@ def calculator():
 					if b != "":
 						break
 					type_text(a,"^",b,"=",a**b)
-			if operation == "stop" :
+			if operation == "0" :
 					type_text("ok sending you back to the hub")
 					return
-			if operation == 0 :
-					print("")
 			else:
 				type_text("Sorry I didn't understand")
 def game():
@@ -281,6 +289,8 @@ def game():
 							return
 						else:
 							type_text("ok")
+							break
+### pal got bug
 def palindrome():
 	invertedP = ""
 	doagennP = True
@@ -582,51 +592,51 @@ def last_bit():
 def pig():
 	type_text("Hi i am Pig")
 	last_bit()
-def change_settings():
+def change_settings(typing,debuging):
 	while True:
 		type_text("ok")
 		type_text("0 to go back to the terminal")
-		type_text(f"1 to toggle typing: {typing}")
-		type_text(f"2 to toggle debugging: {debugging}")
-		type_text(f"3 to change typing speed: {type_speed}")
+		type_text("1 to toggle typing")
+		type_text("2 to toggle debugging")
+		type_text("3 to change typing speed")
 		while True:
-			imper = check_int(input("what do you want"))
+			imper = check_int(input("what do you want: "))
 			if imper != "":
 				break
 		if imper == 0:
 			type_text("ok back to the terminal")
 			break
 		elif imper == 1:
-			typing = not typing
+			if typing == True:
+				typing = False
+			else:
+				typing = True
 		elif imper == 2:
-			debugging = not debugging
+			if debuging == True:
+				debuging = False
+			else:
+				debuging = True
 		elif imper == 3:
 			while True:
 				sett = check_float(input("what do you want to change the typing speed to: "))
 				if sett != "":
 					break
-###################################################################################################
-# need to debug  |
-#               \|/
-###################################################################################################
 def farinhight451():
 	type_text("hi this is Kelvin")
 	while True:
 		yes = input("would you like celsius to fahrenheit (y/n): ")
 		if yes == "y":
 			while True:
-				tempofcelsius = input("what is the temp in celsius: ")
-				if check_int(tempofcelsius):
-					tempofcelsius = int(tempofcelsius)
+				tempofcelsius = check_int(input("what is the temp in celsius: "))
+				if tempofcelsius != "":
 					break
 			type_text("the temp for fahrenheit when celsius is",tempofcelsius,"is",tempofcelsius*(9/5)+32)
 		if yes == "n":
 			no = input("would you like celsius to fahrenheit (y/n): ")
 			if no == "y":
 				while True:
-					tempforfahrenheit = input("what is the temp in fahrenheit: ")
-					if check_int(tempforfahrenheit):
-						tempforfahrenheit = int(tempforfahrenheit)
+					tempforfahrenheit = check_int(input("what is the temp in fahrenheit: "))
+					if tempforfahrenheit != "":
 						break
 				type_text("the temp for celsius when fahrenheit is ",tempforfahrenheit,"is",tempforfahrenheit-32*(5/9))
 			elif no == "n":				
@@ -1031,11 +1041,17 @@ def meet_o_code(unused):
 		if play == "2":
 			p1 = input("who is player 1: ")
 			p2 = input("who is player 2: ")
-			go = input(f"1 for {p1} to go first 2 for {p2} to go first: ")
-			if go == "1":
-				turn = "p1"
-			else:
-				turn = "p2"
+			while True:
+				go = check_int(input(f"1 for {p1} to go first 2 for {p2} to go first: "))
+				if go != "":
+					if go == "1":
+						turn = "p1"
+						break
+					elif go == "2":
+						turn = "p2"
+						break
+					else:
+						type_text("not a valid input")
 			while True:
 				win = check_win(board)
 				if win == "tie":
@@ -1052,9 +1068,8 @@ def meet_o_code(unused):
 				if turn == "p1":
 					while True:
 						while True:
-							peace = input(f"{p1} where do you want to go(use the number of place like top left is 1):")
-							if check_int(peace):
-								peace = int(peace)
+							peace = check_int(input(f"{p1} where do you want to go(use the number of place like top left is 1):"))
+							if peace != "":
 								break
 						if board[peace-1] != None:
 							type_text("already taken")
@@ -1065,8 +1080,8 @@ def meet_o_code(unused):
 				elif turn == "p2":
 					while True:
 						while True:
-							peace = input(f"{p2} where do you want to go(use the number of place like top left is 1):")
-							if check_int(peace):
+							peace = check_int(input(f"{p2} where do you want to go(use the number of place like top left is 1):"))
+							if peace != "":
 								peace = int(peace)
 								break						
 						if board[peace-1] != None:
@@ -1097,9 +1112,8 @@ def meet_o_code(unused):
 					type_text("8 for bottom middle")
 					type_text("9 for bottom right")
 					while True:
-						play_go = input("where do you want to go: ")
-						if check_int(play_go):
-							play_go = int(play_go)
+						play_go = check_int(input("where do you want to go: "))
+						if play_go != "":
 							break
 					if play_go < 10 and play_go > 0:
 						if play_go == 1 and board[0] != None:
@@ -1248,7 +1262,7 @@ def hub():
 		type_text("12 for rock paper scissors")
 		type_text("13 for text adventure game (made by mis larose)")
 		hubo = input("what do you want: ")
-		if check_input(hubo,[1,2,3,4,5,6,7,8,9,10,11,12,13]) == False:
+		if check_int(hubo) == "":
 			type_text("invalid input")
 		else:
 			hubo = int(hubo)
@@ -1257,7 +1271,7 @@ def hub():
 				time.sleep(1)
 				quit()
 			elif hubo ==1:
-				change_settings()
+				change_settings(typing,debuging)
 			elif hubo ==2:
 				type_text("Ok sending you to Calcu.")
 				time.sleep(1)
