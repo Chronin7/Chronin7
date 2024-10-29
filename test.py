@@ -1,11 +1,16 @@
-import time
-import random
-def typee(text):
-    lists = []
-    for i in text:
-        lists.append(i)
-    for x in lists:
-        print(x, end = "", flush = True)
-        time.sleep(random.uniform(.01,.2))
-    print("")
-typee("hiiiii")
+def getch():
+    import sys, termios
+
+    fd = sys.stdin.fileno()
+    orig = termios.tcgetattr(fd)
+
+    new = termios.tcgetattr(fd)
+    new[3] = new[3] & ~termios.ICANON
+    new[6][termios.VMIN] = 1
+    new[6][termios.VTIME] = 0
+
+    try:
+        termios.tcsetattr(fd, termios.TCSAFLUSH, new)
+        return sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSAFLUSH, orig)
