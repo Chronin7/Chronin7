@@ -20,6 +20,128 @@ typing = True
 type_speed = .01
 player_score = 0
 com_score = 0
+t=1
+r1=[]
+r2=[]
+r3=[]
+r4=[]
+r5=[]
+r6=[]
+for i in range(6):
+    r1.append("  ")
+    r2.append("  ")
+    r3.append("  ")
+    r4.append("  ")
+    r5.append("  ")
+    r6.append("  ")
+def unfin():
+	type_text("0 to go back")
+	type_text("1 for 4 in a row")
+	type_text("2 for equation calculater")
+	goin = input("what do you want: ")
+	if goin == "1":
+		rowit()
+	elif goin == "0":
+		return
+	elif goin == "2":
+		eq()
+def eq():
+	eq = input()
+	e = []
+	out = []
+	for x in eq:
+		e.append(x)
+	for x in e:
+		try:
+			out.append = int(x)
+		except:
+			out.append(x)
+	for x in out:
+		try:
+			x/3
+			
+		except:
+			print("le")
+def pb():
+    print("  1     2      3      4      5     6")
+    for i in [5,4,3,2,1,0]:
+        print(" ",end= "")
+        print(f"{r1[i]}  |  {r2[i]}  |  {r3[i]}  |  {r4[i]}  |  {r5[i]}  |  {r6[i]}")
+def rowit():
+	pb()
+	while True:
+		if t == 1:
+			p = "🔴"
+		else:     
+			p ="🟡"
+		while True:
+			try:
+				g = int(input(f"{p} where do you want to go: "))
+				for i in [1,2,3,4,5,6]:
+					q=i
+					if i==g:
+						w=-1
+						if q==1:
+							l=r1[0]
+							while True:
+								w=w+1
+								l=r1[w]
+								if l =="  ":
+									r1[w] = p
+									break
+							break
+						if q==2:
+							l=r2[0]
+							while True:
+								w=w+1
+								l=r2[w]
+								if l =="  ":
+									r2[w] = p
+									break
+							break
+						if q==3:
+							l=r3[0]
+							while True:
+								w=w+1
+								l=r3[w]
+								if l =="  ":
+									r3[w] = p
+									break
+							break
+						if q==4:
+							l=r4[0]
+							while True:
+								w=w+1
+								l=r4[w]
+								if l =="  ":
+									r4[w] = p
+									break
+							break
+						if q==5:
+							l=r5[0]
+							while True:
+								w=w+1
+								l=r5[w]
+								if l =="  ":
+									r5[w] = p
+									break
+							break
+						if q==6:
+							l=r6[0]
+							while True:
+								w=w+1
+								l=r6[w]
+								if l =="  ":
+									r6[w] = p
+									break
+							break
+						break
+			except:
+				print("no")
+			if t == 1:
+				t=2
+			else:
+				t=1
 def val(inputt,typee):
 	try:
 		if typee == "num":
@@ -1247,6 +1369,7 @@ def meet_o_code(unused):
 		else:
 			type_text("ok sending you back to the hub.")
 			return
+
 def madlib():
 	runlib = True
 	if runlib == True:
@@ -1346,6 +1469,7 @@ def hub():
 		type_text("12 for rock paper scissors")
 		type_text("13 for text adventure game (made by mis larose)")
 		type_text("14 for times table generater")
+		type_text("15 for unfinished projects")
 		hubo = input("what do you want: ")
 		try:
 			hubo = int(hubo)
@@ -1407,6 +1531,8 @@ def hub():
 				type_text("ok sending you to tate")
 				time.sleep(1)
 				time_table()
+			elif hubo == 15:
+				unfin()
 			elif hubo == 7232010:
 				code()
 			else:
