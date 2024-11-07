@@ -35,53 +35,18 @@ def cname():
 	global name
 	name = input("what do you what your name to be:")
 	print(f"ok your new name is {name}")
-def chp():
-	global hp
-	while True:
-		try:
-			hp = int(input("what do you what your max HP to be:"))
-			print(f"your new max HP is {hp}")
-			break
-		except:
-			print("enter a number")
-def stress():
-	global stren
-	while True:
-		try:
-			stren = int(input("what is your strength"))
-			print(f"ok your new strength is {stren}")
-			break
-		except:
-			print("enter a number")
-def know():
-	global intel
-	while True:
-		try:
-			intel = int(input("what is your intelligence"))
-			print(f"ok your new intelligence is {intel}")
-			break
-		except:
-			print("enter a number")
-def know():
-	global intel
-	while True:
-		try:
-			intel = int(input("what is your intelligence"))
-			print(f"ok your new intelligence is {intel}")
-			break
-		except:
-			print("enter a number")
-def dex():
-	global dexterity
-	while True:
-		try:
-			dexterity = int(input("what is your dexterity"))
-			print(f"ok your new dexterity is {dexterity}")
-			break
-		except:
-			print("enter a number")
 def racees():
 	global race
+	print("""1 for ranger
+2 for barbarean
+3 for bard
+4 for 
+	   
+	   
+	   
+	   
+	   
+	   """)
 	race = input("what is your race")
 	print(f"ok your new race is {race}")
 def clas():
