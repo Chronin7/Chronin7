@@ -1,4 +1,5 @@
 import random
+#cruintly broken
 import time
 turn = ""
 runhub = True
@@ -15,152 +16,11 @@ minGuess = 1
 maxGuess = 100
 playCount = 0
 playAgain = True
-debuging = False
-typing = True
+debuging = True
+typing = False
 type_speed = .01
 player_score = 0
 com_score = 0
-t=1
-r1=[]
-r2=[]
-r3=[]
-r4=[]
-r5=[]
-r6=[]
-for i in range(6):
-    r1.append("  ")
-    r2.append("  ")
-    r3.append("  ")
-    r4.append("  ")
-    r5.append("  ")
-    r6.append("  ")
-def unfin():
-	type_text("0 to go back")
-	type_text("1 for 4 in a row")
-	type_text("2 for equation calculater")
-	goin = input("what do you want: ")
-	if goin == "1":
-		rowit()
-	elif goin == "0":
-		return
-	elif goin == "2":
-		eq()
-def eq():
-	eq = input()
-	e = []
-	out = []
-	for x in eq:
-		e.append(x)
-	for x in e:
-		try:
-			out.append = int(x)
-		except:
-			out.append(x)
-	for x in out:
-		try:
-			x/3
-			
-		except:
-			print("le")
-def pb():
-    print("  1     2      3      4      5     6")
-    for i in [5,4,3,2,1,0]:
-        print(" ",end= "")
-        print(f"{r1[i]}  |  {r2[i]}  |  {r3[i]}  |  {r4[i]}  |  {r5[i]}  |  {r6[i]}")
-def rowit():
-	pb()
-	while True:
-		if t == 1:
-			p = "🔴"
-		else:     
-			p ="🟡"
-		while True:
-			try:
-				g = int(input(f"{p} where do you want to go: "))
-				for i in [1,2,3,4,5,6]:
-					q=i
-					if i==g:
-						w=-1
-						if q==1:
-							l=r1[0]
-							while True:
-								w=w+1
-								l=r1[w]
-								if l =="  ":
-									r1[w] = p
-									break
-							break
-						if q==2:
-							l=r2[0]
-							while True:
-								w=w+1
-								l=r2[w]
-								if l =="  ":
-									r2[w] = p
-									break
-							break
-						if q==3:
-							l=r3[0]
-							while True:
-								w=w+1
-								l=r3[w]
-								if l =="  ":
-									r3[w] = p
-									break
-							break
-						if q==4:
-							l=r4[0]
-							while True:
-								w=w+1
-								l=r4[w]
-								if l =="  ":
-									r4[w] = p
-									break
-							break
-						if q==5:
-							l=r5[0]
-							while True:
-								w=w+1
-								l=r5[w]
-								if l =="  ":
-									r5[w] = p
-									break
-							break
-						if q==6:
-							l=r6[0]
-							while True:
-								w=w+1
-								l=r6[w]
-								if l =="  ":
-									r6[w] = p
-									break
-							break
-						break
-			except:
-				print("no")
-			if t == 1:
-				t=2
-			else:
-				t=1
-def val(inputt,typee):
-	try:
-		if typee == "num":
-			return int(inputt)
-		elif typee == "fl":
-			return float(inputt)
-	except:
-		type_text("thats not a valid input")
-		return "n"
-def time_table():
-	type_text("hi i am tate")
-	while True:
-		num = val(input("what times tables do you want: "),"num")
-		
-		for x in [1,2,3,4,5,6,7,8,9,10,11,12]:
-			type_text(num*x)
-		if input("go again (y/n): ") == "n":
-			type_text("ok sending you back to hub")
-			break
 def display_intro():
 	type_text("Welcome to the Mystic Forest Adventure! i am The DM")
 	type_text("You find yourself at the edge of a dark, mysterious forest.")
@@ -261,20 +121,21 @@ def dwane_the_rock():
 			com_score += 1
 		print(f"The Rock: {com_score} player: {player_score}")
 def check_input(input,valid_inputs):
-	for x in valid_inputs:
-		if input == x:
-			return True
-	return False
+	if input  in  valid_inputs:
+		return input
+	return ""
 def check_int(input):
-	for x in input:
-		if x != 1 or x != 2 or x != 3 or x != 4 or x != 5 or x != 6 or x != 7 or x != 8 or x != 9:
-			return False
-	return True
+	try:
+		return int(input)
+	except ValueError:
+		type_text("please enter a number")
+	return ""
 def check_float(input):
-	for x in input:
-		if x != 1 or x != 2 or x != 3 or x != 4 or x != 5 or x != 6 or x != 7 or x != 8 or x != 9 or x != ".":
-			return False
-	return True
+	try:
+		return float(input)
+	except ValueError:
+		type_text("not a valid input")
+		return""
 def type_text(textt):
 	for x in textt:
 		print(x, end = "", flush = True)
@@ -307,173 +168,79 @@ def calculator():
 		a = "n/a"
 		b = "n/a"
 		type_text("Hi this is Calcu. What do you want me to calculate today")
+		type_text("1 for devision")
 		operation = 0
-		if operation == 0 :
+		while True:
 			operation = input("Do you want to do division, multiplication, subtraction, addition, modulo, factoring or type stop to stop (I am picky so type the operation the same as shown here.): ").lower()
-			if operation == "division" :
+			if operation == "1" :
 				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
+					a = check_float(input("what is the first number:"))
+					if a != "":
 							break
 				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
+					b = check_float(input("what is the second number:"))
+					if b != "" and b != 0:
 						break
 				if b == 0 :
 						type_text("division by 0 error")
 				else:
 						type_text(a,"/",b,"=",a/b)
-			if operation == "multiplication" :
+			if operation == "2" :
 				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
+					a = check_float(input("what is the first number:"))
+					if a != "":
 							break
 				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
+					b = check_float(input("what is the second number:"))
+					if b != "":
 						break
 					type_text(a,"X",b,"=",a*b)
-			if operation == "subtraction" :
+			if operation == "3" :
 				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
+					a = check_float(input("what is the first number:"))
+					if a != "":
 							break
 				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
+					b = check_float(input("what is the second number:"))
+					if b != "":
 						break
 					type_text(a,"-",b,"=",a-b)
-			if operation == "addition" :
+			if operation == "4" :
 				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
+					a = check_float(input("what is the first number:"))
+					if a != "":
 							break
 				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
+					b = check_float(input("what is the second number:"))
+					if b != "":
 						break
 				type_text(a,"+",b,"=",a+b)
-			if operation == "modulo" :
+			if operation == "5" :
 				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
+					a = check_float(input("what is the first number:"))
+					if a != "":
 							break
 				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
+					b = check_float(input("what is the second number:"))
+					if b != "":
 						break
 					type_text(a,"%",b,"=",a%b)
-			if operation == "factoring" :
+			if operation == "6" :
 				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
+					a = check_float(input("what is the first number:"))
+					if a != "":
 							break
 				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
+					b = check_float(input("what is the second number:"))
+					if b != "":
 						break
 					type_text(a,"^",b,"=",a**b)
-			if operation == "stop" :
+			if operation == "0" :
 					type_text("ok sending you back to the hub")
 					return
 			if operation == 0 :
 					print("")
 			else:
-				type_text("Sorry I didn't understand")
-		operation = input("Do you want to do division, multiplication, subtraction, addition, modulo, factoring or type stop to stop (I am picky so type the operation the same as shown here.): ").lower()
-		if operation == "division" :
-			while True:
-				a = input("what is the first number:")
-				if check_float(a):
-						a = float(a)
-						break
-			while True:
-				b = input("what is the second number:")
-				if check_float(b):
-					b = float(b)
-					break
-		else:
-				if b == 0 :
-						type_text("division by 0 error")
-						type_text(a,"/",b,"=",a/b)
-		if operation == "multiplication" :
-				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
-							break
-				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
-						break
-				type_text(a,"X",b,"=",a*b)
-		if operation == "subtraction" :
-				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
-							break
-				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
-						break
-				type_text(a,"-",b,"=",a-b)
-		if operation == "addition" :
-				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
-							break
-				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
-						break
-				type_text(a,"+",b,"=",a+b)
-		if operation == "modulo" :
-				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
-							break
-				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
-						break
-				type_text(a,"%",b,"=",a%b)
-		if operation == "factoring" :
-				while True:
-					a = input("what is the first number:")
-					if check_float(a):
-							a = float(a)
-							break
-				while True:
-					b = input("what is the second number:")
-					if check_float(b):
-						b = float(b)
-						break
-				type_text(a,"^",b,"=",a**b)
-		if operation == "stop" :
-				type_text("ok sending you back to the hub")
-				return
-		if operation == 0 :
-				print("")
-		else:
 				type_text("Sorry I didn't understand")
 def game():
 		easterEggCount = 250
@@ -497,15 +264,13 @@ def game():
 				for x in range(maxGuessCount): 
 					if guess < num:
 						while True:
-							guess = input("the number is larger: ")
-							if check_int(guess):
-								guess = int(guess)
+							guess = check_int(input("the number is larger: "))
+							if guess != "":
 								break
 					if guess > num:
 						while True:
-							guess = input("the number is smaller: ")
-							if check_int(guess):
-								guess = int(guess)
+							guess = check_int(input("the number is smaller: "))
+							if guess != "":
 								break
 					if guess == num: 
 						print ("you got it")
@@ -564,14 +329,12 @@ def area():
 			#square/rectangle
 			type_text("ok input the numbers that you want")
 			while True:
-				a = input("what is the hight (only numbers please): ")
-				if check_float(a):
-					a = float(a)
+				a = check_float(input("what is the hight (only numbers please): "))
+				if a != "":
 					break
 			while True:
-				b = input("what is the length (only numbers please): ")
-				if check_float(a):
-					a = float(a)
+				b = check_float(input("what is the length (only numbers please): "))
+				if b != "":
 					break
 			type_text(f"when the hight is {a} and the length is {b} the area is {a*b}.")
 			e = 0
@@ -580,9 +343,8 @@ def area():
 			type_text("ok input the numbers that you want")
 			e = 0
 			while True:
-				a = input("what is the radius (only numbers please): ")
-				if check_float(a):
-					a = float(a)
+				a = check_float(input("what is the radius (only numbers please): "))
+				if a != "":
 					break
 			type_text(f"when the radius is {a} the area is {3.141592653589793238462643383279*a^2}")
 		if shape == "3":
@@ -590,14 +352,12 @@ def area():
 			type_text("ok input the numbers that you want")
 			e = 0
 			while True:
-				a = input("what is the hight (only numbers please): ")
-				if check_float(a):
-					a = float(a)
+				a = check_float(input("what is the hight (only numbers please): "))
+				if a != "":
 					break
 			while True:
-				b = input("what is the length (only numbers please): ")
-				if check_float(a):
-					a = float(a)
+				b = check_float(input("what is the length (only numbers please): "))
+				if b != "":
 					break
 			type_text(f"when the hight is {a} and the length is {b} the area is {(a*b)*(1/2)}.")
 		if shape == "5":
@@ -605,19 +365,16 @@ def area():
 			type_text("ok input the numbers that you want")
 			e = 0
 			while True:
-				a = input("what is the hight (only numbers please): ")
-				if check_float(a):
-					a = float(a)
+				a = check_float(input("what is the hight (only numbers please): "))
+				if a != "":
 					break
 			while True:
-				b = input("what is the top length (only numbers please): ")
-				if check_float(a):
-					a = float(a)
+				b = check_float(input("what is the top length (only numbers please): "))
+				if b != "":
 					break
 			while True:
-				c = input("what is the bottom length (only numbers please): ")
-				if check_float(c):
-					c = float(c)
+				c = check_float(input("what is the bottom length (only numbers please): "))
+				if c != "":
 					break
 			type_text(f"when the hight is {a} and the bottom is {b} and the top is {c} the area is {((b+c)/2)*a}.")
 		if shape == "2":
@@ -625,10 +382,9 @@ def area():
 			e = 0
 			while True:
 				a = input("what is the length of one of the sides (only numbers please): ")
-				if check_float(a):
-					a = float(a)
+				if a != "":
 					break
-			type_text(f"when the hight is {a} and the length is {b} the area is {a*2}.")
+			type_text(f"when the the length of one of the sides is {a} the area is {a*2}.")
 			e = 0
 		if shape == "6":
 			type_text("sorry coming soon")
@@ -689,17 +445,19 @@ def avrage():
 		runsq = 1
 		list_o_numsq = []
 		percentageq = 0
+		
 		classesq = input("I am AV the Avenger. How many things do you want to average or type stop to stop: ")
 		if classesq == "stop":
 			type_text("ok sending you back to Hubby")
 			break
-		classesq = int(classesq)
-		for x in range(classesq):
-			one_at_a_timeq = int(input(f"what is the percentage of # {runsq} (only numbers please): "))
-			percentageq += one_at_a_timeq
-			list_o_numsq.append(one_at_a_timeq)
-			runsq += 1
-		type_text(f"you entered {list_o_numsq} #'s it is an average of {percentageq/classesq}")
+		if classesq != "":
+			classesq = int(classesq)
+			for x in range(classesq):
+				one_at_a_timeq = check_int(input(f"what is the percentage of # {runsq} (only numbers please): "))
+				percentageq += one_at_a_timeq
+				list_o_numsq.append(one_at_a_timeq)
+				runsq += 1
+			type_text(f"you entered {list_o_numsq} #'s it is an average of {percentageq/classesq}")
 		go_aginq = input("do you want to use again (y/n): ")
 		if go_aginq == "n":
 			type_text("ok sending you back to Hubby")
@@ -745,12 +503,18 @@ def code():
 				break_it = 0
 				break
 	if break_it == 1:
-		print('"File "/workspaces/codespaces-jupyter/test.py," line 482"',flush=True)
-		print(f"pickle.({input_o_code})",flush=True)
-		print("		^",flush=True)
-		print("SyntaxError: invalid syntax",flush=True)
-		time.sleep(50)
-		print("lol")
+		print(f"""Traceback (most recent call last):
+  File "c:{chr(92)}Users{chr(92)}liam.perl{chr(92)}Documents{chr(92)}Chronin7{chr(92)}first project{chr(92)}hub.py", line 1315, in <module>
+    hub()
+  File "c:{chr(92)}Users{chr(92)}liam.perl{chr(92)}Documents{chr(92)}Chronin7{chr(92)}first project{chr(92)}hub.py", line 1299, in hub
+    code()
+  File "c:{chr(92)}Users{chr(92)}liam.perl{chr(92)}Documents{chr(92)}Chronin7{chr(92)}first project{chr(92)}hub.py", line 506, in code
+    isinstance(input_o_code)
+TypeError: isinstance expected 2 arguments, got 1""")
+		print(f"PS C:{chr(92)}Users{chr(92)}liam.perl{chr(92)}Documents{chr(92)}Chronin7>",end="")
+		time.sleep(10)
+		print()
+		print("gotem")
 		quit()
 	else:
 		print ("ok sending you back to hubby")
@@ -829,10 +593,13 @@ def change_settings():
 	while True:
 		type_text("ok")
 		type_text("0 to go back to the terminal")
-		type_text(f"1 to toggle typing: {typing}")
-		type_text(f"2 to toggle debugging: {debugging}")
-		type_text(f"3 to change typing speed: {type_speed}")
-		imper = input("what do you want")
+		type_text("1 to toggle typing")
+		type_text("2 to toggle debugging")
+		type_text("3 to change typing speed")
+		while True:
+			imper = check_int(input("what do you want"))
+			if imper != "":
+				break
 		if imper == 0:
 			type_text("ok back to the terminal")
 			break
@@ -841,22 +608,27 @@ def change_settings():
 		elif imper == 2:
 			debugging = not debugging
 		elif imper == 3:
-			sett = float(input("what do you want to change the typing speed to: "))
-			if sett < .1:
-				continue
-			else:
-				type_speed = sett
+			while True:
+				sett = check_float(input("what do you want to change the typing speed to: "))
+				if sett != "":
+					break
 def farinhight451():
 	type_text("hi this is Kelvin")
 	while True:
 		yes = input("would you like celsius to fahrenheit (y/n): ")
 		if yes == "y":
-			tempofcelsius = int(input("what is the temp in celsius: "))
+			while True:
+				tempofcelsius = check_int(input("what is the temp in celsius: "))
+				if tempofcelsius != "":
+					break
 			type_text("the temp for fahrenheit when celsius is",tempofcelsius,"is",tempofcelsius*(9/5)+32)
 		if yes == "n":
 			no = input("would you like celsius to fahrenheit (y/n): ")
 			if no == "y":
-				tempforfahrenheit = int(input("what is the temp in fahrenheit: "))  
+				while True:
+					tempforfahrenheit = check_int(input("what is the temp in fahrenheit: "))
+					if tempforfahrenheit != "":
+						break
 				type_text("the temp for celsius when fahrenheit is ",tempforfahrenheit,"is",tempforfahrenheit-32*(5/9))
 			elif no == "n":				
 				type_text("Ok sending you back to Hubby.")
@@ -1254,17 +1026,23 @@ def check_win(board):
 			return None
 	return "tie"
 def meet_o_code(unused):
-	type_text("hi i am The Gamer")
+	type_text("hi i am The Gamer this is Tic Tac Toe")
 	while True:
 		play = str(input("1 to play computer 2 to play other player and 3 to stop: "))
 		if play == "2":
 			p1 = input("who is player 1: ")
 			p2 = input("who is player 2: ")
-			go = input(f"1 for {p1} to go first 2 for {p2} to go first: ")
-			if go == "1":
-				turn = "p1"
-			else:
-				turn = "p2"
+			while True:
+				go = check_int(input(f"1 for {p1} to go first 2 for {p2} to go first: "))
+				if go != "":
+					if go == "1":
+						turn = "p1"
+						break
+					elif go == "2":
+						turn = "p2"
+						break
+					else:
+						type_text("not a valid input")
 			while True:
 				win = check_win(board)
 				if win == "tie":
@@ -1280,7 +1058,10 @@ def meet_o_code(unused):
 					print_ui(board)
 				if turn == "p1":
 					while True:
-						peace = int(input(f"{p1} where do you want to go(use the number of place like top left is 1):"))
+						while True:
+							peace = check_int(input(f"{p1} where do you want to go(use the number of place like top left is 1):"))
+							if peace != "":
+								break
 						if board[peace-1] != None:
 							type_text("already taken")
 						else:
@@ -1289,7 +1070,11 @@ def meet_o_code(unused):
 							break
 				elif turn == "p2":
 					while True:
-						peace = int(input(f"{p2} where do you want to go(use the number of place like top left is 1):"))
+						while True:
+							peace = check_int(input(f"{p2} where do you want to go(use the number of place like top left is 1):"))
+							if peace != "":
+								peace = int(peace)
+								break						
 						if board[peace-1] != None:
 							type_text("already taken")
 						else:
@@ -1317,7 +1102,10 @@ def meet_o_code(unused):
 					type_text("7 for bottom left")
 					type_text("8 for bottom middle")
 					type_text("9 for bottom right")
-					play_go = int(input("where do you want to go: "))
+					while True:
+						play_go = check_int(input("where do you want to go: "))
+						if play_go != "":
+							break
 					if play_go < 10 and play_go > 0:
 						if play_go == 1 and board[0] != None:
 							type_text("that is alredy taken")
@@ -1369,52 +1157,48 @@ def meet_o_code(unused):
 		else:
 			type_text("ok sending you back to the hub.")
 			return
-
 def madlib():
+	type_text("hi i am libby")
 	runlib = True
 	if runlib == True:
-		madlim = int(input("This is liby chose 1 for starwars madlib and more are coming soon!: "))
-		if check_input(madlim,[1]):
-			type_text("invalid input")
-		else:
-			one = str(input("this is a mad lib. Choose a adjictive: "))
-			two = str(input("Choose a noun: "))
-			tree = str(input("Choose a adjective: "))
-			forr = str(input("Choose a noun; place: "))
-			five = str(input("Choose a adjictive: "))
-			six = str(input("Choose a adjictive: "))
-			seven = str(input("Choose a pleral noun; vehical: "))
-			ate = str(input("Choose a adjictive: "))
-			nine = str(input("Choose a adjective: "))
-			ten = str(input("Choose a plural noun: "))
-			elevin = str(input("Choose a adjictive: "))
-			twelve = str(input("Choose a plural noun: "))
-			thrteen = str(input("Choose a plural noun: "))
-			forteen = str(input("Choose a adjictive: "))
-			fifteen = str(input("Choose a noun: "))
-			sixteen = str(input("Choose a verb: "))
-			seventeen = str(input("Choose a adjective: "))
-			eating = str(input("Choose a verb: "))
-			nineteen = str(input("Choose a pleral noun: "))
-			twonty = str(input("Choose a pleral noun; type of job: "))
-			twuntyone = str(input("Choose a ajictive: "))
-			twuntytwo = str(input("Choose a verb: "))
-			twontytree = str(input("Choose a adjective: "))
-			type_text(f"Star Wars is a {one} {two} of {tree} versus evil in a {forr} far far away. There are {five} battles between {six} {seven} in {ate} space and {nine} duels with {ten} called {elevin} sabers. {twelve} called droids are helpers and {thrteen} tho the heroes. A {forteen} power caled The {fifteen} {sixteen}s people to do {seventeen} things, like {eating} {nineteen}. The Jedi {twonty} use The Force for the {twuntyone} side and the sith {twuntytwo} it for the {twontytree} side.")
-			libbs = input("do you want to do another one? (y/n):")
-			if libbs == "n":
-				type_text("ok")
-				runlib = False
-				return
+		one = str(input("this is a mad lib. Choose a adjictive: "))
+		two = str(input("Choose a noun: "))
+		tree = str(input("Choose a adjective: "))
+		forr = str(input("Choose a noun; place: "))
+		five = str(input("Choose a adjictive: "))
+		six = str(input("Choose a adjictive: "))
+		seven = str(input("Choose a pleral noun; vehical: "))
+		ate = str(input("Choose a adjictive: "))
+		nine = str(input("Choose a adjective: "))
+		ten = str(input("Choose a plural noun: "))
+		elevin = str(input("Choose a adjictive: "))
+		twelve = str(input("Choose a plural noun: "))
+		thrteen = str(input("Choose a plural noun: "))
+		forteen = str(input("Choose a adjictive: "))
+		fifteen = str(input("Choose a noun: "))
+		sixteen = str(input("Choose a verb: "))
+		seventeen = str(input("Choose a adjective: "))
+		eating = str(input("Choose a verb: "))
+		nineteen = str(input("Choose a pleral noun: "))
+		twonty = str(input("Choose a pleral noun; type of job: "))
+		twuntyone = str(input("Choose a ajictive: "))
+		twuntytwo = str(input("Choose a verb: "))
+		twontytree = str(input("Choose a adjective: "))
+		type_text(f"Star Wars is a {one} {two} of {tree} versus evil in a {forr} far far away. There are {five} battles between {six} {seven} in {ate} space and {nine} duels with {ten} called {elevin} sabers. {twelve} called droids are helpers and {thrteen} tho the heroes. A {forteen} power caled The {fifteen} {sixteen}s people to do {seventeen} things, like {eating} {nineteen}. The Jedi {twonty} use The Force for the {twuntyone} side and the sith {twuntytwo} it for the {twontytree} side.")
+		libbs = input("do you want to do another one? (y/n):")
+		if libbs == "n":
+			type_text("ok")
+			runlib = False
+			return
 def lists():
 	type_text("hi i am listy (but evoryone calls me lil'lister)")
 	clist = input("what is the name of your list: ")
 	thelist = []
 	while True:
 		action = input("""what do you want to do
-	1 add item
-	2 remove item
-	3 to print and leave the list (note this also deletes it): """)
+1 add item
+2 remove item
+3 to print and leave the list (note this also deletes it): """)
 		if action != "1" and action != "2" and action != "3":
 			type_text("i am not impressed with your efforts to brake me")
 		if action == "1" or action == "2" or action == "3":	
@@ -1468,10 +1252,10 @@ def hub():
 		type_text("11 for tic tac toe game")
 		type_text("12 for rock paper scissors")
 		type_text("13 for text adventure game (made by mis larose)")
-		type_text("14 for times table generater")
-		type_text("15 for unfinished projects")
 		hubo = input("what do you want: ")
-		try:
+		if check_int(hubo) == "":
+			type_text("invalid input")
+		else:
 			hubo = int(hubo)
 			if hubo == 0:
 				type_text("Goodby please come back soon! ##connection terminated by:Hubby##")
@@ -1501,44 +1285,29 @@ def hub():
 				anagram()
 			elif hubo ==7:
 				type_text("Ok sending you to AV (she is a bit crazy).")
-				time.sleep(1)
 				avrage()
 			elif hubo ==8:
 				type_text("Ok sending you to Kelvin.")
-				time.sleep(1)
 				farinhight451()
 			elif hubo ==9:
 				type_text("Ok sending you to Arion.")
-				time.sleep(1)
 				area()
 			elif hubo ==10:
 				type_text("Ok sending you to lil'lister")
-				time.sleep(1)
 				lists()
 			elif hubo ==11:
 				type_text("Ok sending you to The Gamer")
-				time.sleep(1)
 				meet_o_code(1)
 			elif hubo == 12:
 				type_text("ok sending you to The Rock")
-				time.sleep(1)
 				dwane_the_rock()
 			elif hubo == 13:
 				type_text("ok sendig you to The DM")
-				time.sleep(1)
 				play_gamre()
-			elif hubo == 14:
-				type_text("ok sending you to tate")
-				time.sleep(1)
-				time_table()
-			elif hubo == 15:
-				unfin()
 			elif hubo == 7232010:
 				code()
 			else:
 				type_text("Sorry this option is not available yet.")
-		except:
-			type_text("invalid input")
 if debuging == False:
 	print("initiating")
 	time.sleep(1.5)

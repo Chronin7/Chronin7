@@ -1,6 +1,6 @@
-import random
+
 board = [None] * 9
-def p_board(board):
+def print_board(board):
 	iteration = -1
 	for x in board:
 		iteration += 1
@@ -290,6 +290,7 @@ def p_board(board):
 	{q78}   ██   {q88}   ██   {q98}
                                  ██		               ██
 """
+	print(q1)
 def piece_char(i, c):
 	if c == "X":
 		return "✗"
@@ -297,7 +298,7 @@ def piece_char(i, c):
 		return "○"
 	else:
 		return "" + str(i+1)
-def print_board(board):
+def prit_board(board):
 	for i, place in enumerate(board):	
 		c = piece_char(i, place)
 		if (i + 1) % 3 == 0:
@@ -420,7 +421,6 @@ while True:
 		print(check_win(board))
 		break
 	while True:
-		choose_move(board, "X")
 		print_board(board)
 		if check_win(board) != None:
 			break
@@ -474,7 +474,6 @@ while True:
 					board[8] = "O"
 				print_board(board)
 				possible_boards(board, "X")
-				print(board)
 				break
 		else:
 			print("nope")
