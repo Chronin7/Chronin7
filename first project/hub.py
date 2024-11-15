@@ -22,7 +22,7 @@ type_speed = .01
 player_score = 0
 com_score = 0
 def display_intro():
-	type_text("Welcome to the Mystic Forest Adventure! i am The DM")
+	type_text("Welcome to the Mystic Forest Adventure! I am The DM")
 	type_text("You find yourself at the edge of a dark, mysterious forest.")
 	type_text("Your goal is to find the hidden treasure and escape safely.")
 def make_choice(options):
@@ -79,6 +79,26 @@ def play_gamre():
 	if treasure_found:
 		type_text("Congratulations! You've won the game!")
 def dwane_the_rock():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	player_score = 0
 	com_score = 0
 	type_text("The Rock wlcomes you to play Rock Paper Scissors")
@@ -137,11 +157,34 @@ def check_float(input):
 		type_text("not a valid input")
 		return""
 def type_text(textt):
-	for x in textt:
-		print(x, end = "", flush = True)
-		time.sleep(random.uniform(.01,type_speed))
-	print("")
+	if typing == True:
+		for x in textt:
+			print(x, end = "", flush = True)
+			time.sleep(random.uniform(.01,type_speed))
+		print("")
+	else:
+		print(textt,flush=True)
 def anagram():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	type_text("Hi i am Anny")
 	while True:
 		anagramt = []
@@ -164,125 +207,189 @@ def anagram():
 					outputt = outputt + i
 				print (outputt)
 def calculator():
-		operation = 0
-		a = "n/a"
-		b = "n/a"
-		type_text("Hi this is Calcu. What do you want me to calculate today")
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
+	operation = 0
+	a = "n/a"
+	b = "n/a"
+	type_text("Hi this is Calcu. What do you want me to calculate today")
+	operation = 0
+	while True:
+		type_text("0 to stop")
 		type_text("1 for devision")
-		operation = 0
-		while True:
-			operation = input("Do you want to do division, multiplication, subtraction, addition, modulo, factoring or type stop to stop (I am picky so type the operation the same as shown here.): ").lower()
-			if operation == "1" :
-				while True:
-					a = check_float(input("what is the first number:"))
-					if a != "":
-							break
-				while True:
-					b = check_float(input("what is the second number:"))
-					if b != "" and b != 0:
-						break
-				if b == 0 :
-						type_text("division by 0 error")
-				else:
-						type_text(a,"/",b,"=",a/b)
-			if operation == "2" :
-				while True:
-					a = check_float(input("what is the first number:"))
-					if a != "":
-							break
-				while True:
-					b = check_float(input("what is the second number:"))
-					if b != "":
-						break
-					type_text(a,"X",b,"=",a*b)
-			if operation == "3" :
-				while True:
-					a = check_float(input("what is the first number:"))
-					if a != "":
-							break
-				while True:
-					b = check_float(input("what is the second number:"))
-					if b != "":
-						break
-					type_text(a,"-",b,"=",a-b)
-			if operation == "4" :
-				while True:
-					a = check_float(input("what is the first number:"))
-					if a != "":
-							break
-				while True:
-					b = check_float(input("what is the second number:"))
-					if b != "":
-						break
-				type_text(a,"+",b,"=",a+b)
-			if operation == "5" :
-				while True:
-					a = check_float(input("what is the first number:"))
-					if a != "":
-							break
-				while True:
-					b = check_float(input("what is the second number:"))
-					if b != "":
-						break
-					type_text(a,"%",b,"=",a%b)
-			if operation == "6" :
-				while True:
-					a = check_float(input("what is the first number:"))
-					if a != "":
-							break
-				while True:
-					b = check_float(input("what is the second number:"))
-					if b != "":
-						break
-					type_text(a,"^",b,"=",a**b)
-			if operation == "0" :
-					type_text("ok sending you back to the hub")
-					return
-			if operation == 0 :
-					print("")
+		type_text("2 for multiplication")
+		type_text("3 for subtraction")
+		type_text("4 for addition")
+		type_text("5 for modulo")
+		type_text("6 for factoring")
+		operation = input("what do you want: ")
+		if operation == "1" :
+			while True:
+				a = check_float(input("what is the first number:"))
+				if a != "":
+					break
+			while True:
+				b = check_float(input("what is the second number:"))
+				if b != "" and b != 0:
+					break
+			if b == 0 :
+				type_text("division by 0 error")
 			else:
-				type_text("Sorry I didn't understand")
+				print(a,"/",b,"=",a/b)
+		elif operation == "2" :
+			while True:
+				a = check_float(input("what is the first number:"))
+				if a != "":
+					break
+			while True:
+				b = check_float(input("what is the second number:"))
+				if b != "":
+					break
+			print(a,"X",b,"=",a*b)
+		elif operation == "3" :
+			while True:
+				a = check_float(input("what is the first number:"))
+				if a != "":
+					break
+			while True:
+				b = check_float(input("what is the second number:"))
+				if b != "":
+					break
+			print(a,"-",b,"=",a-b)
+		elif operation == "4" :
+			while True:
+				a = check_float(input("what is the first number:"))
+				if a != "":
+					break
+			while True:
+				b = check_float(input("what is the second number:"))
+				if b != "":
+					break
+			print(a,"+",b,"=",a+b)
+		elif operation == "5" :
+			while True:
+				a = check_float(input("what is the first number:"))
+				if a != "":
+					break
+			while True:
+				b = check_float(input("what is the second number:"))
+				if b != "":
+					break
+			print(a,"%",b,"=",a%b)
+		elif operation == "6" :
+			while True:
+				a = check_float(input("what is the first number:"))
+				if a != "":
+					break
+			while True:
+				b = check_float(input("what is the second number:"))
+				if b != "":
+					break
+			print(a,"^",b,"=",a**b)
+		elif operation == "0" :
+				type_text("ok sending you back to the hub")
+				return
+		else:
+			type_text("Sorry I didn't understand")
 def game():
-		easterEggCount = 250
-		maxGuessCount = 20
-		minGuess = 1
-		maxGuess = 100
-		playCount = 0
-		playAgain = True
-		while playAgain == True:
-				if playCount == easterEggCount:
-						type_text("WHY DID YOU WASTE YOUR TIME ON THIS DUMB GAME! DO SOMETHING BETTER WITH YOUR TIME! ##connection terminated by: Guessy##")
-						quit()
-				playCount += 1
-				num = random.randint (minGuess,maxGuess)
-				type_text(f'Welcome the GUESS THE NUMBER! I am your host Guessy. You have {maxGuessCount} attempts before you lose the game. good luck.')
-				while True:
-					guess = input(f'Guess a number {minGuess}-{maxGuess}: ')
-					if check_int(guess):
-						guess = int(guess)
-						break
-				for x in range(maxGuessCount): 
-					if guess < num:
-						while True:
-							guess = check_int(input("the number is larger: "))
-							if guess != "":
-								break
-					if guess > num:
-						while True:
-							guess = check_int(input("the number is smaller: "))
-							if guess != "":
-								break
-					if guess == num: 
-						print ("you got it")
-						playgain = str(input("do you want to play again? (y/n): "))
-						if playgain != "y":
-							playAgain = False
-							type_text("ok sending you back to the hub")
-							time.sleep(1)
-							return
-						else:
-							type_text("ok")
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
+	easterEggCount = 250
+	maxGuessCount = 20
+	minGuess = 1
+	maxGuess = 100
+	playCount = 0
+	playAgain = True
+	while playAgain == True:
+			if playCount == easterEggCount:
+					type_text("WHY DID YOU WASTE YOUR TIME ON THIS DUMB GAME! DO SOMETHING BETTER WITH YOUR TIME! ##connection terminated by: Guessy##")
+					quit()
+			playCount += 1
+			num = random.randint (minGuess,maxGuess)
+			type_text(f'Welcome the GUESS THE NUMBER! I am your host Guessy. You have {maxGuessCount} attempts before you lose the game. good luck.')
+			while True:
+				guess = input(f'Guess a number {minGuess}-{maxGuess}: ')
+				if check_int(guess):
+					guess = int(guess)
+					break
+			for x in range(maxGuessCount): 
+				if guess < num:
+					while True:
+						guess = check_int(input("the number is larger: "))
+						if guess != "":
+							break
+				if guess > num:
+					while True:
+						guess = check_int(input("the number is smaller: "))
+						if guess != "":
+							break
+				if guess == num: 
+					print ("you got it")
+					playgain = str(input("do you want to play again? (y/n): "))
+					if playgain != "y":
+						playAgain = False
+						type_text("ok sending you back to the hub")
+						time.sleep(1)
+						return
+					else:
+						type_text("ok")
 def palindrome():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	invertedP = ""
 	doagennP = True
 	iterationP = 1
@@ -307,9 +414,9 @@ def palindrome():
 						invertedP += nameP[loopP-iterationP]
 						iterationP += 1
 				if invertedP == nameP:
-						type_text(nameP,"is a palindrome")
+						print(nameP,"is a palindrome")
 				else:
-						type_text(nameP,"is not a palindrome")
+						print(nameP,"is not a palindrome")
 				runnerP = str(input("do you want me to detect another palindrome for you? (y/n): ")).lower()
 				if runnerP == "n":
 						type_text("ok sending you back to the hub")
@@ -317,6 +424,26 @@ def palindrome():
 						doagennP = False
 						return
 def area():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	while True:
 		e = 1
 		type_text("1 for rectangle")
@@ -440,7 +567,136 @@ def area():
 		if e == 1:
 			type_text("sorry i didn't understand")
 			e = 1
+			#####################################################################################################################################################################
+						#####################################################################################################################################################################
+
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+			#####################################################################################################################################################################
+
 def avrage():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	while True:
 		runsq = 1
 		list_o_numsq = []
@@ -463,6 +719,26 @@ def avrage():
 			type_text("ok sending you back to Hubby")
 			break
 def code():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	input_o_code = input("shhhh. this is a secret i am liam what is the code(only numbers please): ")
 	break_it = 1
 	binary = ""
@@ -519,6 +795,26 @@ TypeError: isinstance expected 2 arguments, got 1""")
 	else:
 		print ("ok sending you back to hubby")
 def translate_word(input_word):
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	split = {}
 	deleted = ""
 	not_a_string = ""
@@ -590,6 +886,26 @@ def pig():
 	type_text("Hi i am Pig")
 	last_bit()
 def change_settings():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	while True:
 		type_text("ok")
 		type_text("0 to go back to the terminal")
@@ -599,20 +915,47 @@ def change_settings():
 		while True:
 			imper = check_int(input("what do you want"))
 			if imper != "":
+				
 				break
 		if imper == 0:
 			type_text("ok back to the terminal")
 			break
 		elif imper == 1:
-			typing = not typing
+			if typing == True:
+				typing = False
+			else:
+				typing = True
 		elif imper == 2:
-			debugging = not debugging
+			if debuging == True:
+				debuging = False
+			else:
+				debuging = True
 		elif imper == 3:
 			while True:
 				sett = check_float(input("what do you want to change the typing speed to: "))
 				if sett != "":
 					break
 def farinhight451():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	type_text("hi this is Kelvin")
 	while True:
 		yes = input("would you like celsius to fahrenheit (y/n): ")
@@ -1191,6 +1534,26 @@ def madlib():
 			runlib = False
 			return
 def lists():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	type_text("hi i am listy (but evoryone calls me lil'lister)")
 	clist = input("what is the name of your list: ")
 	thelist = []
@@ -1235,6 +1598,26 @@ def lists():
 				clist = input("what is the new name for the new list: ")
 				thelist = []	
 def hub():
+	global turn
+	global runhub
+	global debuging
+	global invertedP
+	global iterationP
+	global runnerP
+	global var
+	global hubo
+	global operation
+	global easterEggCount
+	global maxGuessCount
+	global minGuess
+	global maxGuess
+	global playCount
+	global playAgain
+	global debuging
+	global typing
+	global type_speed
+	global player_score
+	global com_score
 	while True:
 		type_text("Welcome to the hub. I am hubby I will direct you to wherever you want.")
 		hubo = 0
