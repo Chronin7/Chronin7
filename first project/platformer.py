@@ -1,34 +1,39 @@
-
+import time
+import math
+import random
+import threading
 bord =[[" "," "," "," "," "," "," "," "," "," "],[" "," "," "," "," "," "," "," "," "," "],[" "," "," "," "," "," "," "," "," "," "],[" "," "," "," "," "," "," "," "," "," "],[" "," "," "," "," "," "," "," "," "," "]]
 xcord=5
 ycord=5
 
 import msvcrt
-while True:
+def main():
+		global xcord
+		global ycord
+			key = ""
+			if msvcrt.kbhit():
+				key =  inputit()
+			if key == "w"and ycord !=0: 
+				ycord-=1
+			elif key == "a":
+				xcord-=1
+			elif key == "s":
+				ycord+=1
+			elif key == "d":
+				xcord+=1
+			elif key == "p":
+				quit()
+			print(" ")
+			for x in range(ycord-1):
+				print("                                                  ")
+			for x in range(xcord):
+				print(" ",end="")
+			print("x",end="")
+			threading.Thread(target=inputit).start
+def inputit():
 	if msvcrt.kbhit():
-		key = msvcrt.getch().decode("utf-8").lower() 
-		if key == "w"and ycord !=0: 
-			ycord-=1
-		elif key == "a":
-			xcord-=1
-		elif key == "s":
-			ycord+=1
-		elif key == "d":
-			xcord+=1
-		elif key == "p":
-			quit()
-		print(" ")
-		for x in range(50):
-			print("_",end="")
-		for x in range(ycord-1):
-			print("|                                                  |")
-		print("|",end="")
-		for x in range(xcord):
-			print(" ",end="")
-		print("x",end="")
-		for x in range(49-(xcord)):
-			print(" ",end="")
-		print("|")
-		for x in range(20-ycord):
-			print("|                                                  |")
-		print("|__________________________________________________|") 
+		return msvcrt.getch().decode("utf-8").lower()
+	else:
+		return
+def tic():
+	main()

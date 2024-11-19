@@ -1,6 +1,6 @@
-e=0
-for x in input():
-	e+=1
-print(e)
-ie = input()
-print(ie.split(" "))
+itera = 0
+mom=[]
+for x in range(int(input())):
+	mom.append(chr(itera))
+	itera+=1
+print(mom)
