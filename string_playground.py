@@ -1,5 +1,4 @@
-txt = "welcome to the jungle"
-
-x = txt.split()
-
-print(x)
+import os
+while True:
+	if os..KEY_DOWN("W"):
+		print("lemon")
