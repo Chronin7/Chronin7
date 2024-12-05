@@ -1,6 +1,72 @@
 
 import random
 import time
+movopt = []
+damagebuff = 0
+rpg=0
+good = ['holy hand gernade one use insta kill','rpg once per battle 20 damage at begining','heth + 50 potion','Sten MK II tends to misfire sometimes has buletts bounce off of tagert +20% damage','Apache Revolver you can use it like a gun (terible aim) a nife (way to flexible) or a iron fist (the only safe way to use it) +30% damage','pickled lepercon head +1 luck for 7 turns','luck potion +1 luck for 2 turns']
+norm = ["nuke (you cant use it cuse it will kill evorything and evoryone including you)","stick + 3% damage",'helth + 10 porion','deodorant (shreck wants it)','luck charm +1 luck for a turn','luck potion +1 luck for 2 turns']
+rearer = ['a peace of a lemon','sord + 10% damage','helth + 20 prtion','slingshot +5% damage','a 15 foot long pole','clover +1 luck for 3 turns','luck potion +1 luck for 4 turns']
+def getloot(rear):
+	global damagebuff
+	global rpg
+	if rear == 1:
+		rand = random.randint(0,5)
+		if rand == 1:
+			damagebuff +=3
+		return norm[rand]
+	elif rear == 2:
+		rand = random.randint(0,6)
+		if rand == 1:
+			damagebuff +=10
+		if rand == 3:
+			damagebuff+=5
+		return rearer[rand]
+	elif rear == 3:
+		rand = random.randint(0,6)
+		if rand == 1:
+			rpg +=20
+		if rand == 3:
+			damagebuff+=20
+		if rand == 4:
+			damagebuff+=30
+		return good[rand]
+	else:
+		damagebuff += 100
+		health = health*2
+		return "spoon +100% damage and heath"
+looted = [False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
+monster = [None,None,None,None,n,None,None,None,None,n,None,None,None,n,None,None,n,None,n,n,n,None,n,None]
+def feld1():
+	global movopt 
+	movopt = ["n"]
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move north
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[0]==False:
+			looted[0]=True
+			temp = getloot(1)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+
+
+	
+def feld2():
+def feld3():
+def feld4():
+def feld5():
+def feld6():
 def inputcorect():
 	print("thats not a valid input ",end="")
 	if random.randint(1,10):
@@ -17,17 +83,6 @@ def print_mon(hp,nm):
 |________________________
 """)
 	return random.randint(1,20) < 14,random.randint(1,20)
-def get(raeraty):
-	if raeraty == 1:
-		return "heath potion with healing power of 5", 5
-	if raeraty == 2:
-		return "heath potion with healing power of 10",10
-	if raeraty == 3:
-		return "heath potion with healing power of 20",20
-	if raeraty == 4:
-		return "heath potion with healing power of 50",50
-	if raeraty == 5:
-		return "heath potion with healing power of 100",100
 exoshtion = 0
 gameover = False
 rations = 5
