@@ -1,4 +1,4 @@
-import os
+inp = input()
 while True:
-	if os..KEY_DOWN("W"):
-		print("lemon")
+	if input() == inp:
+		print("bob")

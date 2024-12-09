@@ -36,14 +36,12 @@ def getloot(rear):
 		health = health*2
 		return "spoon +100% damage and heath"
 looted = [False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
-monster = [None,None,None,None,n,None,None,None,None,n,None,None,None,n,None,None,n,None,n,n,n,None,n,None]
+monster = [None,None,None,None,True,None,None,None,None,True,None,None,None,True,None,None,True,None,True,True,True,None,True,None]
 def feld1():
-	global movopt 
-	movopt = ["n"]
 	while True:
 		try:
 			desition = int(input(f"""would you like to 
-1 to move north
+1 to move
 2 to serach for loot: """))
 			if desition in [1,2]:
 				break
@@ -59,13 +57,169 @@ def feld1():
 			print(f"you got a {temp}")
 		else:
 			print("you dont find anything")
-
-
-	
+	if desition == 1:
+		return "foothills1"
 def feld2():
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[1]==False:
+			looted[1]=True
+			temp = getloot(1)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move east
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "feld2"
+		elif desition == 1:
+			return "foot hills1"
+		elif desition == 2:
+			return "feld3"
 def feld3():
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[2]==False:
+			looted[2]=True
+			temp = getloot(2)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move east
+2 to move north
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "feld3"
+		elif desition == 1:
+			return "feld2"
+		elif desition == 2:
+			return "forest"
 def feld4():
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[3]==False:
+			looted[3]=True
+			temp = getloot(1)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move west
+2 to move south
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "feld4"
+		elif desition == 1:
+			print("they hate you so they dont let you in")
+			return "feld4"
+		elif desition == 2:
+			return "forest"
 def feld5():
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[4]==False:
+			looted[4]=True
+			temp = getloot(2)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move east
+2 to move north
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "feld3"
+		elif desition == 1:
+			return "feld2"
+		elif desition == 2:
+			return "forest"
 def feld6():
 def inputcorect():
 	print("thats not a valid input ",end="")

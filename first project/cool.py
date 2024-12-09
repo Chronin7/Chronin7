@@ -53,8 +53,8 @@ for x in range(4):
 	rand4()
 	itera+=.01
 while True:
-	threading.Thread(target=rand1).start
-	threading.Thread(target=rand2).start
-	threading.Thread(target=rand3).start
-	threading.Thread(target=rand4).start
+	rand1()
+	rand2()
+	rand3()
+	rand4()
 	itera +=.01
