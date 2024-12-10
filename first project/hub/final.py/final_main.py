@@ -2,8 +2,9 @@
 import random
 import time
 movopt = []
-damagebuff = 0
+damagebuff = 1
 rpg=0
+
 good = ['holy hand gernade one use insta kill','rpg once per battle 20 damage at begining','heth + 50 potion','Sten MK II tends to misfire sometimes has buletts bounce off of tagert +20% damage','Apache Revolver you can use it like a gun (terible aim) a nife (way to flexible) or a iron fist (the only safe way to use it) +30% damage','pickled lepercon head +1 luck for 7 turns','luck potion +1 luck for 2 turns']
 norm = ["nuke (you cant use it cuse it will kill evorything and evoryone including you)","stick + 3% damage",'helth + 10 porion','deodorant (shreck wants it)','luck charm +1 luck for a turn','luck potion +1 luck for 2 turns']
 rearer = ['a peace of a lemon','sord + 10% damage','helth + 20 prtion','slingshot +5% damage','a 15 foot long pole','clover +1 luck for 3 turns','luck potion +1 luck for 4 turns']
@@ -13,30 +14,51 @@ def getloot(rear):
 	if rear == 1:
 		rand = random.randint(0,5)
 		if rand == 1:
-			damagebuff +=3
+			damagebuff +=.3
 		return norm[rand]
 	elif rear == 2:
 		rand = random.randint(0,6)
 		if rand == 1:
-			damagebuff +=10
+			damagebuff +=.10
 		if rand == 3:
-			damagebuff+=5
+			damagebuff+=.05
 		return rearer[rand]
 	elif rear == 3:
 		rand = random.randint(0,6)
 		if rand == 1:
 			rpg +=20
 		if rand == 3:
-			damagebuff+=20
+			damagebuff+=.20
 		if rand == 4:
-			damagebuff+=30
+			damagebuff+=.30
 		return good[rand]
 	else:
-		damagebuff += 100
+		damagebuff += 1
 		health = health*2
 		return "spoon +100% damage and heath"
 looted = [False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
 monster = [None,None,None,None,True,None,None,None,None,True,None,None,None,True,None,None,True,None,True,True,True,None,True,None]
+def monbattle(monname):
+	global rpg
+	global health
+	hp = random.randint(50,500)-rpg
+	if random.randint(1,20) > 14:
+		damage =random.randint(5,20)
+		print(f"you took {damage} damage from a {monname}")
+		health -= damage
+	while True:
+			while True:
+				try:
+					inp = int(input("""1 to atack the monster
+2 to use a item"""))
+					if inp in [1,2]:
+						break
+					else:
+						print("bruh")
+				except:
+					print("bruh")
+			if inp == 1:
+				damage = random.randint(3,10)*damagebuff
 def feld1():
 	while True:
 		try:
@@ -182,6 +204,8 @@ def feld4():
 			return "forest"
 def feld5():
 	while True:
+		if monster[5] == True:
+			monbattle()
 		try:
 			desition = int(input(f"""would you like to 
 1 to move
