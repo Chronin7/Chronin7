@@ -1,20 +1,68 @@
-
 import random
 import time
+exoshtion = 0
+gameover = False
+rations = 5
+monkilled = False
+pythonbridge = False
+win = False
+loot = ["hp+20"]
+name = ""
+playedmount = 0
+health = 100
+coller = ""
+lootunseen = ["h20"]
+monlist = ["skeleton","mummy","giant lizard","dragon","flying snake","killer bunny","wannabe coder"]
 movopt = []
 damagebuff = 1
 rpg=0
-
+len_loot = -1
+luck = 0
+gunseen = ["cg","","h50","","","l7","l2"]
+nunseen = ["","","h10","cd","l1","l2"]
+runseen = ["","","h20","","","l3","l4"]
+looted = [False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
+monster = [None,None,None,None,True,None,None,None,None,True,None,None,None,True,None,None,True,None,True,True,True,None,True,None]
 good = ['holy hand gernade one use insta kill','rpg once per battle 20 damage at begining','heth + 50 potion','Sten MK II tends to misfire sometimes has buletts bounce off of tagert +20% damage','Apache Revolver you can use it like a gun (terible aim) a nife (way to flexible) or a iron fist (the only safe way to use it) +30% damage','pickled lepercon head +1 luck for 7 turns','luck potion +1 luck for 2 turns']
 norm = ["nuke (you cant use it cuse it will kill evorything and evoryone including you)","stick + 3% damage",'helth + 10 porion','deodorant (shreck wants it)','luck charm +1 luck for a turn','luck potion +1 luck for 2 turns']
 rearer = ['a peace of a lemon','sord + 10% damage','helth + 20 prtion','slingshot +5% damage','a 15 foot long pole','clover +1 luck for 3 turns','luck potion +1 luck for 4 turns']
 def getloot(rear):
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
 	global damagebuff
 	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	if luck == 0:
+		chr(1234)
+	else:
+		rear+=1
+	len_loot+=1
 	if rear == 1:
 		rand = random.randint(0,5)
 		if rand == 1:
 			damagebuff +=.3
+		lootunseen.append(nunseen[rand])
 		return norm[rand]
 	elif rear == 2:
 		rand = random.randint(0,6)
@@ -22,6 +70,7 @@ def getloot(rear):
 			damagebuff +=.10
 		if rand == 3:
 			damagebuff+=.05
+		lootunseen.append(runseen[rand])
 		return rearer[rand]
 	elif rear == 3:
 		rand = random.randint(0,6)
@@ -31,35 +80,151 @@ def getloot(rear):
 			damagebuff+=.20
 		if rand == 4:
 			damagebuff+=.30
+		lootunseen.append(gunseen[rand])
 		return good[rand]
 	else:
 		damagebuff += 1
 		health = health*2
 		return "spoon +100% damage and heath"
-looted = [False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
-monster = [None,None,None,None,True,None,None,None,None,True,None,None,None,True,None,None,True,None,True,True,True,None,True,None]
+
 def monbattle(monname):
-	global rpg
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
 	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
 	hp = random.randint(50,500)-rpg
 	if random.randint(1,20) > 14:
 		damage =random.randint(5,20)
 		print(f"you took {damage} damage from a {monname}")
 		health -= damage
 	while True:
+		if health < 1:
+			print(f"you died from a {monname} puny mortal")
+			print("game over")
+			return "die"
+		while True:
+			try:
+				inp = int(input("""1 to atack the monster
+2 to use a item"""))
+				if inp in [1,2]:
+					break
+				else:
+					print("bruh")
+			except:
+				print("bruh")
+		if inp == 1:
+			damage = random.randint(3,10)*damagebuff
+			print(f"you did {damage} damage")
+			hp-=damage
+			if hp <1:
+				print(f"you killed {monname}")
+				loot.append(getloot(2))
+				print(f"you got a {loot[len_loot]}")
+				return "live"
+			else:
+				print(f"the {monname} is at {hp} HP")
+			damage =random.randint(5,20)
+			print(f"you took {damage} damage from the {monname}")
+			health -= damage
+		if inp == 2:
+			itera = 0
+			prinitera = 0
+			use = []
+			print("your items you can use")
+			for x in len(lootunseen):
+				if "c" in x or "h" in x:
+					prinitera += 1
+					print(prinitera,end=" to use: ")
+					print(loot[itera])
+					use.append(itera)
+				itera += 1
 			while True:
 				try:
-					inp = int(input("""1 to atack the monster
-2 to use a item"""))
-					if inp in [1,2]:
+					inp = int(input("what do you want to use: "))
+					if inp in list(range(prinitera)):
 						break
 					else:
-						print("bruh")
+						print("nope")
 				except:
-					print("bruh")
-			if inp == 1:
-				damage = random.randint(3,10)*damagebuff
+					print("nope")
+			if "h" in lootunseen[use[inp-1]]:
+				health += int(lootunseen[use[inp-1]][-2])
+				loot.pop(use[inp-1])
+				lootunseen.pop(use[inp-1])
+				use.pop(inp-1)
+			if "cg" == lootunseen[use[inp-1]]:
+				loot.pop(use[inp-1])
+				lootunseen.pop(use[inp-1])
+				use.pop(inp-1)
+				print(f"you killed {monname}")
+				loot.append(getloot(2))
+				print(f"you got a {loot[len_loot]}")
+				return "live"
+			if "cd" == lootunseen[use[inp-1]] and monname == "shreck":
+				loot.pop(use[inp-1])
+				lootunseen.pop(use[inp-1])
+				use.pop(inp-1)
+				print("shreck thanks you")
+				loot.append(getloot(1275043980432759837259743))
+				print("you get a spoon")
+				return "live"
+			elif "cd" == lootunseen[use[inp-1]] and monname !="shreck":
+				print("the monster eats it and is engraged even more")
+				loot.pop(use[inp-1])
+				lootunseen.pop(use[inp-1])
+				use.pop(inp-1)
+
+
+			
 def feld1():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
 	while True:
 		try:
 			desition = int(input(f"""would you like to 
@@ -82,6 +247,32 @@ def feld1():
 	if desition == 1:
 		return "foothills1"
 def feld2():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
 	while True:
 		try:
 			desition = int(input(f"""would you like to 
@@ -122,6 +313,32 @@ def feld2():
 		elif desition == 2:
 			return "feld3"
 def feld3():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
 	while True:
 		try:
 			desition = int(input(f"""would you like to 
@@ -162,6 +379,32 @@ def feld3():
 		elif desition == 2:
 			return "forest"
 def feld4():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
 	while True:
 		try:
 			desition = int(input(f"""would you like to 
@@ -203,9 +446,36 @@ def feld4():
 		elif desition == 2:
 			return "forest"
 def feld5():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
 	while True:
 		if monster[5] == True:
 			monbattle()
+			monster[5] = False
 		try:
 			desition = int(input(f"""would you like to 
 1 to move
@@ -261,32 +531,33 @@ def print_mon(hp,nm):
 |________________________
 """)
 	return random.randint(1,20) < 14,random.randint(1,20)
-exoshtion = 0
-gameover = False
-rations = 5
-monkilled = False
-pythonbridge = False
-win = False
-loot = [f"hp{20}"]
-name = ""
-playedmount = 0
-health = 100
-coller = ""
-lootunseen = []
-monlist = ["skeleton","mummy","giant lizard","dragon","flying snake","killer bunny","wannabe coder"]
 def intro():
-	global name
 	global exoshtion
-	global monkilled
+	global gameover
 	global rations
+	global monkilled
 	global pythonbridge
 	global win
 	global loot
+	global name
 	global playedmount
-	global coller
 	global health
+	global coller
 	global lootunseen
-	global gameover
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
 	exoshtion = 0
 	rations = 5
 	monkilled = False
@@ -308,184 +579,32 @@ def intro():
 		gointor+=1
 		questens()
 def questens():
-	global name
-	global lootunseen
 	global exoshtion
-	global monkilled
+	global gameover
 	global rations
+	global monkilled
 	global pythonbridge
 	global win
 	global loot
+	global name
 	global playedmount
-	global coller
 	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
 	name = input("whats your name adventurer (type your name then press enter to continue): ")
 	coller = input(f"hello {name} whats your favorite color: ")
-	print(f"""hello {name} who likes the color {coller}, your quest is "To seek the Holy Grail" without reaching exhaustion level 5 good luck""")
-def main():
-	global name
-	global exoshtion
-	global monkilled
-	global monhelth
-	global rations
-	global pythonbridge
-	global win
-	global loot
-	global playedmount
-	global coller
-	global lootunseen
-	global health
-	global gameover
-	while True:
-		if gameover == True:
-			break
-		while True:
-			if gameover == True:
-				break
-			if rations <0:
-				print("you starved to death and killer guinea pigs ate you")
-				print("game over")
-				gameover = True
-				break
-			if exoshtion > 5:
-				print("you died of exhaustion and carnivorous antelopes ate your earlobes.")
-				print("game over")
-				gameover = True
-				break
-			if health < 1:
-				print("you died of... well... nevermind you just die.")
-				print("game over")
-				gameover = True
-				break
-			try:
-				action = int(input(f"""rations left: {rations}
-exhaustion level: {exoshtion}
-health: {health}
-what would you like to do
-1 to continue along path
-2 to rest
-3 to hunt for food
-4 to check inventory: """))
-				if action not in [1,2,3,4]:
-					inputcorect()
-				else:
-					break
-			except:
-				inputcorect()
-		if action == 1:
-			rations-=1
-			event = random.randint(1,3)
-			if event == 3:
-				eventtype = random.randint(1,5)
-				if eventtype == 1:
-					lose = random.randint(0,2)
-					print(f"a blizzard comes thru and you gain {lose} exhaustion",end=" ")
-					exoshtion -= lose
-					lose = random.randint(0,rations-1)
-					print(f"and blew {lose} rations away.")
-					rations-=lose
-				if eventtype == 2:
-					print("a robber came and stole a ration")
-					rations -=1
-				if eventtype == 3:
-					nam = input("""you come to a rope bridge spanning a casum and a man stops you and says "Stop. Who would cross the Bridge of Death must answer me these questions three, ere the other side he see. What... is your name: """)
-					if nam.lower != name.lower:
-						print("wrong *as you are thrown into the casum*")
-						print("you die and aliens take your body and are disappointed that you cant play poker")
-						print("game over")
-						gameover = True
-						break
-					else:
-						nam = str(input("What... is your quest: ")).lower
-						if nam != "To seek the Holy Grail":
-							print("wrong *as you are thrown into the casum*")
-							print("you die and are turned into a lemon")
-							print("game over")
-							gameover = True
-							break
-						if playedmount >1:
-							nam = input("What... is the air-speed velocity of an unladen swallow: ").lower
-							if nam == "What do you mean? An African or a European swallow?".lower:
-								print(" Huh? I... I don't know that. AUUUUUUUGGGGGGGGGGGHHH!! *as he is thrown into the casum*")
-								print("you successfully make it across the bridge")
-							else:
-								print("wrong *as you are thrown into the casum*")
-								print("you die and a goat gives you a wet willy")
-								print("game over")
-								gameover = True
-								break
-						else:
-							nam = input("What... is your favorite colour: ").lower
-							if nam != coller:
-								print("wrong *as you are thrown into the casum*")
-								print("you die and billy the bird makes you into a nest")
-								print("game over")
-								gameover = True
-								break
-							else:
-								print("you may pass")
-								print("you make it across the bridge")
-				if eventtype == 4:
-					bob = random.randint(1,5)
-					print(f"a flash flood comes in and you take {bob} damage.")
-					health -= bob
-				if eventtype == 5:
-					monhelth = random.randint(50,100)
-					monname = monlist[random.randint(0,6)]
-					print(f"a {monname} appears")
-					unused,unused = print_mon(monhelth,monname)
-					while True:
-						if gameover == True:
-							break
-						print("1 to heal")
-						print("2 to attack")
-						while True:
-							tur = int(input())
-							if tur not in [1,2]:
-								inputcorect()
-							else:
-								break
-						if tur == 2:
-							damage = random.randint(25,51)
-							if damage == 51:
-								damage = random.randint(60,100)
-							print(f"you deal {damage} damage")
-							monhelth -= damage
-							if monhelth < 1:
-								print("you killed the monster")
-								loot,lootunseen.append(get(raeraty=random.randint(3,5)))
-								print(f"you get a {loot}")
-								break
-						elif tur == 1:
-							iteration = 1
-							print("0 to return")
-							for x in loot:
-								print(f"{iteration}: ",end = "")
-								print(x)
-								iteration += 1
-							while True:
-								try:
-									inp = int(input("what do you want to use"))
-									if inp == 0:
-										break
-									try:
-										print(f"you used your {loot[inp-1]}")
-										loot.pop(inp-1)
-										health = lootunseen[inp-1] + health 
-										lootunseen.pop(inp-1)
-										break
-									except:
-										inputcorect()
-								except:
-									inputcorect()
-						unused,damage = print_mon(monhelth,monname)
-						health -=damage
-						print(f"you take {damage} damage")
-						if health < 1:
-							print("the grim reper comes and uses your head as a bolling ball.")
-							print("game over")
-							gameover = True
-							break
-						if gameover == True:
-							break
-main()
+	print(f"""hello {name} who likes the color {coller}, your quest is "To seek the Holy Grail" good luck""")
