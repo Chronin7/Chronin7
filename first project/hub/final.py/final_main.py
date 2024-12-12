@@ -26,7 +26,7 @@ monster = [None,None,None,None,True,None,None,None,None,True,None,None,None,True
 good = ['holy hand gernade one use insta kill','rpg once per battle 20 damage at begining','heth + 50 potion','Sten MK II tends to misfire sometimes has buletts bounce off of tagert +20% damage','Apache Revolver you can use it like a gun (terible aim) a nife (way to flexible) or a iron fist (the only safe way to use it) +30% damage','pickled lepercon head +1 luck for 7 turns','luck potion +1 luck for 2 turns']
 norm = ["nuke (you cant use it cuse it will kill evorything and evoryone including you)","stick + 3% damage",'helth + 10 porion','deodorant (shreck wants it)','luck charm +1 luck for a turn','luck potion +1 luck for 2 turns']
 rearer = ['a peace of a lemon','sord + 10% damage','helth + 20 prtion','slingshot +5% damage','a 15 foot long pole','clover +1 luck for 3 turns','luck potion +1 luck for 4 turns']
-def getloot(rear):
+def getloot(rear):# 1 for norm 2 for rear 3 for good
 	global exoshtion
 	global gameover
 	global rations
@@ -86,7 +86,6 @@ def getloot(rear):
 		damagebuff += 1
 		health = health*2
 		return "spoon +100% damage and heath"
-
 def monbattle(monname):
 	global exoshtion
 	global gameover
@@ -126,8 +125,9 @@ def monbattle(monname):
 			return "die"
 		while True:
 			try:
+				print(f"you are at {health} HP")
 				inp = int(input("""1 to atack the monster
-2 to use a item"""))
+2 to use a item: """))
 				if inp in [1,2]:
 					break
 				else:
@@ -152,52 +152,52 @@ def monbattle(monname):
 			itera = 0
 			prinitera = 0
 			use = []
+			user = []
 			print("your items you can use")
-			for x in len(lootunseen):
+			print("0 to return")
+			for x in lootunseen:
 				if "c" in x or "h" in x:
 					prinitera += 1
 					print(prinitera,end=" to use: ")
 					print(loot[itera])
-					use.append(itera)
+					use.append(loot[itera])
+					user.append(itera)
 				itera += 1
 			while True:
 				try:
 					inp = int(input("what do you want to use: "))
-					if inp in list(range(prinitera)):
+					print(len(use))
+					if inp <= itera and inp >-1:
 						break
 					else:
 						print("nope")
 				except:
 					print("nope")
-			if "h" in lootunseen[use[inp-1]]:
-				health += int(lootunseen[use[inp-1]][-2])
-				loot.pop(use[inp-1])
-				lootunseen.pop(use[inp-1])
-				use.pop(inp-1)
-			if "cg" == lootunseen[use[inp-1]]:
-				loot.pop(use[inp-1])
-				lootunseen.pop(use[inp-1])
-				use.pop(inp-1)
+			if inp == 0:
+				continue
+			if "h" in use[inp-1]:
+				health += int(use[inp-1][len(use[inp-1]) - 2:])
+				loot.pop(use.index(use[inp-1]))
+				lootunseen.pop(use.index(use[inp-1]))
+				print(f"you are now at {health} HP")
+			if "cg" == use[inp-1]:
+				loot.pop(use.index(use[inp-1]))
+				lootunseen.pop(use.index(use[inp-1]))
 				print(f"you killed {monname}")
 				loot.append(getloot(2))
 				print(f"you got a {loot[len_loot]}")
 				return "live"
-			if "cd" == lootunseen[use[inp-1]] and monname == "shreck":
-				loot.pop(use[inp-1])
-				lootunseen.pop(use[inp-1])
-				use.pop(inp-1)
+			if "cd" == use[inp-1] and monname == "shreck":
+				loot.pop(use.index(use[inp-1]))
+				lootunseen.pop(use.index(use[inp-1]))
 				print("shreck thanks you")
 				loot.append(getloot(1275043980432759837259743))
 				print("you get a spoon")
 				return "live"
-			elif "cd" == lootunseen[use[inp-1]] and monname !="shreck":
+			elif "cd" == use[inp-1] and monname !="shreck":
 				print("the monster eats it and is engraged even more")
-				loot.pop(use[inp-1])
-				lootunseen.pop(use[inp-1])
-				use.pop(inp-1)
-
-
-			
+				loot.pop(use.index(use[inp-1]))
+				lootunseen.pop(use.index(use[inp-1]))
 def feld1():
 	global exoshtion
 	global gameover
@@ -228,7 +228,7 @@ def feld1():
 	while True:
 		try:
 			desition = int(input(f"""would you like to 
-1 to move
+1 to move north
 2 to serach for loot: """))
 			if desition in [1,2]:
 				break
@@ -245,7 +245,8 @@ def feld1():
 		else:
 			print("you dont find anything")
 	if desition == 1:
-		return "foothills1"
+
+		return "fo1"
 def feld2():
 	global exoshtion
 	global gameover
@@ -307,11 +308,11 @@ def feld2():
 			except:
 				inputcorect()
 		if desition	== 0:
-			return "feld2"
+			return "f2"
 		elif desition == 1:
-			return "foot hills1"
+			return "fo1"
 		elif desition == 2:
-			return "feld3"
+			return "fe3"
 def feld3():
 	global exoshtion
 	global gameover
@@ -373,11 +374,11 @@ def feld3():
 			except:
 				inputcorect()
 		if desition	== 0:
-			return "feld3"
+			return "fe3"
 		elif desition == 1:
-			return "feld2"
+			return "fe2"
 		elif desition == 2:
-			return "forest"
+			return "f"
 def feld4():
 	global exoshtion
 	global gameover
@@ -439,12 +440,12 @@ def feld4():
 			except:
 				inputcorect()
 		if desition	== 0:
-			return "feld4"
+			return "fe4"
 		elif desition == 1:
 			print("they hate you so they dont let you in")
-			return "feld4"
+			return "fe4"
 		elif desition == 2:
-			return "forest"
+			return "f"
 def feld5():
 	global exoshtion
 	global gameover
@@ -474,7 +475,8 @@ def feld5():
 	global rearer
 	while True:
 		if monster[5] == True:
-			monbattle()
+			if monbattle("flying snake") != "live":
+				return "dead"
 			monster[5] = False
 		try:
 			desition = int(input(f"""would you like to 
@@ -500,6 +502,72 @@ def feld5():
 				desition=input("""
 0 to return
 1 to move east
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "fe5"
+		elif desition == 1:
+			return "fe6"
+		elif desition == 2:
+			return "fo1"
+def feld6():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[3]==False:
+			looted[3]=True
+			temp = getloot(2)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move west
 2 to move north
 """)
 				if desition in [0,1,2]:
@@ -509,12 +577,118 @@ def feld5():
 			except:
 				inputcorect()
 		if desition	== 0:
-			return "feld3"
+			return "fe6"
 		elif desition == 1:
-			return "feld2"
+			return "fe5"
 		elif desition == 2:
-			return "forest"
-def feld6():
+			return "fo2"
+def foothills1():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[3]==False:
+			looted[3]=True
+			temp = getloot(2)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move north
+2 to move south
+3 to move east
+4 to move west
+""")
+				if desition in [0,1,2,3,4]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "fo1"
+		elif desition == 1:
+			return "m1"
+		elif desition == 2:
+			return "fe1"
+		elif desition == 3:
+			return "fe5"
+		elif desition == 4:
+			return "fe2"
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+def foothills2():
+def foothills3():
+def forest():
+def swamp1():
+def swamp2():
+def swamp3():
+def mountan1():
+def mountan2():
+def mountan3():
+def mountan4():
+def mountan5():
+def glich1():
+def glich2():
+def bod():
+def glichcidicel():
+def grail():
 def inputcorect():
 	print("thats not a valid input ",end="")
 	if random.randint(1,10):
