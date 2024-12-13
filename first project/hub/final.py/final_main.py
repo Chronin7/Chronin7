@@ -473,11 +473,11 @@ def feld5():
 	global good
 	global norm
 	global rearer
+	if monster[4] == True:
+		if monbattle("flying snake") != "live":
+			return "dead"
+		monster[4] = False
 	while True:
-		if monster[5] == True:
-			if monbattle("flying snake") != "live":
-				return "dead"
-			monster[5] = False
 		try:
 			desition = int(input(f"""would you like to 
 1 to move
@@ -555,8 +555,8 @@ def feld6():
 		except:
 			inputcorect()
 	if desition == 2:
-		if looted[3]==False:
-			looted[3]=True
+		if looted[5]==False:
+			looted[5]=True
 			temp = getloot(2)
 			loot.append(temp)
 			print(f"you got a {temp}")
@@ -621,9 +621,9 @@ def foothills1():
 		except:
 			inputcorect()
 	if desition == 2:
-		if looted[3]==False:
-			looted[3]=True
-			temp = getloot(2)
+		if looted[6]==False:
+			looted[6]=True
+			temp = getloot(3)
 			loot.append(temp)
 			print(f"you got a {temp}")
 		else:
@@ -693,8 +693,8 @@ def foothills2():
 		except:
 			inputcorect()
 	if desition == 2:
-		if looted[3]==False:
-			looted[3]=True
+		if looted[7]==False:
+			looted[7]=True
 			temp = getloot(2)
 			loot.append(temp)
 			print(f"you got a {temp}")
@@ -721,16 +721,748 @@ def foothills2():
 		elif desition == 2:
 			return "fo3"
 def foothills3():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[8]==False:
+			looted[8]=True
+			temp = getloot(2)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move east
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "fo3"
+		elif desition == 1:
+			return "s1"
+		elif desition == 2:
+			return "fo2"
 def forest():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	if monster[9] == True:
+		if monbattle("killer bunny") != "live":
+			return "dead"
+		monster[9] = False
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[9]==False:
+			looted[9]=True
+			temp = getloot(3)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move north
+2 to move south
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "f"
+		elif desition == 1:
+			return "fe4"
+		elif desition == 2:
+			return "fe3"
 def swamp1():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[10]==False:
+			looted[10]=True
+			temp = getloot(3)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move north
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "s1"
+		elif desition == 1:
+			return "s3"
+		elif desition == 2:
+			return "fo3"
 def swamp2():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[11]==False:
+			looted[11]=True
+			temp = getloot(2)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move south
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "s2"
+		elif desition == 1:
+			return "s3"
+		elif desition == 2:
+			return "m2"
 def swamp3():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	if monster[13]==True:
+		monster[13]==False
+		if monbattle("shreck") != "live":
+			return "dead"
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move north
+2 to move south
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "s3"
+		elif desition == 1:
+			return "s1"
+		elif desition == 2:
+			return "s2"
 def mountan1():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[14]==False:
+			looted[14]=True
+			temp = getloot(3)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move north
+2 to move south
+
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "m1"
+		elif desition == 1:
+			return "bod"
+		elif desition == 2:
+			return "fo1"
 def mountan2():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[15]==False:
+			looted[15]=True
+			temp = getloot(3)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move east
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "m21"
+		elif desition == 1:
+			return "s2"
+		elif desition == 2:
+			return "m3"
 def mountan3():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	if monster[16] == True:
+		if monbattle("dragon") != "live":
+			return "dead"
+		monster[16] = False
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[16]==False:
+			looted[16]=True
+			temp = getloot(3)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move east
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "m3"
+		elif desition == 1:
+			return "m2"
+		elif desition == 2:
+			return "m4"
 def mountan4():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[17]==False:
+			looted[17]=True
+			temp = getloot(2)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move east
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "m4"
+		elif desition == 1:
+			return "m3"
+		elif desition == 2:
+			return "m5"
 def mountan5():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	if monster[18] == True:
+		if monbattle("robot") != "live":
+			return "dead"
+		monster[18] = False
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[18]==False:
+			looted[18]=True
+			temp = getloot(3)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move east
+2 to move west
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "m5"
+		elif desition == 1:
+			return "m4"
+		elif desition == 2:
+			return "g1"
 def glich1():
+	global exoshtion
+	global gameover
+	global rations
+	global monkilled
+	global pythonbridge
+	global win
+	global loot
+	global name
+	global playedmount
+	global health
+	global coller
+	global lootunseen
+	global monlist
+	global movopt
+	global damagebuff
+	global rpg
+	global len_loot
+	global luck
+	global gunseen
+	global nunseen
+	global runseen
+	global looted
+	global monster
+	global good
+	global norm
+	global rearer
+	print("you take 10 damage from the enviorment")
+	health-=10
+	if monster[19] == True:
+		if monbattle("dragon") != "live":
+			return "dead"
+		monster[19] = False
+	while True:
+		try:
+			desition = int(input(f"""would you like to 
+1 to move
+2 to serach for loot: """))
+			if desition in [1,2]:
+				break
+			else:
+				inputcorect()
+		except:
+			inputcorect()
+	if desition == 2:
+		if looted[19]==False:
+			looted[19]=True
+			temp = getloot(3)
+			loot.append(temp)
+			print(f"you got a {temp}")
+		else:
+			print("you dont find anything")
+	if desition == 1:
+		while True:
+			try:
+				desition=input("""
+0 to return
+1 to move north
+2 to move east
+""")
+				if desition in [0,1,2]:
+					break
+				else:
+					inputcorect()
+			except:
+				inputcorect()
+		if desition	== 0:
+			return "g1"
+		elif desition == 1:
+			return "g2"
+		elif desition == 2:
+			return "m5"
 def glich2():
 def bod():
 def glichcidicel():
