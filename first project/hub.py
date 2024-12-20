@@ -1,6 +1,6 @@
 import random
-#cruintly broken
 import time
+import os
 turn = ""
 runhub = True
 debuging = 1
@@ -10,74 +10,409 @@ runnerP = ""
 var = 0
 hubo = 0
 operation = 0
-easterEggCount = 2
-maxGuessCount = 20
+easterEggCount = 5
+maxGuessCount = 10
 minGuess = 1
 maxGuess = 100
 playCount = 0
 playAgain = True
-debuging = True
-typing = False
+debuging = False
+typing = True
 type_speed = .01
 player_score = 0
 com_score = 0
-def display_intro():
-	type_text("Welcome to the Mystic Forest Adventure! I am The DM")
-	type_text("You find yourself at the edge of a dark, mysterious forest.")
-	type_text("Your goal is to find the hidden treasure and escape safely.")
-def make_choice(options):
-	for i,option in enumerate(options,1):
-		type_text(f"{i}. {option}")
+board = [None] * 9
+from dataclasses import dataclass
+from copy import copy, deepcopy
+import time, random
+from typing import List, Dict, Tuple
+@dataclass
+class Monster:
+	name:str
+	health:str
+	damage:str
+	lootLevel:int = 1
+
+@dataclass
+class Item:
+	name:str
+	health:int = 0
+	damagebuff:float = 0
+	predamage:int = 0
+	luck:int = 0
+	life:int = None
+	type:str = "consumable"
+
+@dataclass
+class Moves:
+	north:str = None
+	south:str = None
+	east:str = None
+	west:str = None
+	def selectMove(self):
+		return selectOption([
+			("North", self.north),
+			("South", self.south),
+			("East", self.east),
+			("West", self.west)
+		])
+
+@dataclass
+class Location:
+	description:str
+	moves:Moves
+	itemRarity:int = 1
+	hasLoot:bool = True
+	monster:Monster = None
+
+#best
+goodLoot = [
+	Item("Holy Hand Grenade: instakill", damagebuff=100000000000, type="consumable"),
+	Item("Holy Hand Grenade: instakill", damagebuff=100000000000, type="consumable"),
+	Item("Holy Hand Grenade: instakill", damagebuff=100000000000, type="consumable"),
+	Item("RPG: once per battle 20 damage at beginning", predamage=20, type="weapon"),
+	Item("RPG: once per battle 20 damage at beginning", predamage=20, type="weapon"),
+	Item("RPG: once per battle 20 damage at beginning", predamage=20, type="weapon"),
+	Item("Health + 50 Potion", health=50, type="consumable"),
+	Item("Health + 50 Potion", health=50, type="consumable"),
+	Item("Health + 50 Potion", health=50, type="consumable"),
+	Item("Sten MK II: tends to misfire sometimes has bullets bounce off of target +20% damage", damagebuff=.20, type="weapon"),
+	Item("Apache Revolver: you can use it like a gun (terrible aim) a knife (way too flexible) or an iron fist (the only safe way to use it) +30% damage", damagebuff=.30, type="weapon"),
+	Item("Pickled Leprechaun Head: +1 luck for 7 turns", life=7, type="timed"),
+	Item("Luck Potion: +1 luck for 10 turns", life=10, type="timed")
+]
+#worst
+norm = [
+	Item("Nuke Kill All", health=-100000000,damagebuff=0, type="consumable"),
+	Item("Stick +5% damage", damagebuff=.5, type="weapon"),
+	Item("Health +10 potion", health=10, type="consumable"),
+	Item('Deodorant', type='consumable'),
+	Item(name='luck charm +1 luck for a turn', life=1, type="timed"),
+	Item(name='luck potion +1 luck for 2 turns', life=2, type="timed")
+]
+#meh
+rearer = [
+	Item('A Peace of a Lemon', health=20,  type='consumable'),
+	Item('Sword + 10% damage', damagebuff=.1, type='weapon'),#damageBuff ?
+	Item('Health + 20 potion', health=20, type='consumable'),
+	Item('Slingshot +5% damage', damagebuff=.05, type='weapon'),
+	Item('A 15 foot long pole', health=2, type='consumable'),
+	Item('clover +1 luck for 3 turns', luck=1, type='timed'),
+	Item('luck potion +1 luck for 4 turns', luck=1, type='timed')]
+
+
+worldTemplate = {
+	"start": Location(description="French castle (how did you get in here anyway hon hon hon)", itemRarity=3, moves=Moves(east="field4")),
+	"field1": Location(description="You are in a field of grass",itemRarity=1,moves=Moves(north="foothills1")),
+	"field2": Location(description="You are in a field of goat heads", itemRarity=1,moves=Moves(west="field3",east="foothills1")),
+	"field3": Location(description="You are in a field of mud",itemRarity=2,moves=Moves(north="forest",east="field2")),
+	"field4": Location(description="You are in a field of molten rice",itemRarity=1, moves=Moves(south="forest")),
+	"field5": Location(description="You are in a field of grass",itemRarity=2,moves=Moves(west="foothills1",east="field6"), monster=Monster(name="flying snake", health=50, damage=10, lootLevel=3)),
+	"field6": Location(description="You are in a field of coconuts",itemRarity=2,moves=Moves(north="foothills2", west="field5")),
+	"foothills1": Location(description="you are in a foothills biome",itemRarity=3,moves=Moves(north="mountain1",south="field1",west="field2",east="field5")),
+	"foothills2": Location(description="you are in a foothills biome", itemRarity=2,moves=Moves(east="foothills3", south="field6")),
+	"foothills3": Location(description="you are in a foothills biome", itemRarity=2,moves=Moves(east="swamp1",west="foothills2")),
+	"forest": Location(description="you in big fat forest", itemRarity=3,moves=Moves(north="field4",south="field3"), monster=Monster(name="killer bunny", health=15, damage=10, lootLevel=3)),
+	"swamp1": Location(description="yucky swamp you in hmmmm?", itemRarity=3,moves=Moves(north="swamp3",west="foothills3")),
+	"swamp2": Location(description="in yucky swamp am i hmmmm?", itemRarity=2,moves=Moves(west="mountain2", south="swamp3")),
+	"swamp3": Location(description="swamp yucky in both are we hmmmm?", itemRarity=3,moves=Moves(north="swamp2",south="swamp1"), monster=Monster(name="shreck", health=300, damage=2, lootLevel=3)),
+	"mountain1": Location(description="you are in a mountain", itemRarity=3,moves=Moves(north="BOD", south="foothills1")),
+	"mountain2": Location(description="you are in a mountain", itemRarity=3,moves=Moves(west="mountain3", east="swamp2")),
+	"mountain3": Location(description="you are in a mountain", itemRarity=3,moves=Moves(west="mountain4", east="mountain2"), monster=Monster(name="dragon", health=100, damage=50, lootLevel=3)),	
+	"mountain4": Location(description="you are in a mountain", itemRarity=2,moves=Moves(west="mountain5", east="mountain3"), monster=Monster(name="robot", health=50, damage=10, lootLevel=3)),
+	"mountain5": Location(description="you are in a mountain", itemRarity=3,moves=Moves(west="glitchedPlains1", east="mountain4"), monster=Monster(name="robot", health=200, damage=20, lootLevel=3)),
+	"BOD": Location(description="BODY", hasLoot=False, moves=Moves(north="moun1tain5")),
+	"glitchedPlains1": Location(description="You have entered the glitched plains", itemRarity=3, moves=Moves(north="glitchedPlains2", east="mountain5"), monster=Monster(name="robot", health=250, damage=50, lootLevel=3)),
+	"glitchedPlains2": Location(description="You have entered the glitched plains", itemRarity=2, moves=Moves(west="glitchedCitadel", south="glitchedPlains1"), monster=Monster(name="robot", health=300, damage=50, lootLevel=3)),
+	"glitchedCitadel": Location(description="You have entered the glitched citadel. This is where the boss is good luck from the game itsleff", hasLoot=False, moves=Moves(west="holyGrail", east="glitchedPlains2"), monster=Monster(name="The Programer", health=1000, damage=50)),
+	"holyGrail": Location(description="grail",hasLoot=False, moves=Moves())
+}
+
+world: Dict[str,Location]
+location: Location
+inventory: List[Item]
+health: int
+damage: int
+color: str
+name: str
+quest = "To seek the Holy Grail"
+playedAmount = 0
+damagebuff=0
+def initGame():
+	global ep
+	time.sleep(1)
+	gointor = 1
+	if ep == 0:
+		while gointor != 2000:
+			for x in range(random.randint(1,gointor)):
+				print("  ",end="")
+			for x in range(round(gointor/10)+1):
+				print(random.randint(0,1),end="")
+			print()
+			time.sleep(random.uniform(0,3/gointor))
+			if gointor %50 ==0:
+				print(""" ▄▄▄▄▄▄▄▄▄▄▄  ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄  ▄▄       ▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ 
+▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌     ▐░░▌▐░░▌     ▐░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+ ▀▀▀▀█░█▀▀▀▀ ▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀▀▀      ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌   ▐░▐░▌▐░▌░▌   ▐░▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌
+     ▐░▌     ▐░▌       ▐░▌▐░▌               ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌ ▐░▌▐░▌▐░▌▐░▌ ▐░▌▐░▌▐░▌          ▐░▌       ▐░▌
+     ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄      ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░▌ ▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▐░▌ ▐░▌▐░▌ ▐░▐░▌ ▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌
+     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░▌▐░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+     ▐░▌     ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀      ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀█░█▀▀ ▐░▌       ▐░▌▐░▌ ▀▀▀▀▀▀█░▌▐░█▀▀▀▀█░█▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░▌   ▀   ▐░▌▐░▌   ▀   ▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀█░█▀▀ 
+     ▐░▌     ▐░▌       ▐░▌▐░▌               ▐░▌          ▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░▌     ▐░▌  
+     ▐░▌     ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄      ▐░▌          ▐░▌      ▐░▌ ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌      ▐░▌ ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░▌      ▐░▌ 
+     ▐░▌     ▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌          ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌
+      ▀       ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀            ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀         ▀  ▀         ▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀ 
+                                                                                                                                                                              """)
+			gointor+=1
+		print(""" ▄▄▄▄▄▄▄▄▄▄▄  ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄  ▄▄       ▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ 
+▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌     ▐░░▌▐░░▌     ▐░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+ ▀▀▀▀█░█▀▀▀▀ ▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀▀▀      ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌   ▐░▐░▌▐░▌░▌   ▐░▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌
+     ▐░▌     ▐░▌       ▐░▌▐░▌               ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌ ▐░▌▐░▌▐░▌▐░▌ ▐░▌▐░▌▐░▌          ▐░▌       ▐░▌
+     ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄      ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌▐░▌ ▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▐░▌ ▐░▌▐░▌ ▐░▐░▌ ▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌
+     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░▌▐░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+     ▐░▌     ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀      ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀█░█▀▀ ▐░▌       ▐░▌▐░▌ ▀▀▀▀▀▀█░▌▐░█▀▀▀▀█░█▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░▌   ▀   ▐░▌▐░▌   ▀   ▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀█░█▀▀ 
+     ▐░▌     ▐░▌       ▐░▌▐░▌               ▐░▌          ▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░▌     ▐░▌  
+     ▐░▌     ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄      ▐░▌          ▐░▌      ▐░▌ ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌      ▐░▌ ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░▌      ▐░▌ 
+     ▐░▌     ▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌          ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌
+      ▀       ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀            ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀         ▀  ▀         ▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀ 
+                                                                                                                                                                              """)
+		time.sleep(.7)
+		for x in range(10000):
+			print()
+	global world
+	global location
+	global inventory
+	global health
+	global damage
+	global color
+	global name
+	global playedAmount
+	world = deepcopy(worldTemplate)
+	location = world["field4"]
+	inventory = []
+	health = 100
+	damage = 5
+	name = input("whats your name adventurer (type your name then press enter to continue): ")
+	color = input(f"hello {name} whats your favorite color: ")
+	type_text(f"""hello {name} who likes the color {color}, your quest is "{quest}" good luck""")
+	type_text("search for loot to get loot")
+	type_text("battle monsters")
+	type_text("get the holy grail")
+	type_text("win")
+	playedAmount+=1
+	
+def move(loc: str):
+	global location
+	global inventory
+	for item in [item for item in inventory if item.life != None]:
+			item.life -= 1
+			if item.life == 0:
+				type_text(f"Your {item.name} has expired")
+				inventory.remove(item)
+	location = world[loc]
+	#print(f'moved to: {location}')
+
+def selectOption(options: List[Tuple[str,any]], cancelable = True, noOptionText = "You can't do that.") -> any:
+	options = [x for x in options if x[1] != None]
+	if len(options) == 0:
+		type_text(noOptionText)
+		return None
 	while True:
 		try:
-			choice=int(input("Enter your choice: "))
-			if 1<=choice<=len(options):
-				return choice
+			type_text("Select an option:")
+			if cancelable:
+				type_text("0. Cancel")
+			for i, option in enumerate(options):
+				type_text(f"{i+1}. {option[0]}")
+			value = int(input("Choose wisely: "))
+			type_text()
+			if cancelable and value == 0:
+				return None
+			elif value < 1 or value > len(options):
+				type_text("try again")
 			else:
-				type_text("Invalid choice. Try again.")
+				return options[value-1][1]
 		except ValueError:
-			type_text("Please enter a number.")
-def explore_forest():
-	type_text("You venture deeper into the forest...")
-	events=["You encounter a friendly woodland creature.","You find a shimmering portal.","You discover an ancient ruins.","You come across a bubbling stream."]
-	type_text(random.choice(events))
-def find_treasure():
-	type_text("Congratulations! You've found the hidden treasure!")
-	type_text("It's a chest filled with gold coins and magical artifacts.")
-def face_challenge():
-	type_text("Oh no! You've encountered a challenge!")
-	challenges=["A giant spider blocks your path.","A riddle-speaking owl demands an answer.","A magical barrier requires a spell to pass."]
-	type_text(random.choice(challenges))
-	if random.random()<0.5:
-		type_text("You successfully overcome the challenge!")
-		return True
-	else:
-		type_text("You fail to overcome the challenge.")
+			type_text("Invalid input")
+
+def randomItem(rarity = 0):
+	if sum([item.luck for item in inventory]) > 0:
+		rarity += 1
+	if rarity == 1:
+		return copy(random.choice(norm))
+	elif rarity ==2:
+		return copy(random.choice(rearer))
+	elif rarity ==3:
+		return copy(random.choice(goodLoot))
+	elif rarity ==4:
+		return Item("ball of thorns", health=50 ,type="consumable")
+	raise Exception(f"Invalid rarity {rarity}")
+
+def useItem():
+	global health
+	global inventory
+	item:Item = selectOption([(item.name, item) for item in inventory if item.type == "consumable"], noOptionText="You have no items to use")
+	if item == None:
 		return False
-def play_gamre():
-	display_intro()
-	treasure_found=False
-	while not treasure_found:
-		type_text("\nWhat would you like to do?")
-		choice=make_choice(["Explore the forest","Search for treasure","Face a challenge","Exit the forest"])
-		if choice==1:
-			explore_forest()
-		elif choice==2:
-			if random.random()<0.3:
-				find_treasure()
-				treasure_found=True
+	health += item.health
+	if item.health > 0:
+		type_text(f"You used {item.name} and gained {item.health} health")
+	else:
+		type_text(f"You used {item.name} and lost {-item.health} health")
+	type_text(f"You have {health} health left")
+	inventory.remove(item)
+
+def BOD():
+	global name
+	global playedAmount
+	global color
+	nam = input("""you come to a rope bridge spanning a casum and a man stops you and says "Stop. Who would cross the Bridge of Death must answer me these questions three, ere the other side he see. What... is your name: """)
+	if nam.lower() != name.lower():
+		type_text("wrong *as you are thrown into the casum")
+		type_text("you die and aliens take your body and are diapointed that you cant play poker")
+
+		type_text("game over")
+		return "dead"
+	else:
+		nam = str(input("What... is your quest: "))
+		if nam.lower().strip() != quest.lower().strip():
+			type_text("wrong *as you are thrown into the casum*")
+			type_text("you die and are turned into a lemon")
+			type_text("game over")
+			return "dead"
+		if playedAmount >1:
+			nam = input("What... is the air-speed velocity of an unladen swallow: ").lower()
+			if nam == "What do you mean? An African or a European swallow?".lower():
+
+				type_text(" Huh? I... I don't know that. AUUUUUUUGGGGGGGGGGGHHH!! *as he is thrown into the casum*")
+				type_text("you successfully make it across the bridge")
+				return "mountain5"
 			else:
-				type_text("No treasure here. Keep searching!")
-		elif type_text==3:
-			if face_challenge():
-				if random.random()<0.4:
-					find_treasure()
-					treasure_found=True
-		elif choice==4:
-			type_text("You decide to leave the forest. Game over!")
-			return
-	if treasure_found:
-		type_text("Congratulations! You've won the game!")
+				type_text("wrong *as you are thrown into the casum")
+				type_text("you die and joe takes your apendix")
+				type_text("game over")
+				return "dead"
+		else:
+			nam = input("What... is your favorite colour: ").lower()
+			if nam != color.lower():
+				type_text("wrong *as you are thrown into the casum*")
+				type_text("you die and billy the bird makes you into a nest")
+				type_text("game over")
+				return "dead"
+			else:
+				type_text("you may pass")
+				type_text("you make it across the bridge")
+				return "mountain5"
+				
+def holyGrail():
+	type_text("You have found the Holy Grail!")
+	if input("do you drink(y/n):").lower=="y":
+		print("""Traceback (most recent call last):
+  File "/Users/this is a joke/personal/pythonPlay/game.py", line ∞, in <all>
+    item = banana
+           ^^^^^^
+  File "/Users/also a joke/personal/pythonPlay/game.py", line ∞, in lemon
+    raise Exception(f"Invalid rarity {good food}")
+Exception: Invalid rarity 2037946809832759832""")
+		time.sleep(.01)
+		type_text("BACK FROM THE DEAD CODE")
+		type_text("hahaha")
+		type_text("P.S. you win")
+		return "dead"
+	else:
+		return "dead"
+
+
+def totalDamage():
+	"""returns total damage"""
+	return (sum([item.damagebuff for item in inventory ])+1)*damage
+
+def battle():
+	global health
+	global inventory
+	global location
+	predamageItems = [item for item in inventory if item.predamage > 0]
+	monster = location.monster
+	type_text(f"A {monster.name} appears!")
+	for item in predamageItems:
+		type_text(f"you used an {item.name} and did {item.predamage} damage")
+		monster.health-=max(item.predamage, 0)
+
+	while True:
+		type_text(f"The {monster.name} has {monster.health} health left")
+		option = selectOption([
+			("Fight", "fight"),
+			("Use Item", "useItem")
+		], cancelable=False)
+		if option == "fight":
+			type_text(f"You fight the {monster.name}")
+			attack = totalDamage()
+			type_text(f"You deal {attack} damage")
+			monster.health = max(0, location.monster.health - attack)
+			if monster.health <= 0:
+				type_text(f"You have defeated the {monster.name}")
+				item = randomItem(monster.lootLevel)
+				type_text(f"{monster.name} dropped a {item.name} and you picked it up")
+				inventory.append(item)
+				location.monster = None
+				return True
+		elif option == "useItem":
+			if useItem() == False:
+				continue
+		type_text(f"{location.monster.name} attacks!")
+		health -= location.monster.damage
+		if health <= 0:
+			type_text("You have died and a antelope ate your earlobes")
+			return False
+		type_text(f"You have {health} health left")
+playedAmount = 0
+def the_game():
+	type_text("welcome i am the GAME MASTER")
+	while True:
+		ep = 0
+		if input("do you want to play(y/n)").lower()!="y":
+			break
+		if input("do you have epalepsy(y/n): ").lower() != "y":
+			ep = 1
+		initGame()
+
+		while True:
+			if location.description == "BODY":
+				if BOD()=="dead":
+					break
+				else:
+					move("mountain5")
+			elif location.description == "grail":
+				holyGrail()
+			else:
+				type_text(location.description)
+				if location.monster:
+					if battle() == False:
+						break
+				if health<0:
+					type_text("you died")
+					type_text("game over")
+					break
+				option = selectOption([
+					("Move", "move"),
+					("Search for loot", "search"),
+					("Use Item", "useItem")
+				], False)
+				if option == "useItem":
+					useItem()
+				elif option == "search":
+					if location.hasLoot:
+						item = randomItem(location.itemRarity)
+						location.hasLoot = False
+						inventory.append(item)
+						type_text(f"You found a {item.name}")
+					else:
+						type_text("You found nothing")
+				elif option == "move":
+					place = location.moves.selectMove()
+					if place:
+						move(place)
+	type_text("ok sending you back to the hub")
 def dwane_the_rock():
 	global turn
 	global runhub
@@ -763,6 +1098,7 @@ def last_bit():
 		imput_o_word = input("what do you want to translate or type stop to go back to Hubby: ")
 		if imput_o_word == "stop":
 			type_text("Ok sending you back to hubby. Oink")
+			time.sleep(1)
 			break
 		output = []
 		intt = imput_o_word.split(" ")
@@ -871,20 +1207,20 @@ def farinhight451():
 				break
 			else:
 				type_text("sorry i didn't understand")
-def print_ui(board):
+def print_board(board):
 	iteration = -1
 	for x in board:
 		iteration += 1
 		if iteration == 0:
 			if x == "O":
-				q11 = "      ███████████      "
-				q12 = "    ███         ███    "
-				q13 = "   ███           ███   "
-				q14 = "   ███           ███   "
-				q15 = "   ███           ███   "
-				q16 = "   ███           ███   "
-				q17 = "    ███         ███    "
-				q18 = "      ███████████      "
+				q11 = "      ███████████     "
+				q12 = "    ███         ███   "
+				q13 = "   ███           ███  "
+				q14 = "   ███           ███  "
+				q15 = "   ███           ███  "
+				q16 = "   ███           ███  "
+				q17 = "    ███         ███   "
+				q18 = "      ███████████     "
 			elif x == "X":
 				q11 = "   ███         ███    "
 				q12 = "     ███     ███      "
@@ -905,14 +1241,14 @@ def print_ui(board):
 				q18 = "                      "
 		elif iteration == 1:
 			if x == "O":
-				q22 = "      ███████████      "
-				q22 = "    ███         ███    "
-				q23 = "   ███           ███   "
-				q24 = "   ███           ███   "
-				q25 = "   ███           ███   "
-				q26 = "   ███           ███   "
-				q27 = "    ███         ███    "
-				q28 = "      ███████████      "
+				q21 = "      ███████████     "
+				q22 = "    ███         ███   "
+				q23 = "   ███           ███  "
+				q24 = "   ███           ███  "
+				q25 = "   ███           ███  "
+				q26 = "   ███           ███  "
+				q27 = "    ███         ███   "
+				q28 = "      ███████████     "
 			elif x == "X":
 				q21 = "   ███         ███    "
 				q22 = "     ███     ███      "
@@ -933,14 +1269,14 @@ def print_ui(board):
 				q28 = "                      "
 		elif iteration == 2:
 			if x == "O":
-				q31 = "      ███████████      "
-				q32 = "    ███         ███    "
-				q33 = "   ███           ███   "
-				q34 = "   ███           ███   "
-				q35 = "   ███           ███   "
-				q36 = "   ███           ███   "
-				q37 = "    ███         ███    "
-				q38 = "      ███████████      "
+				q31 = "      ███████████     "
+				q32 = "    ███         ███   "
+				q33 = "   ███           ███  "
+				q34 = "   ███           ███  "
+				q35 = "   ███           ███  "
+				q36 = "   ███           ███  "
+				q37 = "    ███         ███   "
+				q38 = "      ███████████     "
 			elif x == "X":
 				q31 = "   ███         ███    "
 				q32 = "     ███     ███      "
@@ -961,14 +1297,14 @@ def print_ui(board):
 				q38 = "                      "
 		elif iteration == 3:
 			if x == "O":
-				q41 = "      ███████████      "
-				q42 = "    ███         ███    "
-				q43 = "   ███           ███   "
-				q44 = "   ███           ███   "
-				q45 = "   ███           ███   "
-				q46 = "   ███           ███   "
-				q47 = "    ███         ███    "
-				q48 = "      ███████████      "
+				q41 = "      ███████████     "
+				q42 = "    ███         ███   "
+				q43 = "   ███           ███  "
+				q44 = "   ███           ███  "
+				q45 = "   ███           ███  "
+				q46 = "   ███           ███  "
+				q47 = "    ███         ███   "
+				q48 = "      ███████████     "
 			elif x == "X":
 				q41 = "   ███         ███    "
 				q42 = "     ███     ███      "
@@ -989,14 +1325,14 @@ def print_ui(board):
 				q48 = "                      "
 		elif iteration == 4:
 			if x == "O":
-				q51 = "      ███████████      "
-				q52 = "    ███         ███    "
-				q53 = "   ███           ███   "
-				q54 = "   ███           ███   "
-				q55 = "   ███           ███   "
-				q56 = "   ███           ███   "
-				q57 = "    ███         ███    "
-				q58 = "      ███████████      "
+				q51 = "      ███████████     "
+				q52 = "    ███         ███   "
+				q53 = "   ███           ███  "
+				q54 = "   ███           ███  "
+				q55 = "   ███           ███  "
+				q56 = "   ███           ███  "
+				q57 = "    ███         ███   "
+				q58 = "      ███████████     "
 			elif x == "X":
 				q51 = "   ███         ███    "
 				q52 = "     ███     ███      "
@@ -1017,14 +1353,14 @@ def print_ui(board):
 				q58 = "                      "
 		elif iteration == 5:
 			if x == "O":
-				q61 = "      ███████████      "
-				q62 = "    ███         ███    "
-				q63 = "   ███           ███   "
-				q64 = "   ███           ███   "
-				q65 = "   ███           ███   "
-				q66 = "   ███           ███   "
-				q67 = "    ███         ███    "
-				q68 = "      ███████████      "
+				q61 = "      ███████████     "
+				q62 = "    ███         ███   "
+				q63 = "   ███           ███  "
+				q64 = "   ███           ███  "
+				q65 = "   ███           ███  "
+				q66 = "   ███           ███  "
+				q67 = "    ███         ███   "
+				q68 = "      ███████████     "
 			elif x == "X":
 				q61 = "   ███         ███    "
 				q62 = "     ███     ███      "
@@ -1045,14 +1381,14 @@ def print_ui(board):
 				q68 = "                      "
 		elif iteration == 6:
 			if x == "O":
-				q71 = "      ███████████      "
-				q72 = "    ███         ███    "
-				q73 = "   ███           ███   "
-				q74 = "   ███           ███   "
-				q75 = "   ███           ███   "
-				q76 = "   ███           ███   "
-				q77 = "    ███         ███    "
-				q78 = "      ███████████      "
+				q71 = "      ███████████     "
+				q72 = "    ███         ███   "
+				q73 = "   ███           ███  "
+				q74 = "   ███           ███  "
+				q75 = "   ███           ███  "
+				q76 = "   ███           ███  "
+				q77 = "    ███         ███   "
+				q78 = "      ███████████     "
 			elif x == "X":
 				q71 = "   ███         ███    "
 				q72 = "     ███     ███      "
@@ -1073,14 +1409,14 @@ def print_ui(board):
 				q78 = "                      "
 		elif iteration == 7:
 			if x == "O":
-				q81 = "      ███████████      "
-				q82 = "    ███         ███    "
-				q83 = "   ███           ███   "
-				q84 = "   ███           ███   "
-				q85 = "   ███           ███   "
-				q86 = "   ███           ███   "
-				q87 = "    ███         ███    "
-				q88 = "      ███████████      "
+				q81 = "      ███████████     "
+				q82 = "    ███         ███   "
+				q83 = "   ███           ███  "
+				q84 = "   ███           ███  "
+				q85 = "   ███           ███  "
+				q86 = "   ███           ███  "
+				q87 = "    ███         ███   "
+				q88 = "      ███████████     "
 			elif x == "X":
 				q81 = "   ███         ███    "
 				q82 = "     ███     ███      "
@@ -1101,14 +1437,14 @@ def print_ui(board):
 				q88 = "                      "
 		elif iteration == 8:
 			if x == "O":
-				q91 = "      ███████████      "
-				q92 = "    ███         ███    "
-				q93 = "   ███           ███   "
-				q94 = "   ███           ███   "
-				q95 = "   ███           ███   "
-				q96 = "   ███           ███   "
-				q97 = "    ███         ███    "
-				q98 = "      ███████████      "
+				q91 = "      ███████████     "
+				q92 = "    ███         ███   "
+				q93 = "   ███           ███  "
+				q94 = "   ███           ███  "
+				q95 = "   ███           ███  "
+				q96 = "   ███           ███  "
+				q97 = "    ███         ███   "
+				q98 = "      ███████████     "
 			elif x == "X":
 				q91 = "   ███         ███    "
 				q92 = "     ███     ███      "
@@ -1161,7 +1497,24 @@ def print_ui(board):
 	{q78}   ██   {q88}   ██   {q98}
                                  ██		               ██
 """
-	print(q1, flush=True)
+	print(q1)
+def piece_char(i, c):
+	if c == "X":
+		return "✗"
+	elif c == "O":
+		return "○"
+	else:
+		return "" + str(i+1)
+def prit_board(board):
+	for i, place in enumerate(board):	
+		c = piece_char(i, place)
+		if (i + 1) % 3 == 0:
+			print(f" {c} ")
+			if i <=6:
+				print("-----------")
+		else:
+			print(f" {c} |", end="")
+	print()
 def possible_boards(cBoard,turn):
 	moves = []
 	for i in range(9):
@@ -1261,138 +1614,150 @@ def check_win(board):
 		if x == None:
 			return None
 	return "tie"
-def meet_o_code(unused):
-	type_text("hi i am The Gamer this is Tic Tac Toe")
+def check_move(board, playerMove):
+	playerMove -= 1
+	return board[playerMove] == None
+def meet_o_code():
+	global board
+	for x in range(9):
+		board[x]=None
 	while True:
-		play = str(input("1 to play computer 2 to play other player and 3 to stop: "))
-		if play == "2":
-			p1 = input("who is player 1: ")
-			p2 = input("who is player 2: ")
+		board = choose_move(board, "X")
+		if check_win(board) != None:
+			print_board(board)
+			if check_win(board) == "X":
+				print("""
+███         ███        ███                        ███   ██████████████████   ███            ███      █████████
+  ███     ███          ███                        ███           ███          ██████         ███    ███
+    ███ ███             ███                      ███            ███          ███   ███      ███    ███
+     █████               ███                    ███             ███          ███      ███   ███      █████████
+     █████                ███      ██████      ███              ███          ███         ██████              ███
+    ███ ███                ███    ███  ███    ███               ███          ███            ███              ███
+  ███     ███               ███  ███    ███  ███                ███          ███            ███              ███
+███         ███              ██████      ██████         ██████████████████   ███            ███      █████████
+	""")
+			elif check_win(board) == "O":
+				print("""
+   █████████           ███                        ███   ██████████████████   ███            ███      █████████
+ ███       ███         ███                        ███           ███          ██████         ███    ███
+███         ███         ███                      ███            ███          ███   ███      ███    ███
+███         ███          ███                    ███             ███          ███      ███   ███      █████████
+███         ███           ███      ██████      ███              ███          ███         ██████              ███
+███         ███            ███    ███  ███    ███               ███          ███            ███              ███
+ ███       ███              ███  ███    ███  ███                ███          ███            ███              ███
+   █████████                 ██████      ██████         ██████████████████   ███            ███      █████████
+			""")
+			break
+		while True:
+			print_board(board)
+			if check_win(board) != None:
+				if check_win(board) == "X":
+					print("""
+███         ███        ███                        ███   ██████████████████   ███            ███      █████████
+  ███     ███          ███                        ███           ███          ██████         ███    ███
+    ███ ███             ███                      ███            ███          ███   ███      ███    ███
+     █████               ███                    ███             ███          ███      ███   ███      █████████
+     █████                ███      ██████      ███              ███          ███         ██████              ███
+    ███ ███                ███    ███  ███    ███               ███          ███            ███              ███
+  ███     ███               ███  ███    ███  ███                ███          ███            ███              ███
+███         ███              ██████      ██████         ██████████████████   ███            ███      █████████
+	""")
+				elif check_win(board) == "O":
+					print("""
+   █████████           ███                        ███   ██████████████████   ███            ███      █████████
+ ███       ███         ███                        ███           ███          ██████         ███    ███
+███         ███         ███                      ███            ███          ███   ███      ███    ███
+███         ███          ███                    ███             ███          ███      ███   ███      █████████
+███         ███           ███      ██████      ███              ███          ███         ██████              ███
+███         ███            ███    ███  ███    ███               ███          ███            ███              ███
+ ███       ███              ███  ███    ███  ███                ███          ███            ███              ███
+   █████████                 ██████      ██████         ██████████████████   ███            ███      █████████
+				""")
+				break
+			print("1 for top left")
+			print("2 for top middle")
+			print("3 for top right")
+			print("4 for middle left")
+			print("5 for middle middle")
+			print("6 for middle right")
+			print("7 for bottom left")
+			print("8 for bottom middle")
+			print("9 for bottom right")
 			while True:
-				go = check_int(input(f"1 for {p1} to go first 2 for {p2} to go first: "))
-				if go != "":
-					if go == 1:
-						turn = "p1"
-						break
-					elif go ==2:
-						turn = "p2"
-						break
-					else:
-						type_text("not a valid input")
-			while True:
-				win = check_win(board)
-				if win == "tie":
-					type_text("tie")
+				try:
+					play_go = int(input("where do you want to go: "))
 					break
-				elif win == "X":
-					type_text(f"{p1} wins")
-					break
-				elif win == "O":
-					type_text(f"{p2} wins")
-					break
+				except:
+					print("nope")
+			if play_go < 10 and play_go > 0:
+				if play_go == 1 and board[0] != None:
+					print("that is alredy taken")
+				elif play_go == 2 and board[1] != None:
+					print("that is alredy taken")
+				elif play_go == 3 and board[2] != None:
+					print("that is alredy taken")
+				elif play_go == 4 and board[3] != None:
+					print("that is alredy taken")
+				elif play_go == 5 and board[4] != None:
+					print("that is alredy taken")
+				elif play_go == 6 and board[5] != None:
+					print("that is alredy taken")
+				elif play_go == 7 and board[6] != None:
+					print("that is alredy taken")
+				elif play_go == 8 and board[7] != None:
+					print("that is alredy taken")
+				elif play_go == 9 and board[8] != None:
+					print("that is alredy taken")
 				else:
-					print_ui(board)
-				if turn == "p1":
-					while True:
-						while True:
-							peace = check_int(input(f"{p1} where do you want to go(use the number of place like top left is 1):"))
-							if peace != "":
-								break
-						if board[peace-1] != None:
-							type_text("already taken")
-						else:
-							board[peace-1] = "X"
-							turn = "p2"
-							break
-				elif turn == "p2":
-					while True:
-						while True:
-							peace = check_int(input(f"{p2} where do you want to go(use the number of place like top left is 1):"))
-							if peace != "":
-								peace = int(peace)
-								break						
-						if board[peace-1] != None:
-							type_text("already taken")
-						else:
-							board[peace-1] = "O"
-							turn = "p1"
-							break
-				print_ui(board)
-		elif play == "1":
-			while True:
-				board = choose_move(board, "X")
-				if check_win(board) != None:
-					print_ui(board)
-					type_text(check_win(board))
+					if play_go == 1:
+						board[0] = "O"
+					if play_go == 2:
+						board[1] = "O"
+					if play_go == 3:
+						board[2] = "O"
+					if play_go == 4:
+						board[3] = "O"
+					if play_go == 5:
+						board[4] = "O"
+					if play_go == 6:
+						board[5] = "O"
+					if play_go == 7:
+						board[6] = "O"
+					if play_go == 8:
+						board[7] = "O"
+					if play_go == 9:
+						board[8] = "O"
+					print_board(board)
+					possible_boards(board, "X")
 					break
-				while True:
-					print_ui(board)
-					if check_win(board) != None:
-						break
-					type_text("1 for top left")
-					type_text("2 for top middle")
-					type_text("3 for top right")
-					type_text("4 for middle left")
-					type_text("5 for middle middle")
-					type_text("6 for middle right")
-					type_text("7 for bottom left")
-					type_text("8 for bottom middle")
-					type_text("9 for bottom right")
-					while True:
-						play_go = check_int(input("where do you want to go: "))
-						if play_go != "":
-							break
-					if play_go < 10 and play_go > 0:
-						if play_go == 1 and board[0] != None:
-							type_text("that is alredy taken")
-						elif play_go == 2 and board[1] != None:
-							type_text("that is alredy taken")
-						elif play_go == 3 and board[2] != None:
-							type_text("that is alredy taken")
-						elif play_go == 4 and board[3] != None:
-							type_text("that is alredy taken")
-						elif play_go == 5 and board[4] != None:
-							type_text("that is alredy taken")
-						elif play_go == 6 and board[5] != None:
-							type_text("that is alredy taken")
-						elif play_go == 7 and board[6] != None:
-							type_text("that is alredy taken")
-						elif play_go == 8 and board[7] != None:
-							type_text("that is alredy taken")
-						elif play_go == 9 and board[8] != None:
-							type_text("that is alredy taken")
-						else:
-							if play_go == 1:
-								board[0] = "O"
-							if play_go == 2:
-								board[1] = "O"
-							if play_go == 3:
-								board[2] = "O"
-							if play_go == 4:
-								board[3] = "O"
-							if play_go == 5:
-								board[4] = "O"
-							if play_go == 6:
-								board[5] = "O"
-							if play_go == 7:
-								board[6] = "O"
-							if play_go == 8:
-								board[7] = "O"
-							if play_go == 9:
-								board[8] = "O"
-							print_ui(board)
-							possible_boards(board, "X")
-							choose_move(board,"X")
-							break
-					else:
-						type_text("nope")
-				if check_win(board) != None:
-					type_text(check_win(board))
-					print_ui(board)
-					break
+			else:
+				print("nope")
+		if check_win(board) == None:
+			print_board(board)
 		else:
-			type_text("ok sending you back to the hub.")
-			return
+			if check_win(board) == "X":
+				print("""
+███         ███        ███                        ███   ██████████████████   ███            ███      █████████
+  ███     ███          ███                        ███           ███          ██████         ███    ███
+    ███ ███             ███                      ███            ███          ███   ███      ███    ███
+     █████               ███                    ███             ███          ███      ███   ███      █████████
+     █████                ███      ██████      ███              ███          ███         ██████              ███
+    ███ ███                ███    ███  ███    ███               ███          ███            ███              ███
+  ███     ███               ███  ███    ███  ███                ███          ███            ███              ███
+███         ███              ██████      ██████         ██████████████████   ███            ███      █████████
+	""")
+			elif check_win(board) == "O":
+				print("""
+   █████████           ███                        ███   ██████████████████   ███            ███      █████████
+ ███       ███         ███                        ███           ███          ██████         ███    ███
+███         ███         ███                      ███            ███          ███   ███      ███    ███
+███         ███          ███                    ███             ███          ███      ███   ███      █████████
+███         ███           ███      ██████      ███              ███          ███         ██████              ███
+███         ███            ███    ███  ███    ███               ███          ███            ███              ███
+ ███       ███              ███  ███    ███  ███                ███          ███            ███              ███
+   █████████                 ██████      ██████         ██████████████████   ███            ███      █████████
+	""")
+			break
 def madlib():
 	type_text("hi i am libby")
 	runlib = True
@@ -1452,6 +1817,7 @@ def lists():
 	thelist = []
 	while True:
 		action = input("""what do you want to do
+0 to stop
 1 add item
 2 remove item
 3 to print and leave the list (note this also deletes it): """)
@@ -1490,6 +1856,8 @@ def lists():
 				print("___________________________",flush=True)
 				clist = input("what is the new name for the new list: ")
 				thelist = []	
+			elif action == "0":
+				return
 def hub():
 	global turn
 	global runhub
@@ -1534,7 +1902,76 @@ def hub():
 		else:
 			hubo = int(hubo)
 			if hubo == 0:
-				type_text("Goodby please come back soon! ##connection terminated by:Hubby##")
+				type_text("Goodby please come back soon! ##connection terminated by:Hubby##, end sequance initiated:")
+				time.sleep(4)
+				print("""
+		  		@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		  		@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		 		@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%*-.......     ......:=#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-......:::--==++++===--:::....  .%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@#...-=-::-+++*++++++++++++++++++++-.. :@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@..-+=...=-...=++++++++++++++++++++++++-. @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@%.-++.+@@@@@@+.=++++++++++++++=+++++++++=. @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@-.+*+.@@@@@@@@=-+++++++++++++++++=++=+====..@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@-.*++.@@@@@@@@--++++++++++++++++++++++++++:.@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@-.+++:.@@@@@@..=++++++++=++++++=++++++====:.@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@-.**++:... ..:=+++++++++++++++++++++=+++++:.@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@-:*+++++++++++++++++++++++++++++=+===+====:.@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@      .              ..==++++++++++++++==+:.@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-*=+=========+==++=:.@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@%*#########%###################@=:=++++++++++=++++==:.@@@%%@@@@@@%@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@+.....:..............................-=+=++=+=+==========:.@@@*##########*#@@@@@@@@@@@@
+				@@@@@@@@@...-+***++++++++++++++++++++=+++++++++++++++++++++++++++===:.@@@#@@@@@@@%%@%%##%@@@@@@@@@
+				@@@@@@@..-+*+++++++++++++++++++++++++++++++++++=++==+==+====+=======:.@@@#%@@@%@@@@@@@@%##@@@@@@@@
+				@@@@@@..=+++*++++++*++++++++++++++++++++++++++++++++++=+=++++=======:.@@@#%@@@%@@@@@@@@@@#%@@@@@@@
+				@@@@@.:+**+++++++++++++++++++++++++++++++++=+++++====+==+===========:.@@@#%%%@%@@@@%%%%%%%#@@@@@@@
+				@@@@@.+*+++++++++++++++++++++++++++++++++++++++=+++++++++=+=======++..@@@#%@@@%@@%%@@%%%@%##@@@@@@
+				@@@@.:++++++++++++++++++++++++++++++++++++=========================- *@@%%@@@@%%%%%%%%%%%%%#@@@@@@
+				@@@@.+++++++++++++++++++++++++++++++++++++++++++++=++++===========: .@@@%%%@@@@@%%%%@%%%@%%##@@@@@
+				@@@*.*++++++++++++++++++++=++++++++++++++======+=++=+=========+=:. -@@@##%%%%%%%%%%%%%%%%%%%#@@@@@
+				@@@.-++++*+*+*+*+++++++++++++++++-=-:........................    :@@@@#%%@%%@%%%%%%%@%%%%%%%#%@@@@
+				@@@.=+++++++++++++++++++=++++-:.    ........................-*#@@@@@###%%%%%%%%@@%%%%%@@@%%%#%@@@@
+				@@@+++++++++++++++++++++++:. .*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@###%%%@@@%%%%%%%%%%%%%%%%%%##@@@@@
+				@@@.=+*++++++++++++++++++-. +@@@@@@%#%%%%%%%%%%##############*####%%%%%%%%%%%%%%%%%@@%%%%%%%##@@@@
+				@@@.:+++++++++++++=+++++:.-@@@@####%%%%%%%%%%%%%%%%%%%%%%%%%%%@%@%%%%%%%%%%%%%%%%%%%%%%%%%%%#%@@@@
+				@@@#.*++++++++++++++++=:.@@@@##%%@@@@@@@@@@@@@@@%%@@@@@@@%%%%%%%%%%%%@%%%%%%%%%%%%%%%%%%%%%##@@@@@
+				@@@@ =*+++++++++++++++=.%@@@%%@@@@@@@@@@@@@@%%%@@@@@@@@%%@@%%@%%@@%%%%%%%%%%%@%%%%%%%%%%%%%#*@@@@@
+				@@@@.:++++++++++++++++::@@@%%%@@@@@@@@@@@@@@@@@@%%%%%%%%%%%%%%%%%%%@@@%%@@%%%%%%%%%%%%%%%%%*@@@@@@
+				@@@@@.=+++++++++++++++.:@@##@@@@@@@@@@@@%%%@%@@@@@@@@@@%%%@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##*@@@@@@
+				@@@@@..=++++++++++=+++.:@@%%@@@@@@@@@%%%%%@@%%%%%%%%%@%%%%%%%%%%%%%%%@%%%%%%%%%%%%%%%%%%%#*@@@@@@@
+				@@@@@@ .=++=++++++++++.:@@%%%@@@%%%%@@@@@@@%%@@%%%@%%%%%%%@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#*@@@@@@@@
+				@@@@@@@..-++++++=+++++.:@@%%@@@@@@@@@@@@@%%%%%%%%%%%%@@%%%%%@@%%%%%%%%%%%%%%%%%%%%%%%%%#*%@@@@@@@@
+				@@@@@@@@-..:-*++++++++.:@@%%@%%%@@@@%@@@%%@@%@@@%%@%%%%%%%@%%%%%%%%%%%%%%%%%%%%%%%%###**@@@@@@@@@@
+				@@@@@@@@@@*   ........ .@@%%@%@@@%%%%%%%%%%%%%%%###########***######****#****####*****%@@@@@@@@@@@
+				@@@@@@@@@@@@@@@%*@####=*@@%#%@@@@@@@@%@@%%%%%%%#@@%@@@@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@%%@@@%%%%%%%%%%%%@%%%#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@%#%%@%%%%@%%%%%%%%%%%##*******++++++++++++++@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@%#%%%%%%%%%%@@%@@@%%@%%%@%%%%%%%%%%%%%%%%%#*@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@%#%%%%%%%%%%%%%%%%%%%%%%%%%%%%##***+**#%%%#*@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@##@%%%%%%%%%%%%%%@%%%%%%%%%%%%*@@@@@@%*#%%#*@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@%#%%%%%%%%%%%%%%%%%%%%%%%%%%%*@@@@@@@@@#%%#*@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@#%%%%%%@@%%%%%%%%%%%%%%%%%%%#@@@@@@@@@#%%*#@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@#*%%%%%%%%%%%%%%%%%%%%%%%%%%##@@@@@@@*##**@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*#%%%%%%%%%%%%%%%%%%%%%%%%###*###*###*#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%**#%%%%%%%%%%%%%%%%%%%%%%%%###****#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#****####%%%%%%%%%%%%%###*+***@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#**++++**++*++***#%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				""")
+				type_text("made in python")
+				time.sleep(3)
+				type_text("mostly by Liam")
+				time.sleep(3)
+				type_text("tested by Jonas")
+				time.sleep(3)
+				type_text("help from my dad")
+				time.sleep(3)
+				type_text("great ideas made by my bothers and teacher thanks ;)")
+				time.sleep(3)
+				type_text("goodby comeback soon")
 				time.sleep(1)
 				quit()
 			elif hubo ==1:
@@ -1546,7 +1983,7 @@ def hub():
 			elif hubo ==3:
 				type_text("Ok sending you to Guessy.")
 				time.sleep(1)
-				game()
+				t()
 			elif hubo ==4:
 				type_text("Ok sending you to Pally.")
 				time.sleep(1)
@@ -1573,13 +2010,13 @@ def hub():
 				lists()
 			elif hubo ==11:
 				type_text("Ok sending you to The Gamer")
-				meet_o_code(1)
+				meet_o_code()
 			elif hubo == 12:
 				type_text("ok sending you to The Rock")
 				dwane_the_rock()
 			elif hubo == 13:
 				type_text("ok sendig you to The DM")
-				play_gamre()
+				the_game()
 			elif hubo == 7232010:
 				code()
 			else:
