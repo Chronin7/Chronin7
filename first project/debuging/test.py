@@ -29,8 +29,13 @@ while equating == True:
 				typeof.append("number")
 		print(data)
 		print(typeof)
+		a=0
+		b=0
 		iteration = -1
 		for i in typeof:#figure out how to add the operations
-			if i == "!"
+			if i == "+":
+				
+
+
 	except:
 		print("please input an equason (no ='s or ()'s (keep in mind i am not smart enugh to do order of operations so make shure that it is in the corect order (sorry)) ")

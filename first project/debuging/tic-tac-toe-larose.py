@@ -6,6 +6,8 @@ def piece_char(i, c):
 		return "○"
 	else:
 		return "" + str(i+1)
+def go_for_win(board):
+	for x in rate # make the ai go for the win
 def print_board(board):
 	b1 = []
 	b2 = []
@@ -92,7 +94,7 @@ def choose_move(cBoard, turn):
 				bestO = o
 				bestT = t
 				bestBoard = b
-			elif t > bestT and o < bestO and x >= bestX:
+			elif t > bestT or o < bestO and x >= bestX or o<bestO or :
 				bestX = x
 				bestO = o
 				bestT = t
