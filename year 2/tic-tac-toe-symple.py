@@ -6,7 +6,7 @@ def piece_char(i, c):
 		return "○"
 	else:
 		return "" + str(i+1)
-def go_for_win(test_board):
+def go_for_win(test_board=[]):
 	global board
 	for x in range(0,8): # make the ai go for the win
 		if check_place(x+1)==True:
@@ -15,10 +15,10 @@ def go_for_win(test_board):
 			test_board[x]="X"
 			if check_win(test_board)=="X":
 				test_board[x]=None
-				return (send_board[x]=="X",True)
+				return (send_board[x]=="X","T")
 			else:
 				test_board[x]=None
-	return ("None",False)
+	return ("None","f")
 def check_place(play_go):
 	if play_go == 1 and board[0] != None:
 		return False
@@ -145,8 +145,8 @@ def choose_move(cBoard, turn):
 					bestT = t
 					bestBoard = b
 		placeholder1=[]
-		(placeholder1,placeholder2)=go_for_win(board)
-		if placeholder2 ==True:
+		(placeholder1,placeholder2)=go_for_win(cBoard)
+		if placeholder2 =="T":
 			return placeholder1#somehow this is returning a bool
 		else:
 			return bestBoard
