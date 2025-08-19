@@ -6,8 +6,40 @@ def piece_char(i, c):
 		return "○"
 	else:
 		return "" + str(i+1)
-def go_for_win(board):
-	for x in rate # make the ai go for the win
+def go_for_win(test_board):
+	global board
+	for x in range(0,8): # make the ai go for the win
+		if check_place(x+1)==True:
+			send_board=board
+			test_board=board
+			test_board[x]="X"
+			if check_win(test_board)=="X":
+				test_board[x]=None
+				return (send_board[x]=="X",True)
+			else:
+				test_board[x]=None
+	return ("None",False)
+def check_place(play_go):
+	if play_go == 1 and board[0] != None:
+		return False
+	elif play_go == 2 and board[1] != None:
+			return False
+	elif play_go == 3 and board[2] != None:
+			return False
+	elif play_go == 4 and board[3] != None:
+			return False
+	elif play_go == 5 and board[4] != None:
+			return False
+	elif play_go == 6 and board[5] != None:
+			return False
+	elif play_go == 7 and board[6] != None:
+			return False
+	elif play_go == 8 and board[7] != None:
+			return False
+	elif play_go == 9 and board[8] != None:
+			return False
+	else:
+		return True
 def print_board(board):
 	b1 = []
 	b2 = []
@@ -72,47 +104,52 @@ def possible_boards(cBoard,turn):
 	return moves
 
 def choose_move(cBoard, turn):
-	possible = possible_boards(cBoard, turn)
+		possible = possible_boards(cBoard, turn)
 
-	if len(possible) == 1:
-		return possible[0]
+		if len(possible) == 1:
+			return possible[0]
 
-	nextTurn = "X"
-	if turn == "X":
-		nextTurn = "O"
-
-	bestBoard = possible[0]
-	bestX, bestO, bestT = score_move(bestBoard, nextTurn)
-
-	for b in possible[1:]:
-		x, o, t = score_move(b, nextTurn)
+		nextTurn = "X"
 		if turn == "X":
-			if o > bestO:
-				continue
-			elif x > bestX:
-				bestX = x
-				bestO = o
-				bestT = t
-				bestBoard = b
-			elif t > bestT or o < bestO and x >= bestX or o<bestO or :
-				bestX = x
-				bestO = o
-				bestT = t
-				bestBoard = b
+			nextTurn = "O"
+
+		bestBoard = possible[0]
+		bestX, bestO, bestT = score_move(bestBoard, nextTurn)
+
+		for b in possible[1:]:
+			x, o, t = score_move(b, nextTurn)
+			if turn == "X":
+				if o > bestO:
+					continue
+				elif x > bestX:
+					bestX = x
+					bestO = o
+					bestT = t
+					bestBoard = b
+				elif t > bestT or o < bestO and x >= bestX or o<bestO:
+					bestX = x
+					bestO = o
+					bestT = t
+					bestBoard = b
+			else:
+				if x > bestX:
+					continue
+				elif o > bestO:
+					bestX = x
+					bestO = o
+					bestT = t
+					bestBoard = b
+				elif t > bestT and x < bestX and o >= bestO:
+					bestX = x
+					bestO = o
+					bestT = t
+					bestBoard = b
+		placeholder1=[]
+		(placeholder1,placeholder2)=go_for_win(board)
+		if placeholder2 ==True:
+			return placeholder1#somehow this is returning a bool
 		else:
-			if x > bestX:
-				continue
-			elif o > bestO:
-				bestX = x
-				bestO = o
-				bestT = t
-				bestBoard = b
-			elif t > bestT and x < bestX and o >= bestO:
-				bestX = x
-				bestO = o
-				bestT = t
-				bestBoard = b
-	return bestBoard
+			return bestBoard
 
 def score_move(cBoard, turn):
 	possible = possible_boards(cBoard, turn)
@@ -188,44 +225,28 @@ while True:
 		print("7 for bottom left")
 		print("8 for bottom middle")
 		print("9 for bottom right")
-		play_go = int(input("where do you want to go: "))
-		if play_go < 10 and play_go > 0:
-			if play_go == 1 and board[0] != None:
-				print("that is alredy taken")
-			elif play_go == 2 and board[1] != None:
-				print("that is alredy taken")
-			elif play_go == 3 and board[2] != None:
-				print("that is alredy taken")
-			elif play_go == 4 and board[3] != None:
-				print("that is alredy taken")
-			elif play_go == 5 and board[4] != None:
-				print("that is alredy taken")
-			elif play_go == 6 and board[5] != None:
-				print("that is alredy taken")
-			elif play_go == 7 and board[6] != None:
-				print("that is alredy taken")
-			elif play_go == 8 and board[7] != None:
-				print("that is alredy taken")
-			elif play_go == 9 and board[8] != None:
-				print("that is alredy taken")
+		move = int(input("where do you want to go: "))
+		if move < 10 and move > 0:
+			if check_place(move) == False:
+				print("that is already taken")
 			else:
-				if play_go == 1:
+				if move == 1:
 					board[0] = "O"
-				if play_go == 2:
+				if move == 2:
 					board[1] = "O"
-				if play_go == 3:
+				if move == 3:
 					board[2] = "O"
-				if play_go == 4:
+				if move == 4:
 					board[3] = "O"
-				if play_go == 5:
+				if move == 5:
 					board[4] = "O"
-				if play_go == 6:
+				if move == 6:
 					board[5] = "O"
-				if play_go == 7:
+				if move == 7:
 					board[6] = "O"
-				if play_go == 8:
+				if move == 8:
 					board[7] = "O"
-				if play_go == 9:
+				if move == 9:
 					board[8] = "O"
 				possible_boards(board, "X")
 				break
