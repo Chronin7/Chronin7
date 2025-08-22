@@ -1,5 +1,77 @@
 
 #dnd charicter sheat (its a nitemare but you know what is hapaning)
+import random, time
+confetty_animation=["""
+ 
+
+
+
+
+     :  """
+,"""
+
+
+
+
+     :
+     :  """
+,"""
+
+
+
+     :
+     :
+     : """
+,"""
+
+        
+    .:.   
+    ':' 
+     :
+       '"""
+,"""
+     :  
+   '.:.' 
+   .':'.   
+     :   
+       '"""
+,"""
+
+   . : .
+ '.  :  .'
+.  '.:.'  .
+.  .':'.  .
+ .'  :  '.
+   ' : '"""
+,"""
+   . : .
+ '.  :  .'
+.  '   '  .
+.  .   .  .
+ .'  :  '.
+   ' : '"""
+,"""
+   . : .
+ '.  :  .'
+.         .
+.         .
+ .'  :  '.
+   ' : '"""
+,"""
+   . : .
+ '       '
+.         .
+.         .
+ .       .
+   ' : '"""
+,"""
+
+
+
+
+
+
+"""]
 age=0
 name=""
 player_name=""
@@ -136,7 +208,6 @@ ideals=""
 bonds=""
 flaws=""
 backstory=""
-
 def stat_len_mod(size,data):
 	length=len(size)-len(str(data))
 	out=str(data)
@@ -281,7 +352,26 @@ def pp():
 *                                                                              *
 '-._.-'-._.-'-._.-'-._.-'-._.-'-._.-'-._.-'-._.-'-._.-'-._.-'-._.-'-._.-'-._.-'
 """)
-pp()
+globals_list = [
+"age", "name", "player_name", "race", "backround", "alingment", "classs", "xp", "level",
+"strengthmod", "strength", "insperation", "profishansy", "ac", "initative", "hp", "chp",
+"speed", "dexmod", "dex", "con", "conmod", "wis", "wismod", "cha", "chamod", "intelegance",
+"intelegancemod", "acrobaticsprof", "eyes", "temphp", "hitdice", "acrobatics",
+"animalprof", "animal", "arcanaprof", "arcana", "athleticsprof", "athletics",
+"weponl1", "weponl2", "weponl3", "weponl4", "weponl5", "weponl6", "weponl7", "weponl8",
+"weponl9", "weponl10", "weponl11", "weponl12", "weponl13", "weponl14", "deseptionprof",
+"deseption", "historyprof", "history", "insightprof", "insight", "intimidationprof",
+"intimidation", "investigationprof", "investigation", "medesenprof", "medicine",
+"nature", "natureprof", "preseptionprof", "preseption", "preformance", "preformanceprof",
+"perswasonprof", "perswason", "relegionprof", "relegion", "slightofhandprof",
+"slightofhand", "stelthprof", "stelth", "servivalprof", "servival", "paswis", "profl1",
+"profl2", "profl3", "profl4", "profl5", "profl6", "gender", "hight", "weight", "skin", "hair",
+"belt_pouch", "clohting", "wepons_aromor", "backpack", "straped_to_sayd_backpack",
+"camtris", "lv1", "lv2", "lv3", "lv4", "lv5", "lv6", "lv7", "lv8", "lv9", "lv1spells", "lv2spells",
+"lv3spells", "lv4spells", "lv5spells", "lv6spells", "lv7spells", "lv8spells", "lv9spells",
+"racetrate", "subrace", "subracetrate", "backroundtrate", "classtrate", "lv1trate",
+"lv2trate", "lv3trate", "lv4trate", "lv5trate", "lv6trate", "lv7trate", "lv8trate",
+"lv9trate", "personalitytrate", "ideals", "bonds", "flaws", "backstory"]
 def inportsave(longvar):
 	longlist = longvar.split(",")  # Split by comma
 	globals_list = [
@@ -307,7 +397,6 @@ def inportsave(longvar):
 	]
 	for i, var_name in enumerate(globals_list):
 		 globals()[var_name] = longlist[i]
-inportsave(input())
 def exportchar():
 	data = [
 		age, name, player_name, race, backround, alingment, classs, xp, level,
@@ -332,8 +421,466 @@ def exportchar():
 	]
 	# Convert all to strings, join by comma
 	return ",".join(map(str, data))
-pp()
-iteration=0
-for x in [age, name, player_name, race, backround, alingment, classs, xp, level,strengthmod, strength, insperation, profishansy, ac, initative, hp, chp,speed, dexmod, dex, con, conmod, wis, wismod, cha, chamod, intelegance,intelegancemod, acrobaticsprof, eyes, temphp, hitdice, acrobatics,animalprof, animal, arcanaprof, arcana, athleticsprof, athletics,weponl1, weponl2, weponl3, weponl4, weponl5, weponl6, weponl7, weponl8,weponl9, weponl10, weponl11, weponl12, weponl13, weponl14, deseptionprof,deseption, historyprof, history, insightprof, insight, intimidationprof,intimidation, investigationprof, investigation, medesenprof, medicine,nature, natureprof, preseptionprof, preseption, preformance, preformanceprof,perswasonprof, perswason, relegionprof, relegion, slightofhandprof,slightofhand, stelthprof, stelth, servivalprof, servival, paswis, profl1,profl2, profl3, profl4, profl5, profl6, gender, hight, weight, skin, hair,belt_pouch, clohting, wepons_aromor, backpack, straped_to_sayd_backpack,camtris, lv1, lv2, lv3, lv4, lv5, lv6, lv7, lv8, lv9, lv1spells, lv2spells,lv3spells, lv4spells, lv5spells, lv6spells, lv7spells, lv8spells, lv9spells,racetrate, subrace, subracetrate, backroundtrate, classtrate, lv1trate,lv2trate, lv3trate, lv4trate, lv5trate, lv6trate, lv7trate, lv8trate,lv9trate, personalitytrate, ideals, bonds, flaws, backstory]:
-  iteration+=1
+
+while True:
+	pp()
+	choice=""
+	unsued=""
+	choice=input("""1 to change
+2 to inport
+3 to export
+4 to roll dice
+5 to quit: """)
+	if choice=="2":
+		inportsave(input("input the save here: "))
+	if choice=="3":
+		print(exportchar())
+		unsued=input()
+	if choice=="4":
+		typeofdice=input("1 for disavantage roll, 2 for normal roll, 3 for advantage roll")
+		countdice=int(input("input the number of dice: "))
+		dicetype=int(input("what is the highest number that can be rolled on that dice type: "))
+		result=0
+		for x in range(0,countdice):
+			result+=random.randint(1,dicetype)
+		if countdice==1 and dicetype==20 and result==20:
+			for t in [1,2,3]:
+				for x in confetty_animation:
+					for x in range(0,99):
+						print("""""")
+					time.sleep(.1)
+					print(x)
+					print("YOU GOT A 20!")
+		else:
+			print(f"you got {result}")
+			input()
+	if choice=="5":
+		quit()
+	if choice=="1":
+		print("""age
+name
+player_name
+race
+backround
+alingment
+classs 
+xp
+level
+strengthmod
+strength
+insperation
+profishansy
+ac
+initative
+hp
+chp
+speed
+dexmod
+dex
+con
+conmod
+wis
+wismod
+cha
+chamod
+intelegance
+intelegancemod
+acrobaticsprof
+eyes
+temphp
+hitdice
+acrobatics
+animalprof
+animal
+arcanaprof
+arcana
+athleticsprof
+athletics
+weponl1
+weponl2
+weponl3
+weponl4
+weponl5
+weponl6
+weponl7
+weponl8
+weponl9
+weponl10
+weponl11
+weponl12
+weponl13
+weponl14
+deseptionprof
+deseption
+historyprof
+history
+insightprof
+insight
+intimidationprof
+intimidation
+investigationprof
+investigation
+medesenprof
+medicine
+nature
+natureprof
+preseptionprof
+preseption
+preformance
+preformanceprof
+perswasonprof
+perswason
+relegionprof
+relegion
+slightofhandprof
+slightofhand
+stelthprof
+stelth
+servivalprof
+servival
+paswis
+profl1
+profl2
+profl3
+profl4
+profl5
+profl6
+gender
+hight
+weight
+skin
+hair
+belt_pouch
+clohting
+wepons_aromor
+backpack
+straped_to_sayd_backpack
+camtris
+lv1
+lv2
+lv3
+lv4
+lv5
+lv6
+lv7
+lv8
+lv9
+lv1spells
+lv2spells
+lv3spells
+lv4spells
+lv5spells
+lv6spells
+lv7spells
+lv8spells
+lv9spells
+racetrate
+subrace
+subracetrate
+backroundtrate
+classtrate
+lv1trate
+lv2trate
+lv3trate
+lv4trate
+lv5trate
+lv6trate
+lv7trate
+lv8trate
+lv9trate
+personalitytrate
+ideals
+bonds
+flaws
+backstory""")
+		change=input("what do you whant to change:")
+		iteration=0
+		if change in globals_list:
+			for x in globals_list:
+				if x==change:
+					break
+				else:
+					iteration+=1
+		if input(f"change {globals_list[iteration]}?(y/n):")=="n":
+			print("ok noting is changed")
+		else:
+			changeto=input(f"change {globals_list[iteration]} to: ")
+			if iteration==0:
+				age=changeto
+			if iteration==1:
+				name=changeto
+			if iteration==2:
+				player_name=changeto
+			if iteration==3:
+				race=changeto
+			if iteration==4:
+				backround=changeto
+			if iteration==5:
+				alingment=changeto
+			if iteration==6:
+				classs=changeto
+			if iteration==7: 
+				xp=changeto
+			if iteration==8:
+				level=changeto
+			if iteration==9:
+				strengthmod=changeto
+			if iteration==10:
+				strength=changeto
+			if iteration==11:
+				insperation=changeto
+			if iteration==12:
+				profishansy=changeto
+			if iteration==13:
+				ac=changeto
+			if iteration==14:
+				initative=changeto
+			if iteration==15:
+				hp=changeto
+			if iteration==16:
+				chp=changeto
+			if iteration==17:
+				speed=changeto
+			if iteration==18:
+				dexmod=changeto
+			if iteration==19:
+				dex=changeto
+			if iteration==20:
+				con=changeto
+			if iteration==21:
+				conmod=changeto
+			if iteration==22:
+				wis=changeto
+			if iteration==23:
+				wismod=changeto
+			if iteration==24:
+				cha=changeto
+			if iteration==25:
+				chamod=changeto
+			if iteration==26:
+				intelegance=changeto
+			if iteration==27:
+				intelegancemod=changeto
+			if iteration==28:
+				acrobaticsprof=changeto
+			if iteration==29:
+				eyes=changeto
+			if iteration==30:
+				temphp=changeto
+			if iteration==31:
+				hitdice=changeto
+			if iteration==32:
+				acrobatics=changeto
+			if iteration==33:
+				animalprof=changeto
+			if iteration==34:
+				animal=changeto
+			if iteration==35:
+				arcanaprof=changeto
+			if iteration==36:
+				arcana=changeto
+			if iteration==37:
+				athleticsprof=changeto
+			if iteration==38:
+				athletics=changeto
+			if iteration==39:
+				weponl1=changeto
+			if iteration==40:
+				weponl2=changeto
+			if iteration==41:
+				weponl3=changeto
+			if iteration==42:
+				weponl4=changeto
+			if iteration==43:
+				weponl5=changeto
+			if iteration==44:
+				weponl6=changeto
+			if iteration==45:
+				weponl7=changeto
+			if iteration==46:
+				weponl8=changeto
+			if iteration==47:
+				weponl9=changeto
+			if iteration==48:
+				weponl10=changeto
+			if iteration==49:
+				weponl11=changeto
+			if iteration==50:
+				weponl12=changeto
+			if iteration==51:
+				weponl13=changeto
+			if iteration==52:
+				weponl14=changeto
+			if iteration==53:
+				deseptionprof=changeto
+			if iteration==54:
+				deseption=changeto
+			if iteration==55:
+				historyprof=changeto
+			if iteration==56:
+				history=changeto
+			if iteration==57:
+				insightprof=changeto
+			if iteration==58:
+				insight=changeto
+			if iteration==59:
+				intimidationprof=changeto
+			if iteration==60:
+				intimidation=changeto
+			if iteration==61:
+				investigationprof=changeto
+			if iteration==62:
+				investigation=changeto
+			if iteration==63:
+				medesenprof=changeto
+			if iteration==64:
+				medicine=changeto
+			if iteration==65:
+				nature=changeto
+			if iteration==66:
+				natureprof=changeto
+			if iteration==67:
+				preseptionprof=changeto
+			if iteration==68:
+				preseption=changeto
+			if iteration==69:
+				preformance=changeto
+			if iteration==70:
+				preformanceprof=changeto
+			if iteration==71:
+				perswasonprof=changeto
+			if iteration==72:
+				perswason=changeto
+			if iteration==73:
+				relegionprof=changeto
+			if iteration==74:
+				relegion=changeto
+			if iteration==75:
+				slightofhandprof=changeto
+			if iteration==76:
+				slightofhand=changeto
+			if iteration==77:
+				stelthprof=changeto
+			if iteration==78:
+				stelth=changeto
+			if iteration==79:
+				servivalprof=changeto
+			if iteration==80:
+				servival=changeto
+			if iteration==81:
+				paswis=changeto
+			if iteration==82:
+				profl1=changeto
+			if iteration==83:
+				profl2=changeto
+			if iteration==84:
+				profl3=changeto
+			if iteration==85:
+				profl4=changeto
+			if iteration==86:
+				profl5=changeto
+			if iteration==87:
+				profl6=changeto
+			if iteration==88:
+				gender=changeto
+			if iteration==89:
+				hight=changeto
+			if iteration==90:
+				weight=changeto
+			if iteration==91:
+				skin=changeto
+			if iteration==92:
+				hair=changeto
+			if iteration==93:
+				belt_pouch=changeto
+			if iteration==94:
+				clohting=changeto
+			if iteration==95:
+				wepons_aromor=changeto
+			if iteration==96:
+				backpack=changeto
+			if iteration==97:
+				straped_to_sayd_backpack=changeto
+			if iteration==98:
+				camtris=changeto
+			if iteration==99:
+				lv1=changeto
+			if iteration==100:
+				lv2=changeto
+			if iteration==101:
+				lv3=changeto
+			if iteration==102:
+				lv4=changeto
+			if iteration==103:
+				lv5=changeto
+			if iteration==104:
+				lv6=changeto
+			if iteration==105:
+				lv7=changeto
+			if iteration==106:
+				lv8=changeto
+			if iteration==107:
+				lv9=changeto
+			if iteration==108:
+				lv1spells=changeto
+			if iteration==109:
+				lv2spells=changeto
+			if iteration==110:
+				lv3spells=changeto
+			if iteration==111:
+				lv4spells=changeto
+			if iteration==112:
+				lv5spells=changeto
+			if iteration==113:
+				lv6spells=changeto
+			if iteration==114:
+				lv7spells=changeto
+			if iteration==115:
+				lv8spells=changeto
+			if iteration==116:
+				lv9spells=changeto
+			if iteration==117:
+				racetrate=changeto
+			if iteration==118:
+				subrace=changeto
+			if iteration==119:
+				subracetrate=changeto
+			if iteration==120:
+				backroundtrate=changeto
+			if iteration==121:
+				classtrate=changeto
+			if iteration==122:
+				lv1trate=changeto
+			if iteration==123:
+				lv2trate=changeto
+			if iteration==124:
+				lv3trate=changeto
+			if iteration==125:
+				lv4trate=changeto
+			if iteration==126:
+				lv5trate=changeto
+			if iteration==127:
+				lv6trate=changeto
+			if iteration==128:
+				lv7trate=changeto
+			if iteration==129:
+				lv8trate=changeto
+			if iteration==130:
+				lv9trate=changeto
+			if iteration==131:
+				personalitytrate=changeto
+			if iteration==132:
+				ideals=changeto
+			if iteration==133:
+				bonds=changeto
+			if iteration==134:
+				flaws=changeto
+			if iteration==135:
+				backstory=changeto
+
+
+			
+			
+
+
 #25,Kaelthar Emberfain,liam,Dragonborn,Soldier,Neutral Good,Ranger,0,1,2,15,0,2,16,2,13,13,30,3,16,14,2,12,1,12,1,10,0,0,Gold,0,1d10,5,1,0,3,0,2,0,2,1,15,0,0,Longbow (1d8+3 Piercing),Shortsword (1d6+3 Slashing),Dagger (1d4+3 Piercing),,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,13,Leather Armor,Explorer's Pack,Ranger's gear,,0,,,,,,,,,,,,,,,,,,Draconic Ancestry (Fire Breath),,Darkvision,Military Rank,monstrosotys,Primeval Awareness,,,,,,,,,,Brave,Always loyal to my allies,I fight for honor and freedom,My anger burns as hot as dragonfire,Kaelthar was born from an ancient draconic bloodline trained as a soldier before bonding with a drake companion. When the bond deepened his essence fused with the drake's granting him primal power and draconic might. He wanders the world seeking justice with dragonfire in his breath and the instincts of a hunter in his soul.
