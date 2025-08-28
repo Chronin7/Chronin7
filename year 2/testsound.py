@@ -1,4 +1,4 @@
-import winsound, time
+import winsound, time, threading
 note_names=["c0"
 ,"c^0"
 ,"db0"
@@ -140,21 +140,22 @@ note_names=["c0"
 ,"db8"
 ,"d8"
 ,"d^8"
-,"eb8"]
-notes_sound=["16"
-,"17","17"
-,"18"
-,"19","19"
-,"21"
-,"22"
-,"23","23"
-,"25"
-,"26","26"
-,"28"
-,"29","29"
-,"31"
-,"32"
-,"33","33"
+,"eb8"
+,"a0"]
+notes_sound=["37"
+,"37","37"
+,"37"
+,"37","37"
+,"37"
+,"37"
+,"37","37"
+,"37"
+,"37","37"
+,"37"
+,"37","37"
+,"37"
+,"37"
+,"37","37"
 ,"38"
 ,"39","39"
 ,"41"
@@ -241,12 +242,11 @@ notes_sound=["16"
 ,"4435","4435"
 ,"4699"
 ,"4978","4978"]
-compiledlist=[]
 def playnote(note,duration):
 	winsound.Beep(note,duration)
-	time.sleep(.1)
+	time.sleep(duration/1000)
 def conpilesound(list_o_notes):
-	global compiledlist
+	compiledlist=[]
 	for x in list_o_notes:
 		iteration=0
 		for y in note_names:
@@ -254,12 +254,48 @@ def conpilesound(list_o_notes):
 				compiledlist.append(int(notes_sound[iteration]))
 			else:
 				iteration+=1
+	return compiledlist
 
 		
-conpilesound(["c4","c4","c5","g4","gb4","f4","eb4","c4","eb4","f4","c4","c4","c5","g4","gb4","f4","eb4","c4","eb4","f4"])
-durataionlist=[150,150,250,150,70,70,]
-for x,y in zip(compiledlist,durataionlist):
-    playnote(x,y)
+notesl1=conpilesound(["d4","d4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","c4","c4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","b4","b4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","bb4","bb4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4""d4","d4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","c4","c4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","b4","b4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","bb4","bb4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","d4","d4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","c4","c4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","b4","b4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4","bb4","bb4","d5","a4","a0","g^4","a0","g4","a0","f4","d4","f4","g4"])
+notesl2=conpilesound(["a0","a0","a0","a0","a0","a0","a0","a0","d5","d5","d6","a5","a0","g^5","a0","g5","a0","f5","d5","f5","g5","c5","c5","d5","a5","a0","g^5","a0","g5","a0","f5","d5","f5","g5","b5","b5","d6","a5","a0","g^5","a0","g5","a0","f5","d5","f5","g5","bb5","bb5","d6","a5","a0","g^5","a0","g5","a0","f5","d5","f5","g5"])
+notesl3=conpilesound(["a0","a0","a0","a0","d3","d3","d3","d3","a0","d3","a0","d3","a0","d3","d3","d3","d3","c3","c3","c3","c3","a0","c3","a0","c3","a0","c3","c3","c3","c3","a3","a3","a3","a3","a0","a3","a0","a3","a0","a3","a3","a3","a3","ab3","ab3","ab3","ab3","a0","ab3","a0","ab3","a0","ab3","ab3","ab3","ab3","d3","d3","d3","d3","a0","d3","a0","d3","a0","d3","d3","d3","d3","c3","c3","c3","c3","a0","c3","a0","c3","a0","c3","c3","c3","c3","a3","a3","a3","a3","a0","a3","a0","a3","a0","a3","a3","a3","a3","ab3","ab3","ab3","ab3","a0","ab3","a0","ab3","a0","ab3","ab3","ab3","ab3"])
+notesl4=conpilesound(["a0","a0","a0","a0","a0","a0","a0","a0","d2","d2","d2","d2","a0","d2","a0","d2","a0","d2","d2","d2","d2","c2","c2","c2","c2","a0","c2","a0","c2","a0","c2","c2","c2","c2","a2","a2","a2","a2","a0","a2","a0","a2","a0","a2","a2","a2","a2","ab2","ab2","ab2","ab2","a0","ab2","a0","ab2","a0","ab2","ab2","ab2","ab2"])
+durataionlistl1=[63,63,125,125,63,63,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63,125,125,63,63,63,63,63,125,63,63,63,63,63]
+durataionlistl2=[1000,1000,1000,1000,1000,1000,1000,1000,63,63,125,125,63,63,63,63,63,63,63,125,125,63,63,63,63,63,63,63,125,125,63,63,63,63,63,63,63,125,125,63,63,63,63,63]
+durataionlistl3=[1000,1000,1000,1000,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125]
+durataionlistl4=[1000,1000,1000,1000,1000,1000,1000,1000,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125,125,125,63,63,63,63,63,63,63,63,63,63,125]
+def playstrin1():
+	global notesl1
+	global durataionlistl1
+	for x,y in zip(notesl1,durataionlistl1):
+		playnote(x,y)
+def playstrin2():
+	global notesl2
+	global durataionlistl2
+	for a,s in zip(notesl2,durataionlistl2):
+		playnote(a,s)
+def playstrin3():
+	global notesl3
+	global durataionlistl3
+	for d,f in zip(notesl3,durataionlistl3):
+		playnote(d,f)
+def playstrin4():
+	global notesl4
+	global durataionlistl4
+	for g,h in zip(notesl4,durataionlistl4):
+		playnote(g,h)
+
+string1=threading.Thread(target=playstrin1())
+#string2=threading.Thread(target=playstrin2())
+#string3=threading.Thread(target=playstrin3())
+#string4=threading.Thread(target=playstrin4())
+string1.start()#, string2.start(), string3.start(), string4.start()
+
+string1.join()
+#string2.join()
+#string3.join()
+#string4.join()
 #Quarter Note Duration = 60,000 / 120 = 500 ms
 #Eighth Note Duration = 500 ms / 2 = 250 ms
 #Sixteenth Note Duration = 500 ms / 4 = 125 ms

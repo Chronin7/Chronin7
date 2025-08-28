@@ -1,3 +1,4 @@
+#lp avrage grade
 import time
 import random
 def type_text(text):
