@@ -333,4 +333,4 @@ start=threading.Thread(target=threadgo())
 start.start
 #Quarter Note Duration = 60,000 / 120 = 500 ms
 #Eighth Note Duration = 500 ms / 2 = 250 ms
-#Sixteenth Note Duration = 500 ms / 4 = 125 ms
+#Sixteenth Note Duration = 500 ms / 4 = 125 ms #winsound is not thread safe UGGGGGGGGGGG
