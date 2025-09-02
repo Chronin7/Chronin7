@@ -245,6 +245,7 @@ notes_sound=["37"
 def playnote1(note,duration):
 	if note == 37:
 		time.sleep(duration/1000)
+  
 	else:
 		winsound.Beep(note,duration)
 		time.sleep(duration/1000)
@@ -276,7 +277,9 @@ def conpilesound(list_o_notes):
 			else:
 				iteration+=1
 	return compiledlist
-
+print(winsound.SND_ASYNC)
+winsound.SND_ASYNC=0
+print(winsound.SND_ASYNC)
 		
 notesl1=conpilesound(["d4","d4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","c4","c4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","b4","b4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","bb4","bb4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4""d4","d4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","c4","c4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","b4","b4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","bb4","bb4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","d4","d4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","c4","c4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","b4","b4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4","bb4","bb4","d5","a4","c0","g^4","c0","g4","c0","f4","d4","f4","g4"])
 notesl2=conpilesound(["c0","c0","c0","c0","c0","c0","c0","c0","d5","d5","d6","a5","c0","g^5","c0","g5","c0","f5","d5","f5","g5","c5","c5","d5","a5","c0","g^5","c0","g5","c0","f5","d5","f5","g5","b5","b5","d6","a5","c0","g^5","c0","g5","c0","f5","d5","f5","g5","bb5","bb5","d6","a5","c0","g^5","c0","g5","c0","f5","d5","f5","g5"])
