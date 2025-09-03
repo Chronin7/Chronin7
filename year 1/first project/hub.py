@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from copy import copy, deepcopy
-import time, random, winsound
+import time, random, winsound, threading
 from typing import List, Dict, Tuple
 confetty_animation=["""
  
@@ -4457,6 +4457,9 @@ backstory""")
 				flaws=changeto
 			if iteration==135:
 				backstory=changeto#25,Kaelthar Emberfain,liam,Dragonborn,Soldier,Neutral Good,Ranger,0,1,2,15,0,2,16,2,13,13,30,3,16,14,2,12,1,12,1,10,0,0,Gold,0,1d10,5,1,0,3,0,2,0,2,1,15,0,0,Longbow (1d8+3 Piercing),Shortsword (1d6+3 Slashing),Dagger (1d4+3 Piercing),,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,13,Leather Armor,Explorer's Pack,Ranger's gear,,0,,,,,,,,,,,,,,,,,,Draconic Ancestry (Fire Breath),,Darkvision,Military Rank,monstrosotys,Primeval Awareness,,,,,,,,,,Brave,Always loyal to my allies,I fight for honor and freedom,My anger burns as hot as dragonfire,Kaelthar was born from an ancient draconic bloodline trained as a soldier before bonding with a drake companion. When the bond deepened his essence fused with the drake's granting him primal power and draconic might. He wanders the world seeking justice with dragonfire in his breath and the instincts of a hunter in his soul.
+def backround_sound():
+    while True:
+   		winsound.PlaySound('P:\perl,liam\Chronin7\Inspiring-Dreams(chosic.com).wav', winsound.SND_FILENAME)
 def hub():
 	global turn
 	global runhub
@@ -4495,8 +4498,10 @@ def hub():
 		type_text("11 for tic tac toe game")
 		type_text("12 for rock paper scissors")
 		type_text("13 for text adventure game (made by mis larose)")
-		type_text("14 THE PROGRAMER (made by liam (Note from hubby: i am scared of this program))")
+		type_text("14 for THE PROGRAMER (made by liam (Note from hubby: i am scared of this program))")
 		type_text("15 for rickle the pickle")
+		type_text("16 for dnd traker")
+		type_text("17 for madlib")
 		hubo = betinput("what do you want: ")
 		if check_int(hubo) == "":
 			type_text("invalid input")
@@ -4635,10 +4640,14 @@ def hub():
 			elif hubo == 16:
 				type_text("here is dnd tracker")
 				dnd()
+			elif hubo==17:
+				type_text("here is libby")
+				madlib()
 			elif hubo == 7232010:
 				code()
 			else:
 				type_text("Sorry this option is not available yet.")
+sound=threading.Thread(target=backround_sound)
 if debuging == False:
 	print("initiating")
 	time.sleep(1.5)
@@ -4650,6 +4659,8 @@ if debuging == False:
 	time.sleep(1.5)
 	print("connection successful")
 	time.sleep(1)
+	sound.start()
 	hub()
 else:
+	sound.start()
 	hub()
