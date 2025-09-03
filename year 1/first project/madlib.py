@@ -17,7 +17,7 @@ silly word: something that sound funny ex: plorp, sizzle
 def madlib():
 	libnum=1
 	while libnum!=0:
-		libnum=input("""i have 13 madlibs 0 to quit, which one would you like to do (0-13): """)
+		libnum=input("""i have 13 madlibs 0 to quit, which one would you like to do (0-13) (12 for the concatenation): """)
 		if libnum=="1": 
 			print(f"""All children have {ask_questen("ADJECTIVE")} memories of the books their
 	mothers and {ask_questen("pLURAL NOUN")} read to them. Here are some of the all-time {ask_questen("ADJECTIVE")} favorites:
@@ -179,8 +179,6 @@ def madlib():
 	market and make a/an {ask_questen("AdjEctIvE")} offer on this treasure. The
 	asking price is a ridiculously low {ask_questen("NUMBER")} dollars. """)
 		elif libnum=="11":
-			the_odd_one=""
-			the_odd_one=ask_questen("animal")
 			print(f"""It is difficult not to envy a young woman who has everything her
 	{ask_questen("PARt OF tHE BOdY")} desires. But history shows it isn't easy being a
 	princess. You have to maintain {ask_questen("AdjEctIvE")} standards and abide
@@ -198,20 +196,9 @@ def madlib():
 	• And, of course, a princess must be prepared to marry a/an
 	{ask_questen("AdjEctIvE")} prince and live {ask_questen("AdvERB")} ever after.""")
 		elif libnum=="12":
-			print(f"""It's summer, and you know what that means: {ask_questen("ADJECTIVE")}
-	weather, icy-cold {ask_questen("NOUN")}-sicles, and big blockbusters. Check
-	out what's coming to a/an {ask_questen("NOUN")} near you this summer!
-	• {ask_questen("PLURAL NOUN")} of the Caribbean: Captain {ask_questen("PERSON IN ROOM (MALE)")}
-	and his band of {ask_questen("ADJECTIVE")} scalawags take to the {ask_questen("ADJECTIVE")}
-	seas in search of buried {ask_questen("PLURAL NOUN")}.
-	• The Big {ask_questen("ADJECTIVE")} Ogre: A cranky ogre named
-	{ask_questen("PERSON IN ROOM (MALE)")}, his sidekick—a/an {the_odd_one}
-	named {the_odd_one}—and a/an {ask_questen("ADJECTIVE")} gang of
-	fairy tale creatures go on a search and {ask_questen("VERB")} mission to
-	rescue Princess {ask_questen("PERSON IN ROOM (FEMALE)")} from a tower guarded by a firebreathing {ask_questen("NOUN")}.
-	• The Boy Wizard: A/An {ask_questen("ADJECTIVE")} boy discovers he
-	possesses magical {ask_questen("PLURAL NOUN")} that he must use to defeat the
-	evil wizard, Lord {ask_questen("PERSON IN ROOM (MALE)")}.""")
+			the_odd_one=""
+			the_odd_one=ask_questen("animal")
+			print("It's summer, and you know what that means: "+ask_questen("ADJECTIVE")+" weather, icy-cold "+ask_questen("NOUN")+"-sicles, and big blockbusters. Check out what's coming to a/an "+ask_questen("NOUN")+" near you this summer! • "+ask_questen("PLURAL NOUN")+" of the Caribbean: Captain "+ask_questen("PERSON IN ROOM (MALE)")+" and his band of "+ask_questen("ADJECTIVE")+" scalawags take to the "+ask_questen("ADJECTIVE")+" seas in search of buried "+ask_questen("PLURAL NOUN")+". • The Big "+ask_questen("ADJECTIVE")+" Ogre: A cranky ogre named "+ask_questen("PERSON IN ROOM (MALE)")+", his sidekick—a/an "+the_odd_one+" named "+the_odd_one+"—and a/an "+ask_questen("ADJECTIVE")+" gang of fairy tale creatures go on a search and "+ask_questen("VERB")+" mission to rescue Princess "+ask_questen("PERSON IN ROOM (FEMALE)")+" from a tower guarded by a firebreathing "+ask_questen("NOUN")+". • The Boy Wizard: A/An "+ask_questen("ADJECTIVE")+" boy discovers he possesses magical "+ask_questen("PLURAL NOUN")+" that he must use to defeat the evil wizard, Lord "+ask_questen("PERSON IN ROOM (MALE)")+".")
 		elif libnum=="13":
 			print(f"""Are you cheery and {ask_questen("PLURAL NOUN")} at the crack of dawn? Do you
 	leap out of bed early in the morning, ready to greet the world with
@@ -231,3 +218,4 @@ def madlib():
 	qualified? Then {ask_questen("VERB")} today for an application!""")
 		elif libnum=="0":
 			return
+madlib()
