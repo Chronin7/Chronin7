@@ -1107,6 +1107,8 @@ def last_bit():
 def pig():
 	type_text("Hi i am Pig")
 	last_bit()
+def inputed_sound(path):
+    winsound.PlaySound(path, winsound.SND_FILENAME)
 def change_settings():
 	global turn
 	global runhub
@@ -1134,6 +1136,7 @@ def change_settings():
 		type_text("1 to toggle typing")
 		type_text("2 to toggle debugging")
 		type_text("3 to change typing speed")
+		type_text("4 to change music")
 		while True:
 			imper = check_int(betinput("what do you want"))
 			if imper != "":
@@ -1157,6 +1160,63 @@ def change_settings():
 				sett = check_float(betinput("what do you want to change the typing speed to: "))
 				if sett != "":
 					break
+		elif imper == 4:
+			while True:
+				type_text("0 to return")
+				type_text("1 for inspiering dreams")
+				type_text("2 for wildflowers")
+				type_text("3 for sonder")
+				type_text("4 for memories of spring")
+				type_text("5 to turn sound off")
+				type_text("6 to import song")
+				choise=check_input(betinput("what is your choice: "),["0","1","2","3","4","5"])
+				if choise==0:
+					break
+				elif choise=="1":
+					winsound.PlaySound(None, winsound.SND_PURGE)
+					sound0.join()
+					sound1.join()
+					sound2.join()
+					sound3.join()
+					sound0.start()
+				elif choise=="2":
+					winsound.PlaySound(None, winsound.SND_PURGE)
+					sound0.join()
+					sound1.join()
+					sound2.join()
+					sound3.join()
+					sound1.start()
+				elif choise=="3":
+					winsound.PlaySound(None, winsound.SND_PURGE)
+					sound0.join()
+					sound1.join()
+					sound2.join()
+					sound3.join()
+					sound2.start()
+				elif choise=="4":
+					winsound.PlaySound(None, winsound.SND_PURGE)
+					sound0.join()
+					sound1.join()
+					sound2.join()
+					sound3.join()
+					sound0.start()
+				elif choise=="5":
+					winsound.PlaySound(None, winsound.SND_PURGE)
+					sound0.join()
+					sound1.join()
+					sound2.join()
+					sound3.join()
+				elif choise=="6":
+					try:
+						input_path=input("input the path to the file (note it needs to be uploaded somewere in the file): ")
+						input_sound=threading.Thread(target=inputed_sound(input_path))
+					except:
+						type_text("an error ocured try again")
+					
+
+
+
+
 def farinhight451():
 	global turn
 	global runhub
@@ -4457,9 +4517,20 @@ backstory""")
 				flaws=changeto
 			if iteration==135:
 				backstory=changeto#25,Kaelthar Emberfain,liam,Dragonborn,Soldier,Neutral Good,Ranger,0,1,2,15,0,2,16,2,13,13,30,3,16,14,2,12,1,12,1,10,0,0,Gold,0,1d10,5,1,0,3,0,2,0,2,1,15,0,0,Longbow (1d8+3 Piercing),Shortsword (1d6+3 Slashing),Dagger (1d4+3 Piercing),,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,13,Leather Armor,Explorer's Pack,Ranger's gear,,0,,,,,,,,,,,,,,,,,,Draconic Ancestry (Fire Breath),,Darkvision,Military Rank,monstrosotys,Primeval Awareness,,,,,,,,,,Brave,Always loyal to my allies,I fight for honor and freedom,My anger burns as hot as dragonfire,Kaelthar was born from an ancient draconic bloodline trained as a soldier before bonding with a drake companion. When the bond deepened his essence fused with the drake's granting him primal power and draconic might. He wanders the world seeking justice with dragonfire in his breath and the instincts of a hunter in his soul.
-def backround_sound():
-    while True:
-   		winsound.PlaySound('P:\perl,liam\Chronin7\Inspiring-Dreams(chosic.com).wav', winsound.SND_FILENAME)
+def backround_sound(play):
+	while True:
+		if play==0:
+			winsound.PlaySound('P:\perl,liam\Chronin7\Inspiring-Dreams(chosic.com).wav', winsound.SND_FILENAME)
+		elif play==1:
+			winsound.PlaySound('P:\perl,liam\Chronin7\Wildflowers-chosic.com_.wav', winsound.SND_FILENAME)
+		elif play==2:
+			winsound.PlaySound('P:\perl,liam\Chronin7\Sonder(chosic.com).wav', winsound.SND_FILENAME)
+		elif play==3:
+			winsound.PlaySound('P:\perl,liam\Chronin7\Memories-of-Spring(chosic.com).wav', winsound.SND_FILENAME)
+sound0=threading.Thread(target=backround_sound(0))
+sound1=threading.Thread(target=backround_sound(1))
+sound2=threading.Thread(target=backround_sound(2))
+sound3=threading.Thread(target=backround_sound(3))
 def hub():
 	global turn
 	global runhub
@@ -4647,7 +4718,7 @@ def hub():
 				code()
 			else:
 				type_text("Sorry this option is not available yet.")
-sound=threading.Thread(target=backround_sound)
+
 if debuging == False:
 	print("initiating")
 	time.sleep(1.5)
