@@ -1,5 +1,6 @@
 #liam p who are you
 namelist=[]
+print(chr(200))
 agelist=[]
 collorlist=[]
 while True:
