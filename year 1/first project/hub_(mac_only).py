@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from copy import copy, deepcopy
-import time, random, threading
+import time, random, threading ,os,subprocess,platform,signal,atexit
+from queue import Queue
 from typing import List, Dict, Tuple
 confetty_animation=["""
  
@@ -344,6 +345,19 @@ name: str
 quest = "To seek the Holy Grail"
 playedAmount = 0
 damagebuff=0
+def play_wav_mac(file_path):
+    """
+    Plays a WAV file on macOS using the built-in 'afplay' command.
+
+    Args:
+        file_path (str): The path to the WAV file.
+    """
+    try:
+        subprocess.run(["afplay", file_path])
+    except FileNotFoundError:
+        print("Error: 'afplay' command not found. This method is specific to macOS.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 def betinput(questen):
 	type_text(questen)
 	the_input_to_end_all_inputs=input()
@@ -1106,6 +1120,91 @@ def last_bit():
 def pig():
 	type_text("Hi i am Pig")
 	last_bit()
+class MusicManager:
+    def __init__(self):
+        self._command_queue = Queue()
+        self._music_thread = None
+        self._current_process = None
+        self._thread_should_run = threading.Event()
+        self.songs = {
+            "1": "inspiring_dreams.wav",
+            "2": "wildflowers.wav",
+            "3": "sonder.wav",
+            "4": "memories_of_spring.wav",
+        }
+        atexit.register(self.stop_music)
+        self.start_music_thread()
+
+    def start_music_thread(self):
+        if not self._music_thread or not self._music_thread.is_alive():
+            self._thread_should_run.set()
+            self._music_thread = threading.Thread(target=self._music_worker, daemon=True)
+            self._music_thread.start()
+
+    def _music_worker(self):
+        current_path = None
+        while self._thread_should_run.is_set():
+            try:
+                # Wait for a new command with a timeout
+                path = self._command_queue.get(timeout=1)
+                
+                # If a new path is received, kill the old process
+                if self._current_process and self._current_process.poll() is None:
+                    self._kill_process(self._current_process)
+                
+                # Start a new process
+                current_path = path
+                command = self._get_play_command(current_path)
+                preexec_fn = os.setsid if platform.system().lower() != 'windows' else None
+                self._current_process = subprocess.Popen(command, preexec_fn=preexec_fn,
+                                                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                print(f"Now playing: {os.path.basename(current_path)}")
+
+            except Exception:
+                # If the queue times out, check if the current song is still playing
+                if self._current_process and self._current_process.poll() is not None:
+                    # The process finished, restart it to loop the music
+                    if current_path:
+                        command = self._get_play_command(current_path)
+                        preexec_fn = os.setsid if platform.system().lower() != 'windows' else None
+                        self._current_process = subprocess.Popen(command, preexec_fn=preexec_fn,
+                                                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                else:
+                    pass # Keep waiting for a new command
+
+    def _get_play_command(self, file_path):
+        system = platform.system().lower()
+        if system == "windows":
+            return ["start", "/B", "", file_path]
+        elif system == "linux":
+            return ["ffplay", "-nodisp", "-autoexit", file_path]
+        elif system == "darwin":
+            return ["afplay", file_path]
+        else:
+            return None
+
+    def _kill_process(self, process):
+        try:
+            if process.poll() is None:
+                if platform.system().lower() != 'windows':
+                    os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+                else:
+                    subprocess.Popen(['taskkill', '/PID', str(process.pid), '/F', '/T'])
+                process.terminate()
+        except (ProcessLookupError, OSError, subprocess.TimeoutExpired):
+            pass
+
+    def play_song(self, file_path):
+        self._command_queue.put(file_path)
+
+    def stop_music(self):
+        self._thread_should_run.clear()
+        if self._current_process and self._current_process.poll() is None:
+            self._kill_process(self._current_process)
+        self._current_process = None
+
+    def __del__(self):
+        self.stop_music()
 def change_settings():
 	global turn
 	global runhub
@@ -1127,35 +1226,56 @@ def change_settings():
 	global type_speed
 	global player_score
 	global com_score
+	music_manager = MusicManager()
+		
 	while True:
 		type_text("ok")
-		type_text("0 to go back to the terminal")
+		type_text("0 to go back to the hub")
 		type_text("1 to toggle typing")
 		type_text("2 to toggle debugging")
 		type_text("3 to change typing speed")
+		#type_text("4 to change music")
 		while True:
 			imper = check_int(betinput("what do you want"))
-			if imper != "":
-				
+			if imper is not None:
 				break
 		if imper == 0:
-			type_text("ok back to the terminal")
+			type_text("ok back to the hub")
 			break
 		elif imper == 1:
-			if typing == True:
-				typing = False
-			else:
-				typing = True
+			typing = not typing
+			type_text(f"Typing is now {'on' if typing else 'off'}")
 		elif imper == 2:
-			if debuging == True:
-				debuging = False
-			else:
-				debuging = True
+			debuging = not debuging
+			type_text(f"Debugging is now {'on' if debuging else 'off'}")
 		elif imper == 3:
 			while True:
 				sett = check_float(betinput("what do you want to change the typing speed to: "))
-				if sett != "":
+				if sett is not None:
+					type_speed = sett 
+					type_text(f"Typing speed set to {sett}")
 					break
+		elif imper == "":
+			while True:
+				type_text("--- Change Music ---")
+				type_text("0 to return")
+				type_text("1 for Inspiring Dreams")
+				type_text("2 for Wildflowers")
+				type_text("3 for Sonder")
+				type_text("4 for Memories of Spring")
+				type_text("5 to turn sound off")
+				type_text("6 to import a song")
+				choice = check_input(betinput("what is your choice: "), ["0", "1", "2", "3", "4", "5", "6"])
+				if choice == "0":
+					break
+				elif choice in music_manager.songs:
+					music_manager.play_song(music_manager.songs[choice])
+				elif choice == "5":
+					music_manager.stop_music()
+					type_text("Sound is now off.")
+				elif choice == "6":
+					input_path = input("Input the path to the file: ")
+					music_manager.import_and_play(input_path)
 def farinhight451():
 	global turn
 	global runhub
@@ -4643,6 +4763,7 @@ def hub():
 				code()
 			else:
 				type_text("Sorry this option is not available yet.")
+my_music_manager = MusicManager()
 
 if debuging == False:
 	print("initiating")
@@ -4655,8 +4776,8 @@ if debuging == False:
 	time.sleep(1.5)
 	print("connection successful")
 	time.sleep(1)
-	sound.start()
+	my_music_manager.play_song("/Users/allenperl/homework/Chronin7/Inspiring-Dreams(chosic.com).wav")
 	hub()
 else:
-	sound.start()
+	my_music_manager.play_song("/Users/allenperl/homework/Chronin7/Inspiring-Dreams(chosic.com).wav")
 	hub()

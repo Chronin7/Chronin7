@@ -32,6 +32,8 @@ while True:
 			av = bool(input("what is you grade in persentage (no persentage sign pleese): "))
 			if av < 65:
 				type_text("you have a F and have a GPA of 0")
+				time.sleep(2)
+				type_text("WHAT IN TARNATION DID YOU DO")
 			elif av < 66:
 				type_text("you have a D- and have a GPA of ~.67")
 			elif av < 66:

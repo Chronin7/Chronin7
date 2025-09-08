@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from copy import copy, deepcopy
-import time, random, winsound, threading
+import time, random, winsound, threading, os
 from typing import List, Dict, Tuple
 confetty_animation=["""
  
@@ -1107,112 +1107,119 @@ def last_bit():
 def pig():
 	type_text("Hi i am Pig")
 	last_bit()
-def inputed_sound(path):
-    winsound.PlaySound(path, winsound.SND_FILENAME)
-def change_settings():
-	global turn
-	global runhub
-	global debuging
-	global invertedP
-	global iterationP
-	global runnerP
-	global var
-	global hubo
-	global operation
-	global easterEggCount
-	global maxGuessCount
-	global minGuess
-	global maxGuess
-	global playCount
-	global playAgain
-	global debuging
-	global typing
-	global type_speed
-	global player_score
-	global com_score
-	while True:
-		type_text("ok")
-		type_text("0 to go back to the terminal")
-		type_text("1 to toggle typing")
-		type_text("2 to toggle debugging")
-		type_text("3 to change typing speed")
-		type_text("4 to change music")
-		while True:
-			imper = check_int(betinput("what do you want"))
-			if imper != "":
+class MusicManager:
+		def __init__(self):
+				self.stop_event = threading.Event()
+				self.current_song_thread = None
+				self.songs = {
+						"1": "inspiering_dreams.wav",
+						"2": "wildflowers.wav",
+						"3": "sonder.wav",
+						"4": "memories_of_spring.wav",
+						
+				}
+
+		def _play_looping_winsound(self, file_path, event):
+				"""Internal function for the music thread to play a sound in a loop."""
+				try:
+						while not event.is_set():
+								# Loop continuously by re-playing the sound.
+								winsound.PlaySound(file_path, winsound.SND_FILENAME | winsound.SND_ASYNC)
+								time.sleep(1) # Sleep to prevent a busy loop.
+				except Exception as e:
+						type_text(f"Error in music thread: {e}")
+				finally:
+						winsound.PlaySound(None, winsound.SND_PURGE) # Stop any remaining sound
+
+		def play_song(self, file_path):
+				"""Starts a new thread to play a specific song."""
+				self.stop_music()	# Stop any existing music first
 				
-				break
-		if imper == 0:
-			type_text("ok back to the terminal")
-			break
-		elif imper == 1:
-			if typing == True:
-				typing = False
-			else:
-				typing = True
-		elif imper == 2:
-			if debuging == True:
-				debuging = False
-			else:
-				debuging = True
-		elif imper == 3:
-			while True:
-				sett = check_float(betinput("what do you want to change the typing speed to: "))
-				if sett != "":
-					break
-		elif imper == 4:
-			while True:
-				type_text("0 to return")
-				type_text("1 for inspiering dreams")
-				type_text("2 for wildflowers")
-				type_text("3 for sonder")
-				type_text("4 for memories of spring")
-				type_text("5 to turn sound off")
-				type_text("6 to import song")
-				choise=check_input(betinput("what is your choice: "),["0","1","2","3","4","5"])
-				if choise==0:
-					break
-				elif choise=="1":
-					winsound.PlaySound(None, winsound.SND_PURGE)
-					sound0.join()
-					sound1.join()
-					sound2.join()
-					sound3.join()
-					sound0.start()
-				elif choise=="2":
-					winsound.PlaySound(None, winsound.SND_PURGE)
-					sound0.join()
-					sound1.join()
-					sound2.join()
-					sound3.join()
-					sound1.start()
-				elif choise=="3":
-					winsound.PlaySound(None, winsound.SND_PURGE)
-					sound0.join()
-					sound1.join()
-					sound2.join()
-					sound3.join()
-					sound2.start()
-				elif choise=="4":
-					winsound.PlaySound(None, winsound.SND_PURGE)
-					sound0.join()
-					sound1.join()
-					sound2.join()
-					sound3.join()
-					sound0.start()
-				elif choise=="5":
-					winsound.PlaySound(None, winsound.SND_PURGE)
-					sound0.join()
-					sound1.join()
-					sound2.join()
-					sound3.join()
-				elif choise=="6":
-					try:
-						input_path=input("input the path to the file (note it needs to be uploaded somewere in the file): ")
-						input_sound=threading.Thread(target=inputed_sound(input_path))
-					except:
-						type_text("an error ocured try again")
-					
+				self.stop_event.clear()
+				self.current_song_thread = threading.Thread(
+						target=self._play_looping_winsound,
+						args=(file_path, self.stop_event)
+				)
+				self.current_song_thread.daemon = True
+				self.current_song_thread.start()
+				type_text(f"Now playing: {os.path.basename(file_path)}")
+
+		def stop_music(self):
+				"""Stops the currently playing music thread."""
+				if self.current_song_thread and self.current_song_thread.is_alive():
+						self.stop_event.set()
+						self.current_song_thread.join()
+				winsound.PlaySound(None, winsound.SND_PURGE)
+
+		def import_and_play(self, filepath):
+				"""Imports and plays a user-provided song."""
+				if not os.path.exists(filepath):
+						type_text("Error: File not found. Please ensure the file is in the correct directory.")
+						return
+				
+				self.play_song(filepath)
+
+
+# Main function using the MusicManager
+def change_settings():
+		# Variables that are part of your global state
+		typing = True
+		debuging = False
+		
+		music_manager = MusicManager()
+		
+		while True:
+				type_text("ok")
+				type_text("0 to go back to the hub")
+				type_text("1 to toggle typing")
+				type_text("2 to toggle debugging")
+				type_text("3 to change typing speed")
+				type_text("4 to change music")
+				
+				while True:
+						imper = check_int(betinput("what do you want"))
+						if imper is not None:
+								break
+				
+				if imper == 0:
+						type_text("ok back to the hub")
+						break
+				elif imper == 1:
+						typing = not typing
+						type_text(f"Typing is now {'on' if typing else 'off'}")
+				elif imper == 2:
+						debuging = not debuging
+						type_text(f"Debugging is now {'on' if debuging else 'off'}")
+				elif imper == 3:
+						while True:
+								sett = check_float(betinput("what do you want to change the typing speed to: "))
+								if sett is not None:
+										type_speed = sett 
+										type_text(f"Typing speed set to {sett}")
+										break
+				elif imper == 4:
+						while True:
+								type_text("0 to return")
+								type_text("1 for inspiering dreams")
+								type_text("2 for wildflowers")
+								type_text("3 for sonder")
+								type_text("4 for memories of spring")
+								type_text("5 to turn sound off")
+								type_text("6 to import song")
+								
+								choice = check_input(betinput("what is your choice: "), ["0", "1", "2", "3", "4", "5", "6"])
+								
+								if choice == "0":
+										break
+								elif choice in music_manager.songs:
+										music_manager.play_song(music_manager.songs[choice])
+								elif choice == "5":
+										music_manager.stop_music()
+										type_text("Sound is now off.")
+								elif choice == "6":
+										input_path = input("input the path to the file (e.g., C:/music/mysong.wav): ")
+										music_manager.import_and_play(input_path)
+
 
 
 
