@@ -12,7 +12,7 @@ while True:
     except:
         print("dat ain't a valid input")
 share=round(booty/(10+hands),2)
-print(f"capitan gets: {share*7} booty")
-print(f"first mate gets: {share*3} booty")
-print(f"each hand gets {share} booty")
+print(f"capitan gets: {(share*7)+500} booty")
+print(f"first mate gets: {(share*3)+500} booty")
+print(f"each hand gets {share+500} booty")
 
