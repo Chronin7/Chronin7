@@ -66,3 +66,4 @@ def board_game_loop(playerx,playery):
 	print(f"{disprint}x")
 	print(vertprint,end="")
 	print("")
+"▓"
