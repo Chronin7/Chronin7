@@ -1194,7 +1194,7 @@ def change_settings():
 					utills.type_text("4 for memories of spring")
 					utills.type_text("5 to turn sound off")
 					utills.type_text("6 to import song")
-					choice = check_input(utills.betinput("what is your choice: "), ["0", "1", "2", "3", "4", "5", "6"])
+					choice = utills.check_input(utills.betinput("what is your choice: "), ["0", "1", "2", "3", "4", "5", "6"])
 					if choice == "0":
 						break
 					elif choice in music_manager.songs:
