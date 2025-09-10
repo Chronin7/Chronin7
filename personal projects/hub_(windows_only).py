@@ -1108,122 +1108,103 @@ def pig():
 	type_text("Hi i am Pig")
 	last_bit()
 class MusicManager:
-		def __init__(self):
-				self.stop_event = threading.Event()
-				self.current_song_thread = None
-				self.songs = {
-						"1": "inspiering_dreams.wav",
-						"2": "wildflowers.wav",
-						"3": "sonder.wav",
-						"4": "memories_of_spring.wav",
-						
-				}
+	def __init__(self):
+		self.stop_event = threading.Event()
+		self.current_song_thread = None
+		self.songs = {
+"1": "inspiering_dreams.wav",
+"2": "wildflowers.wav",
+"3": "sonder.wav",
+"4": "memories_of_spring.wav",}
 
 		def _play_looping_winsound(self, file_path, event):
-				"""Internal function for the music thread to play a sound in a loop."""
-				try:
-						while not event.is_set():
-								# Loop continuously by re-playing the sound.
-								winsound.PlaySound(file_path, winsound.SND_FILENAME | winsound.SND_ASYNC)
-								time.sleep(1) # Sleep to prevent a busy loop.
-				except Exception as e:
-						type_text(f"Error in music thread: {e}")
-				finally:
-						winsound.PlaySound(None, winsound.SND_PURGE) # Stop any remaining sound
-
-		def play_song(self, file_path):
-				"""Starts a new thread to play a specific song."""
-				self.stop_music()	# Stop any existing music first
-				
-				self.stop_event.clear()
-				self.current_song_thread = threading.Thread(
-						target=self._play_looping_winsound,
-						args=(file_path, self.stop_event)
-				)
-				self.current_song_thread.daemon = True
-				self.current_song_thread.start()
-				type_text(f"Now playing: {os.path.basename(file_path)}")
-
-		def stop_music(self):
-				"""Stops the currently playing music thread."""
-				if self.current_song_thread and self.current_song_thread.is_alive():
-						self.stop_event.set()
-						self.current_song_thread.join()
-				winsound.PlaySound(None, winsound.SND_PURGE)
-
-		def import_and_play(self, filepath):
-				"""Imports and plays a user-provided song."""
-				if not os.path.exists(filepath):
-						type_text("Error: File not found. Please ensure the file is in the correct directory.")
-						return
-				
-				self.play_song(filepath)
+			"""Internal function for the music thread to play a sound in a loop."""
+			try:
+				while not event.is_set():
+					# Loop continuously by re-playing the sound.
+					winsound.PlaySound(file_path, winsound.SND_FILENAME | winsound.SND_ASYNC)
+					time.sleep(1) # Sleep to prevent a busy loop.
+			except Exception as e:
+				type_text(f"Error in music thread: {e}")
+			finally:
+				winsound.PlaySound(None, winsound.SND_PURGE) # Stop any remaining sound
+	def play_song(self, file_path):
+		"""Starts a new thread to play a specific song."""
+		self.stop_music()	# Stop any existing music first
+		self.stop_event.clear()
+		self.current_song_thread = threading.Thread(
+			target=self._play_looping_winsound,
+			args=(file_path, self.stop_event))
+		self.current_song_thread.daemon = True
+		self.current_song_thread.start()
+		type_text(f"Now playing: {os.path.basename(file_path)}")
+	def stop_music(self):
+		"""Stops the currently playing music thread."""
+		if self.current_song_thread and self.current_song_thread.is_alive():
+			self.stop_event.set()
+			self.current_song_thread.join()
+		winsound.PlaySound(None, winsound.SND_PURGE)
+	def import_and_play(self, filepath):
+		"""Imports and plays a user-provided song."""
+		if not os.path.exists(filepath):
+			type_text("Error: File not found. Please ensure the file is in the correct directory.")
+			return
+		self.play_song(filepath)
 
 
 # Main function using the MusicManager
 def change_settings():
-		# Variables that are part of your global state
-		typing = True
-		debuging = False
-		
-		music_manager = MusicManager()
-		
+	global typing
+	global debuging
+	global type_speed
+	music_manager = MusicManager()
+	while True:
+		type_text("ok")
+		type_text("0 to go back to the hub")
+		type_text("1 to toggle typing")
+		type_text("2 to toggle debugging")
+		type_text("3 to change typing speed")
+		type_text("4 to change music")
 		while True:
-				type_text("ok")
-				type_text("0 to go back to the hub")
-				type_text("1 to toggle typing")
-				type_text("2 to toggle debugging")
-				type_text("3 to change typing speed")
-				type_text("4 to change music")
-				
+			imper = check_int(betinput("what do you want"))
+			if imper is not None:
+				break
+			if imper == 0:
+				type_text("ok back to the hub")
+				break
+			elif imper == 1:
+				typing = not typing
+				type_text(f"Typing is now {'on' if typing else 'off'}")
+			elif imper == 2:
+				debuging = not debuging
+				type_text(f"Debugging is now {'on' if debuging else 'off'}")
+			elif imper == 3:
 				while True:
-						imper = check_int(betinput("what do you want"))
-						if imper is not None:
-								break
-				
-				if imper == 0:
-						type_text("ok back to the hub")
+					sett = check_float(betinput("what do you want to change the typing speed to: "))
+					if sett is not None:
+						type_speed = sett 
+						type_text(f"Typing speed set to {sett}")
 						break
-				elif imper == 1:
-						typing = not typing
-						type_text(f"Typing is now {'on' if typing else 'off'}")
-				elif imper == 2:
-						debuging = not debuging
-						type_text(f"Debugging is now {'on' if debuging else 'off'}")
-				elif imper == 3:
-						while True:
-								sett = check_float(betinput("what do you want to change the typing speed to: "))
-								if sett is not None:
-										type_speed = sett 
-										type_text(f"Typing speed set to {sett}")
-										break
-				elif imper == 4:
-						while True:
-								type_text("0 to return")
-								type_text("1 for inspiering dreams")
-								type_text("2 for wildflowers")
-								type_text("3 for sonder")
-								type_text("4 for memories of spring")
-								type_text("5 to turn sound off")
-								type_text("6 to import song")
-								
-								choice = check_input(betinput("what is your choice: "), ["0", "1", "2", "3", "4", "5", "6"])
-								
-								if choice == "0":
-										break
-								elif choice in music_manager.songs:
-										music_manager.play_song(music_manager.songs[choice])
-								elif choice == "5":
-										music_manager.stop_music()
-										type_text("Sound is now off.")
-								elif choice == "6":
-										input_path = input("input the path to the file (e.g., C:/music/mysong.wav): ")
-										music_manager.import_and_play(input_path)
-
-
-
-
-
+			elif imper == 4:
+				while True:
+					type_text("0 to return")
+					type_text("1 for inspiering dreams")
+					type_text("2 for wildflowers")
+					type_text("3 for sonder")
+					type_text("4 for memories of spring")
+					type_text("5 to turn sound off")
+					type_text("6 to import song")
+					choice = check_input(betinput("what is your choice: "), ["0", "1", "2", "3", "4", "5", "6"])
+					if choice == "0":
+						break
+					elif choice in music_manager.songs:
+						music_manager.play_song(music_manager.songs[choice])
+					elif choice == "5":
+						music_manager.stop_music()
+						type_text("Sound is now off.")
+					elif choice == "6":
+						input_path = input("input the path to the file (e.g., C:/music/mysong.wav): ")
+						music_manager.import_and_play(input_path)
 def farinhight451():
 	global turn
 	global runhub
@@ -4524,20 +4505,6 @@ backstory""")
 				flaws=changeto
 			if iteration==135:
 				backstory=changeto#25,Kaelthar Emberfain,liam,Dragonborn,Soldier,Neutral Good,Ranger,0,1,2,15,0,2,16,2,13,13,30,3,16,14,2,12,1,12,1,10,0,0,Gold,0,1d10,5,1,0,3,0,2,0,2,1,15,0,0,Longbow (1d8+3 Piercing),Shortsword (1d6+3 Slashing),Dagger (1d4+3 Piercing),,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,13,Leather Armor,Explorer's Pack,Ranger's gear,,0,,,,,,,,,,,,,,,,,,Draconic Ancestry (Fire Breath),,Darkvision,Military Rank,monstrosotys,Primeval Awareness,,,,,,,,,,Brave,Always loyal to my allies,I fight for honor and freedom,My anger burns as hot as dragonfire,Kaelthar was born from an ancient draconic bloodline trained as a soldier before bonding with a drake companion. When the bond deepened his essence fused with the drake's granting him primal power and draconic might. He wanders the world seeking justice with dragonfire in his breath and the instincts of a hunter in his soul.
-def backround_sound(play):
-	while True:
-		if play==0:
-			winsound.PlaySound('P:\perl,liam\Chronin7\Inspiring-Dreams(chosic.com).wav', winsound.SND_FILENAME)
-		elif play==1:
-			winsound.PlaySound('P:\perl,liam\Chronin7\Wildflowers-chosic.com_.wav', winsound.SND_FILENAME)
-		elif play==2:
-			winsound.PlaySound('P:\perl,liam\Chronin7\Sonder(chosic.com).wav', winsound.SND_FILENAME)
-		elif play==3:
-			winsound.PlaySound('P:\perl,liam\Chronin7\Memories-of-Spring(chosic.com).wav', winsound.SND_FILENAME)
-sound0=threading.Thread(target=backround_sound(0))
-sound1=threading.Thread(target=backround_sound(1))
-sound2=threading.Thread(target=backround_sound(2))
-sound3=threading.Thread(target=backround_sound(3))
 def hub():
 	global turn
 	global runhub
@@ -4737,8 +4704,8 @@ if debuging == False:
 	time.sleep(1.5)
 	print("connection successful")
 	time.sleep(1)
-	sound.start()
+	MusicManager.play_song(MusicManager,"P:/perl,liam/Chronin7/Inspiring-Dreams(chosic.com).wav")
 	hub()
 else:
-	sound.start()
+	MusicManager.play_song(MusicManager,"P:/perl,liam/Chronin7/Inspiring-Dreams(chosic.com).wav")
 	hub()
