@@ -2,7 +2,7 @@ import threading
 import time
 import random
 import os
-import pyautogui
+import keyboard
 #defining vars
 playerx=2
 playery=102
@@ -192,24 +192,11 @@ def get_map_shown(playery, playerx):
 
 def print_buffer(buffer):
 	"""Prints the buffer content to the console."""
-	#os.system('cls' if os.name == 'nt' else 'clear')
+	os.system('cls' if os.name == 'nt' else 'clear')
 	for line in buffer:
 		for ch in line:
 			print(ch, end="")
 		print()
-
-def get_single_char():
-	screen = curses.initscr()
-	curses.noecho()
-	curses.cbreak()
-	char = screen.getch()
-
-	key = screen.getch()
-	new_key = key
-	while new_key == key:
-		new_key = screen.getch() # This will block until a new key is pressed or nodelay is active
-	key = new_key
-	return chr(char)
 
 def board_game_loop(playerx, playery):
 	"""
@@ -226,18 +213,9 @@ def board_game_loop(playerx, playery):
 	print_buffer(buffer)
 #main game loop
 move=""
-def moveer():
-	global move
-	move=get_single_char()
-	board_game_loop(playerx,playery)
-	return
-movethred=threading.Thread(target=moveer)
 
-while True: 
-	try:
-		movethred.start()
-	except:
-		pass
+while True:
+	move = keyboard.read_key()
 	#print(board_val[playery][playerx])
 	#print(playerx)
 	#print(playery)
@@ -254,7 +232,6 @@ while True:
 		playery = max(0, playery-vol)
 		if not vol <= -1:
 			vol-=1
-	curses.flushinp()
 	move=""
 	curant_pos =board_val[playery][playerx]
 	if curant_pos=="d":
