@@ -1,0 +1,1 @@
+import random;num=random.randint(1,100);exec('while(guess:=int(input("what is your guess 1-100")))==num:print("too "+("low"if guess<num else "high")): print("you win")')
