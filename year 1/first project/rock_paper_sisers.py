@@ -1,4 +1,4 @@
-
+# LP 1 rock paper sisers
 import random
 import time
 player_score = 0
