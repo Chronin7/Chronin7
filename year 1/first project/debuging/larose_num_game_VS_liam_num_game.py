@@ -1,4 +1,4 @@
-#fix the game
+#LP 1 fix the game
 #laroses game
 import random
 def start_game():
