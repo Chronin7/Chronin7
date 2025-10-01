@@ -21,5 +21,7 @@ def speak():
     engine.runAndWait()
     engine.stop()
 text_init()
-add_to_que("hi this is faster then fast dinosaur")
+add_to_que("hi this is faster then fast")
 speak()
+for stuff in [1,2,3,4,5]:
+    print(stuff)
