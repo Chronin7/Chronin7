@@ -1,4 +1,5 @@
-#def check num(peramaters):
+#import random
+# def check num(peramaters):
 #	if peramaters is in 1,2,3,4,5,6,7,8,9,0
 #	then	
 #		return True
@@ -16,16 +17,17 @@
 #		return True
 #	else
 #		return False
-#
-#reapet forever:
+# def make password():
+# 	
+#reapet untill user quits:
 #	password=input(whast your passord)
-#	
-# def printit(score,password,lacking):
-#	if lacking:
-#
-#
-#
-#
+#	printit(password)
+# def printit(password):
+# 	score=5
+#	for x in [length,syimble,cap,low,num]:
+#		if password not have x:
+#			score-=1
+#			recemended=x
 #	print(f"""
 # {stren[4]}          {recemended}
 # {stren[3]}          recomendations
