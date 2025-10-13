@@ -18,7 +18,30 @@
 #	else
 #		return False
 # def make password():
-# 	
+# 	out.append(str(random_num(0,9)))
+#	out.append([q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m][random_num(1,26)])
+#	out.append([Q,W,E,R,T,Y,U,I,O,P,A,S,D,F,G,H,J,K,L,Z,X,C,V,B,N,M][random_num(1,26)])
+# 	out.append(chr(random_num(100,500)))
+#	out.append(str(random_num(0,9)))
+#	out.append([q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m][random_num(1,26)])
+#	out.append([Q,W,E,R,T,Y,U,I,O,P,A,S,D,F,G,H,J,K,L,Z,X,C,V,B,N,M][random_num(1,26)])
+# 	out.append(chr(random_num(100,500)))
+# 	for x in out:
+#		returned = returned+x
+#	return returned
+# def make strength meater(score):
+#	if score==0:
+#		stren=["⬛️","⬛","⬛️","⬛️","⬛️"]
+#	if score==1:
+#		stren=["🟥","⬛️","⬛️","⬛️","⬛️"]
+#	if score==2:
+#		stren=["🟥","🟧","⬛️","⬛️","⬛️"]
+#	if score==3:
+#		stren=["🟥","🟧","🟨","⬛️","⬛️"]
+#	if score==4:
+#		stren=["🟥","🟧","🟨","🟩","⬛️"]
+#	if score==5:
+#		stren=["🟥","🟧","🟨","🟩","🟦"]
 #reapet untill user quits:
 #	password=input(whast your passord)
 #	printit(password)
@@ -36,117 +59,84 @@
 # {stren[0]}          {password}
 # strength   password
 # """)
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+
+import random
 def check_num(peramaters):
-	if peramaters in ["1","2","3","4","5","6","7","8","9","0"]
-		return True
-	else:
-		return False
+	for x in peramaters:
+		if x  in ['1','2','3','4','5','6','7','8','9','0']:	
+			return True
+	return False
 def check_upper(peramaters):
-	return str(peramaters).isupper()
+	for x in peramaters:
+		if str(x).isupper():
+			return True
+	return False
 def check_lowwer(peramaters):
-	return str(peramaters).islowwer()
-def check_symble(peramaters):
-	return not (ord(peramaters)>47 and ord(peramaters)<57)or(ord(peramaters)>65 and ord(peramaters)<90)or(ord(peramaters)>97 and ord(peramaters)<122):
-		
+	for x in peramaters:
+		if str(x).isupper():
+			return True
+	return False
+def make_password():
+	out=[]
+	returned=""
+	out.append(str(random.randint(0,9)))
+	out.append(['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m'][random.randint(0,25)])
+	out.append(['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M'][random.randint(0,25)])
+	out.append(chr(random.randint(100,500)))
+	out.append(str(random.randint(0,9)))
+	out.append(['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m'][random.randint(0,25)])
+	out.append(['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M'][random.randint(0,25)])
+	out.append(chr(random.randint(100,500)))
+	for x in out:
+		returned = returned+x
+	return returned
+def check_sym(password):
+	for x in password:
+		if x in ["""~""","""`""","""!""","""@""","""#""","""$""","""%""","""^""","""&""","""*""","""(""",""")""","""-""","""_""","""=""","""+""","""[""","""{""","""]""","""\\""","""|""",""";""",""":""","""'""",""",'''"''',""","""<""",""".""",""">""","""/""","""?""","""`"""]:
+			return True
+	return False
 def printit(password):
 	score=5
-	if check_lowwer:
+	recemended="good job"
+	if len(password)<8:
+		recemended="make it longer"
+		score-=1
+	if check_lowwer(password):
 		recemended="add a lowercase letter"
 		score-=1
-	if check_upper:
-		recemended="add a uppercase letter"
-		score-=1
-	if check_num:
+	if  not check_num(password):
 		recemended="add a number"
 		score-=1
-	if check_symble:
-		recemended="add a symbol"
+	if not check_upper(password):
+		recemended="add a uppercase letter"
 		score-=1
+	if not check_sym(password):
+		recemended="add a special character"
+		score-=1
+	if score==0:
+		stren=["⬛️","⬛","⬛️","⬛️","⬛️"]
+	if score==1:
+		stren=["🟥","⬛️","⬛️","⬛️","⬛️"]
+	if score==2:
+		stren=["🟥","🟧","⬛️","⬛️","⬛️"]
+	if score==3:
+		stren=["🟥","🟧","🟨","⬛️","⬛️"]
+	if score==4:
+		stren=["🟥","🟧","🟨","🟩","⬛️"]
+	if score==5:
+		stren=["🟥","🟧","🟨","🟩","🟦"]
 	print(f"""
- {stren[4]}          {recemended}
- {stren[3]}          recomendations
- {stren[2]}          {bet_password}
- {stren[1]}          a better password
- {stren[0]}          {password}
- strength   password
- """)
-while True:
-	password=input("whats your passord")
+strength meater
+{stren[4]}          recomendations
+{stren[3]}          {recemended}
+{stren[2]}          a better password
+{stren[1]}          {make_password()}
+{stren[0]}          password
+           {password}
+""")
+while input("do you want to use (y/n): ")=="y":
+	password=input("whats your passord: ")
+	printit(password)
+
+
 	
