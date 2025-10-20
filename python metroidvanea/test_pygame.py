@@ -1,158 +1,153 @@
 import os
+import platform
 import pygame
-
-# Setup environment for headless environments
-if os.environ.get('DISPLAY'):
-    print("No display detected. Using dummy video driver.")
-    os.environ['SDL_VIDEODRIVER'] = 'dummy'
-    os.environ['SDL_AUDIODRIVER'] = 'dummy'
+import time
 
 # Initialize Pygame
 try:
     pygame.mixer.init()
 except:
-    print("pygame mixer not initialized; using dummy driver.")
-    os.environ['SDL_AUDIODRIVER'] = 'dummy'
-    pygame.mixer.quit()
-    pygame.mixer.init()
-
+    print("you are using a codespaces or pygame is not installed")
+    os.environ['SDL_AUDIODRIVER'] = 'dummy'  # Use dummy driver in environments without sound hardware
 pygame.init()
+pygame.mixer.init()
+# Screen dimensions
+SCREEN_WIDTH, SCREEN_HEIGHT = 1000, 1000
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.display.set_caption('python metroidvanea')
 
-# Screen setup
-WIDTH, HEIGHT = 800, 600
-try:
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
-except pygame.error:
-    print("Unable to initialize display, running headless.")
-    screen = pygame.Surface((WIDTH, HEIGHT))
+# Load images
+player_image = pygame.image.load(r'P:\perl,liam\Chronin7\python metroidvanea\metroidvanea pngs and ohter files\player.png')
+player_image = pygame.transform.scale(player_image,(30,60))
+# Load other images as needed, e.g., room blocks, doors
 
-pygame.display.set_caption("Gravity & Jumping Demo")
+# Sound functions
+def play_sound(track_path):
+    pygame.mixer.music.load(track_path)
+    pygame.mixer.music.play()
 
-# Define a simple Player class
-class Player:
-    def __init__(self):
-        self.x = 100
-        self.y = 100
-        self.width = 30
-        self.height = 50
-        self.color = (0, 255, 0)
-        self.vel_x = 0
-        self.vel_y = 0
-        self.speed = 5
-        self.jump_strength = 15
-        self.on_ground = False
+def stop_sound():
+    pygame.mixer.music.stop()
 
-    def draw(self, surface):
-        pygame.draw.rect(surface, self.color, (self.x, self.y, self.width, self.height))
-
-    def update(self):
-        # Apply gravity
-        gravity = 0.8
-        self.vel_y += gravity
-        self.x += self.vel_x
-        self.y += self.vel_y
-
-        # Keep within screen bounds
-        if self.x < 0:
-            self.x = 0
-        if self.x + self.width > WIDTH:
-            self.x = WIDTH - self.width
-
-        # Floor collision
-        if self.y + self.height >= HEIGHT:
-            self.y = HEIGHT - self.height
-            self.vel_y = 0
-            self.on_ground = True
-        else:
-            self.on_ground = False
-
-# Setup game objects
-player = Player()
-
-# Create a simple floor as a Rect
-floor_rect = pygame.Rect(0, HEIGHT - 20, WIDTH, 20)
-
-# Create a door to switch rooms
+# Define classes for Room, Door, etc.
 class Door:
-    def __init__(self, x, y, destination):
-        self.rect = pygame.Rect(x, y, 70, 70)
+    def __init__(self, x, y, destination, requirement=None):
+        self.x = x
+        self.y = y
         self.destination = destination
+        self.requirement = requirement
 
-    def draw(self, surface):
-        pygame.draw.rect(surface, (255, 0, 0), self.rect)
+    def can_open(self, player_items):
+        if self.requirement is None:
+            return True
+        return self.requirement in player_items
 
-# Rooms with doors
 class Room:
     def __init__(self, name):
         self.name = name
+        self.blocks = []  # List of block rectangles or images
         self.doors = []
+        self.entities = []
 
     def add_door(self, door):
         self.doors.append(door)
 
-    def draw(self, surface):
-        surface.fill((30, 30, 30))
-        for door in self.doors:
-            door.draw(surface)
+    def render(self, surface):
+        surface.fill((0, 0, 0))  # Clear screen
+        # Draw blocks
+        # For example, draw rectangles or images for blocks
+        for block in self.blocks:
+            pygame.draw.rect(surface, (0, 255, 0), block)
+        # Draw doors
+        # Draw entities
+        for entity in self.entities:
+            surface.blit(entity['image'], (entity['x'], entity['y']))
+        pygame.display.flip()
 
     def get_door_at(self, x, y):
         for door in self.doors:
-            if door.rect.collidepoint(x, y):
+            door_rect = pygame.Rect(door.x * 70, door.y * 70, 70, 70)
+            if door_rect.collidepoint(x, y):
                 return door
         return None
 
-# Setup two rooms
-room1 = Room('Room1')
-room2 = Room('Room2')
-door1 = Door(WIDTH - 80, HEIGHT//2 - 35, 'Room2')
-door2 = Door(10, HEIGHT//2 - 35, 'Room1')
-room1.add_door(door1)
-room2.add_door(door2)
+class Game:
+    def __init__(self):
+        self.rooms = {}
+        self.current_room = None
+        self.player = {
+            'x': 100,
+            'y': 100,
+            'width': 5,
+            'height': 10,
+            'image': player_image,
+            'items': []
+        }
+        self.running = True
 
-current_room = room1
+    def add_room(self, room):
+        self.rooms[room.name] = room
 
-# Main game loop
-clock = pygame.time.Clock()
-running = True
+    def set_current_room(self, room_name):
+        self.current_room = self.rooms.get(room_name)
 
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    def handle_input(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
+            self.player['y'] -= 5
+        if keys[pygame.K_DOWN]:
+            self.player['y'] += 5
+        if keys[pygame.K_LEFT]:
+            self.player['x'] -= 5
+        if keys[pygame.K_RIGHT]:
+            self.player['x'] += 5
+        if keys[pygame.K_ESCAPE]:
+            pygame.quit()
 
-    # Handle input
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        player.vel_x = -player.speed
-    elif keys[pygame.K_RIGHT]:
-        player.vel_x = player.speed
-    else:
-        player.vel_x = 0
+    def check_for_door_and_transition(self):
+        door = self.current_room.get_door_at(self.player['x'], self.player['y'])
+        if door:
+            if door.can_open(self.player['items']):
+                self.set_current_room(door.destination)
+                # Adjust player position accordingly
+                self.player['x'] = 100
+                self.player['y'] = 100
 
-    if keys[pygame.K_SPACE]:
-        if player.on_ground:
-            player.vel_y = -player.jump_strength
+    def run(self):
+        clock = pygame.time.Clock()
+        play_sound(r'P:\perl,liam\Chronin7\python metroidvanea\metroidvanea pngs and ohter files\test.mp3')  # Start background music
 
-    # Update player with gravity
-    player.update()
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
 
-    # Check for door collision
-    player_rect = pygame.Rect(player.x, player.y, player.width, player.height)
-    door = current_room.get_door_at(player.x + player.width/2, player.y + player.height/2)
-    if door:
-        current_room = room2 if door.destination == 'Room2' else room1
-        # Reset player position
-        player.x, player.y = 100, 100
+            self.handle_input()
+            self.check_for_door_and_transition()
+            self.current_room.render(screen)
+            # Draw player
+            screen.blit(self.player['image'], (self.player['x'], self.player['y']))
+            pygame.display.flip()
+            clock.tick(60)
 
-    # Draw everything
-    current_room.draw(screen)
-    # Draw floor
-    pygame.draw.rect(screen, (100, 100, 100), floor_rect)
-    # Draw player
-    player.draw(screen)
+        pygame.quit()
 
-    # Update display
-    pygame.display.flip()
-    clock.tick(60)
+# Setup your game environment
+def setup_game():
+    game = Game()
+    main_room = Room('MainRoom')
+    # Add blocks, doors, entities as needed
+    main_room.add_door(Door(0, 7, 'ItemRoom'))
+    game.add_room(main_room)
 
-pygame.quit()
+    item_room = Room('ItemRoom')
+    item_room.add_door(Door(19, 7, 'MainRoom'))
+    game.add_room(item_room)
+
+    game.set_current_room('MainRoom')
+    return game
+
+if __name__ == "__main__":
+    game = setup_game()
+    game.run()
