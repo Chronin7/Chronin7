@@ -2,3 +2,5 @@
 import antigravity
 import this
 print ('We are the {} who say "{}!"'.format('knights', 'Ni'))
+this.d
+antigravity.geohash(1,2,3)
