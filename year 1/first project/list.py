@@ -1,3 +1,4 @@
+#LP 1 shoping list manager
 clist = input("what is the name of your list: ")
 thelist = []
 while True:

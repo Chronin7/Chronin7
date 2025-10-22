@@ -1,3 +1,4 @@
+#lp 1 Plassword checker
 while True:
 	password = input("what your pasword: ")
 	listt = []

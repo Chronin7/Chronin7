@@ -3,7 +3,7 @@ import time
 import random
 import os
 import curses
-#defining vars
+#defining vars ugg
 playerx=2
 playery=102
 on_ground=True

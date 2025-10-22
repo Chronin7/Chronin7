@@ -1,14 +1,12 @@
-
+# LP 1 rock paper sisers
 import random
 import time
 player_score = 0
 com_score = 0
 type_speed = .02
+
 def type_text(textt):
-	for x in textt:
-		print(x, end = "", flush = True)
-		time.sleep(random.uniform(.01,type_speed))
-	print("")
+	print(textt)
 def validate(input,valid):
 	for x in valid:
 		if input == x:
@@ -16,45 +14,218 @@ def validate(input,valid):
 	return False
 type_text("hi i am rocky")
 while True:
-	type_text("1 for rock")
-	type_text("2 for scissors")
-	type_text("3 for paper")
-	type_text("4 to quit")
+	type_text(f"""  _____          ________ ________  ________          ________  ________  ________  ___  __       
+ / __  {chr(92)}        |{chr(92)}  _____{chr(92)}{chr(92)}   __  {chr(92)}|{chr(92)}   __  {chr(92)}        |{chr(92)}   __  {chr(92)}|{chr(92)}   __  {chr(92)}|{chr(92)}   ____{chr(92)}|{chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}     
+|{chr(92)}/_|{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}__/{chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}___|{chr(92)} {chr(92)}  {chr(92)}/  /|_   
+{chr(92)}|/ {chr(92)} {chr(92)}  {chr(92)}       {chr(92)} {chr(92)}   __{chr(92)}{chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}   _  _{chr(92)}       {chr(92)} {chr(92)}   _  _{chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}    {chr(92)} {chr(92)}   ___  {chr(92)}  
+     {chr(92)} {chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}_| {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}  {chr(92)}|       {chr(92)} {chr(92)}  {chr(92)}{chr(92)}  {chr(92)}{chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}____{chr(92)} {chr(92)}  {chr(92)}{chr(92)} {chr(92)}  {chr(92)} 
+      {chr(92)} {chr(92)}__{chr(92)}       {chr(92)} {chr(92)}__{chr(92)}   {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}__{chr(92)}{chr(92)} _{chr(92)}        {chr(92)} {chr(92)}__{chr(92)}{chr(92)} _{chr(92)}{chr(92)} {chr(92)}_______{chr(92)} {chr(92)}_______{chr(92)} {chr(92)}__{chr(92)}{chr(92)} {chr(92)}__{chr(92)} 
+       {chr(92)}|__|        {chr(92)}|__|    {chr(92)}|_______|{chr(92)}|__|{chr(92)}|__|        {chr(92)}|__|{chr(92)}|__|{chr(92)}|_______|{chr(92)}|_______|{chr(92)}|__| {chr(92)}|__|
+                                                                                                  
+                                                                                                  
+                                                                                                  """)
+	type_text(f"""  _______          ________ ________  ________          ________  ________  ___  ________   ________  ________  ________  ________      
+ /  ___  {chr(92)}        |{chr(92)}  _____{chr(92)}{chr(92)}   __  {chr(92)}|{chr(92)}   __  {chr(92)}        |{chr(92)}   ____{chr(92)}|{chr(92)}   ____{chr(92)}|{chr(92)}  {chr(92)}|{chr(92)}   ____{chr(92)} |{chr(92)}   ____{chr(92)}|{chr(92)}   __  {chr(92)}|{chr(92)}   __  {chr(92)}|{chr(92)}   ____{chr(92)}     
+/__/|_/  /|       {chr(92)} {chr(92)}  {chr(92)}__/{chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}___|{chr(92)} {chr(92)}  {chr(92)}___|{chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)}___|_{chr(92)} {chr(92)}  {chr(92)}___|{chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}___|_    
+|__|//  / /        {chr(92)} {chr(92)}   __{chr(92)}{chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}   _  _{chr(92)}       {chr(92)} {chr(92)}_____  {chr(92)} {chr(92)}  {chr(92)}    {chr(92)} {chr(92)}  {chr(92)} {chr(92)}_____  {chr(92)}{chr(92)} {chr(92)}_____  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}   _  _{chr(92)} {chr(92)}_____  {chr(92)}   
+    /  /_/__        {chr(92)} {chr(92)}  {chr(92)}_| {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}  {chr(92)}|       {chr(92)}|____|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}____{chr(92)} {chr(92)}  {chr(92)}|____|{chr(92)}  {chr(92)}{chr(92)}|____|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}  {chr(92)}{chr(92)}|____|{chr(92)}  {chr(92)}  
+   |{chr(92)}________{chr(92)}       {chr(92)} {chr(92)}__{chr(92)}   {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}__{chr(92)}{chr(92)} _{chr(92)}         ____{chr(92)}_{chr(92)}  {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}__{chr(92)}____{chr(92)}_{chr(92)}  {chr(92)} ____{chr(92)}_{chr(92)}  {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}__{chr(92)}{chr(92)} _{chr(92)} ____{chr(92)}_{chr(92)}  {chr(92)} 
+    {chr(92)}|_______|        {chr(92)}|__|    {chr(92)}|_______|{chr(92)}|__|{chr(92)}|__|       |{chr(92)}_________{chr(92)}|_______|{chr(92)}|__|{chr(92)}_________{chr(92)}{chr(92)}_________{chr(92)}|_______|{chr(92)}|__|{chr(92)}|__|{chr(92)}_________{chr(92)} 
+                                                          {chr(92)}|_________|             {chr(92)}|_________{chr(92)}|_________|                  {chr(92)}|_________|
+                                                                                                                                        
+                                                                                                                                        """)
+	type_text(f""" ________          ________ ________  ________          ________  ________  ________  _______   ________     
+|{chr(92)}_____  {chr(92)}        |{chr(92)}  _____{chr(92)}{chr(92)}   __  {chr(92)}|{chr(92)}   __  {chr(92)}        |{chr(92)}   __  {chr(92)}|{chr(92)}   __  {chr(92)}|{chr(92)}   __  {chr(92)}|{chr(92)}  ___ {chr(92)} |{chr(92)}   __  {chr(92)}    
+{chr(92)}|____|{chr(92)} /_       {chr(92)} {chr(92)}  {chr(92)}__/{chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}   __/|{chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}   
+      {chr(92)}|{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}   __{chr(92)}{chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}   _  _{chr(92)}       {chr(92)} {chr(92)}   ____{chr(92)} {chr(92)}   __  {chr(92)} {chr(92)}   ____{chr(92)} {chr(92)}  {chr(92)}_|/_{chr(92)} {chr(92)}   _  _{chr(92)}  
+     __{chr(92)}_{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}_| {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}  {chr(92)}|       {chr(92)} {chr(92)}  {chr(92)}___|{chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)}___|{chr(92)} {chr(92)}  {chr(92)}_|{chr(92)} {chr(92)} {chr(92)}  {chr(92)}{chr(92)}  {chr(92)}| 
+    |{chr(92)}_______{chr(92)}       {chr(92)} {chr(92)}__{chr(92)}   {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}__{chr(92)}{chr(92)} _{chr(92)}        {chr(92)} {chr(92)}__{chr(92)}    {chr(92)} {chr(92)}__{chr(92)} {chr(92)}__{chr(92)} {chr(92)}__{chr(92)}    {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}__{chr(92)}{chr(92)} _{chr(92)} 
+    {chr(92)}|_______|        {chr(92)}|__|    {chr(92)}|_______|{chr(92)}|__|{chr(92)}|__|        {chr(92)}|__|     {chr(92)}|__|{chr(92)}|__|{chr(92)}|__|     {chr(92)}|_______|{chr(92)}|__|{chr(92)}|__|
+                                                                                                             
+                                                                                                             
+                                                                                                             """)
+	type_text(f""" ___   ___          _________  ________          ________  ___  ___  ___  _________   
+|{chr(92)}  {chr(92)} |{chr(92)}  {chr(92)}        |{chr(92)}___   ___{chr(92)}{chr(92)}   __  {chr(92)}        |{chr(92)}   __  {chr(92)}|{chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}|{chr(92)}___   ___{chr(92)} 
+{chr(92)} {chr(92)}  {chr(92)}{chr(92)}_{chr(92)}  {chr(92)}       {chr(92)}|___ {chr(92)}  {chr(92)}_{chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|___ {chr(92)}  {chr(92)}_| 
+ {chr(92)} {chr(92)}______  {chr(92)}           {chr(92)} {chr(92)}  {chr(92)} {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}   {chr(92)} {chr(92)}  {chr(92)}  
+  {chr(92)}|_____|{chr(92)}  {chr(92)}           {chr(92)} {chr(92)}  {chr(92)} {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}   {chr(92)} {chr(92)}  {chr(92)} 
+         {chr(92)} {chr(92)}__{chr(92)}           {chr(92)} {chr(92)}__{chr(92)} {chr(92)} {chr(92)}_______{chr(92)}       {chr(92)} {chr(92)}_____  {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}__{chr(92)}   {chr(92)} {chr(92)}__{chr(92)} 
+          {chr(92)}|__|            {chr(92)}|__|  {chr(92)}|_______|        {chr(92)}|___| {chr(92)}__{chr(92)}|_______|{chr(92)}|__|    {chr(92)}|__|
+                                                          {chr(92)}|__|                       
+                                                                                      
+                                                                                      """)
 	com_move = str(random.randint(1,3))
 	if com_move == "1":
-		com_prin = "🪨"
+		com_prin = """    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+"""
 	if com_move == "2":
-		com_prin = "✂️"
+		com_prin = """    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+"""
 	if com_move == "3":
-		com_prin = "📄"
+		com_prin = """     _______
+---'    ____)____
+           ______)
+          _______)
+         _______)
+---.__________)
+"""
 	while True:
-		players_move = input("what do you want:")
+		players_move = input(f""" ___       __   ___  ___  ________  _________        ________  ________           ___    ___ ________  ___  ___          ___       __   ________  ________   _________   
+|{chr(92)}  {chr(92)}     |{chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}|{chr(92)}   __  {chr(92)}|{chr(92)}___   ___{chr(92)}     |{chr(92)}   ___ {chr(92)}|{chr(92)}   __  {chr(92)}         |{chr(92)}  {chr(92)}  /  /|{chr(92)}   __  {chr(92)}|{chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}        |{chr(92)}  {chr(92)}     |{chr(92)}  {chr(92)}|{chr(92)}   __  {chr(92)}|{chr(92)}   ___  {chr(92)}|{chr(92)}___   ___{chr(92)} 
+{chr(92)} {chr(92)}  {chr(92)}    {chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}|___ {chr(92)}  {chr(92)}_|     {chr(92)} {chr(92)}  {chr(92)}_|{chr(92)} {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)}        {chr(92)} {chr(92)}  {chr(92)}/  / | {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}    {chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)} {chr(92)}  {chr(92)}|___ {chr(92)}  {chr(92)}_| 
+ {chr(92)} {chr(92)}  {chr(92)}  __{chr(92)} {chr(92)}  {chr(92)} {chr(92)}   __  {chr(92)} {chr(92)}   __  {chr(92)}   {chr(92)} {chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)} {chr(92)}{chr(92)} {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)}        {chr(92)} {chr(92)}    / / {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}  __{chr(92)} {chr(92)}  {chr(92)} {chr(92)}   __  {chr(92)} {chr(92)}  {chr(92)}{chr(92)} {chr(92)}  {chr(92)}   {chr(92)} {chr(92)}  {chr(92)}  
+  {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}__{chr(92)}_{chr(92)}  {chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)}   {chr(92)} {chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}_{chr(92)}{chr(92)} {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)}        {chr(92)}/  /  /   {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)}{chr(92)}  {chr(92)}       {chr(92)} {chr(92)}  {chr(92)}|{chr(92)}__{chr(92)}_{chr(92)}  {chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)} {chr(92)}  {chr(92)}{chr(92)} {chr(92)}  {chr(92)}   {chr(92)} {chr(92)}  {chr(92)} 
+   {chr(92)} {chr(92)}____________{chr(92)} {chr(92)}__{chr(92)} {chr(92)}__{chr(92)} {chr(92)}__{chr(92)} {chr(92)}__{chr(92)}   {chr(92)} {chr(92)}__{chr(92)}       {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}_______{chr(92)}     __/  / /      {chr(92)} {chr(92)}_______{chr(92)} {chr(92)}_______{chr(92)}       {chr(92)} {chr(92)}____________{chr(92)} {chr(92)}__{chr(92)} {chr(92)}__{chr(92)} {chr(92)}__{chr(92)}{chr(92)} {chr(92)}__{chr(92)}   {chr(92)} {chr(92)}__{chr(92)} 
+    {chr(92)}|____________|{chr(92)}|__|{chr(92)}|__|{chr(92)}|__|{chr(92)}|__|    {chr(92)}|__|        {chr(92)}|_______|{chr(92)}|_______|    |{chr(92)}___/ /        {chr(92)}|_______|{chr(92)}|_______|        {chr(92)}|____________|{chr(92)}|__|{chr(92)}|__|{chr(92)}|__| {chr(92)}|__|    {chr(92)}|__|
+                                                                                {chr(92)}|___|/                                                                                  
+                                                                                                                                                                         
+                                                                                                                                                                         """)
 		if validate(players_move,["1","2","3","4"]) == True:
 			break
 		else:
-			type_text("not a valid input")
-	print("☁️    3   ☁️")
+			type_text(f"""                              ___            __                                   __      
+ __                          /{chr(92)}_ {chr(92)}    __    /{chr(92)} {chr(92)}      __                         /{chr(92)} {chr(92)}__   
+/{chr(92)}_{chr(92)}    ___   __  __     __  {chr(92)}//{chr(92)} {chr(92)}  /{chr(92)}_{chr(92)}   {chr(92)}_{chr(92)} {chr(92)}    /{chr(92)}_{chr(92)}    ___   _____   __  __{chr(92)} {chr(92)} ,_{chr(92)}  
+{chr(92)}/{chr(92)} {chr(92)} /' _ `{chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)}  /'__`{chr(92)}  {chr(92)} {chr(92)} {chr(92)} {chr(92)}/{chr(92)} {chr(92)}  /'_` {chr(92)}   {chr(92)}/{chr(92)} {chr(92)} /' _ `{chr(92)}/{chr(92)} '__`{chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)}{chr(92)} {chr(92)} {chr(92)}/  
+ {chr(92)} {chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)} {chr(92)} {chr(92)}_/ |/{chr(92)} {chr(92)}L{chr(92)}.{chr(92)}_ {chr(92)}_{chr(92)} {chr(92)}_{chr(92)} {chr(92)} {chr(92)}/{chr(92)} {chr(92)}L{chr(92)} {chr(92)}   {chr(92)} {chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)} {chr(92)} {chr(92)}L{chr(92)} {chr(92)} {chr(92)} {chr(92)}_{chr(92)} {chr(92)}{chr(92)} {chr(92)} {chr(92)}_ 
+  {chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)} {chr(92)}___/ {chr(92)} {chr(92)}__/.{chr(92)}_{chr(92)}/{chr(92)}____{chr(92)}{chr(92)} {chr(92)}_{chr(92)} {chr(92)}___,_{chr(92)}   {chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)} {chr(92)} ,__/{chr(92)} {chr(92)}____/ {chr(92)} {chr(92)}__{chr(92)} 
+   {chr(92)}/_/{chr(92)}/_/{chr(92)}/_/{chr(92)}/__/   {chr(92)}/__/{chr(92)}/_/{chr(92)}/____/ {chr(92)}/_/{chr(92)}/__,_ /    {chr(92)}/_/{chr(92)}/_/{chr(92)}/_/{chr(92)} {chr(92)} {chr(92)}/  {chr(92)}/___/   {chr(92)}/__/
+                                                                     {chr(92)} {chr(92)}_{chr(92)}                
+                                                                      {chr(92)}/_/                """)
+	print(f"""   __     
+ /'__`{chr(92)}   
+/{chr(92)}_{chr(92)}L{chr(92)} {chr(92)}  
+{chr(92)}/_/_{chr(92)}_<_ 
+  /{chr(92)} {chr(92)}L{chr(92)} {chr(92)} 
+  {chr(92)} {chr(92)}____/
+   {chr(92)}/___/ 
+          
+          """)
 	time.sleep(1)
-	print("☁️    2   ☁️")
+	print(f"""   ___     
+ /'___`{chr(92)}   
+/{chr(92)}_{chr(92)} /{chr(92)} {chr(92)}  
+{chr(92)}/_/// /__ 
+   // /_{chr(92)} {chr(92)} 
+  /{chr(92)}______/
+  {chr(92)}/_____/ 
+           
+           """)
 	time.sleep(1)
-	print("☁️    1   ☁️")
+	print(f"""   _     
+ /' {chr(92)}    
+/{chr(92)}_, {chr(92)}   
+{chr(92)}/_/{chr(92)} {chr(92)}  
+   {chr(92)} {chr(92)} {chr(92)} 
+    {chr(92)} {chr(92)}_{chr(92)} 
+     {chr(92)}/_/
+         
+         """)
 	time.sleep(1)
 	if players_move == "1":
-		players_move = "🪨"
+		players_move = """    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+"""
 	elif players_move == "2":
-		players_move = "✂️"
+		players_move = """    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+"""
 	elif players_move == "3":
-		players_move = "📄"
+		players_move = """     _______
+---'    ____)____
+           ______)
+          _______)
+         _______)
+---.__________)
+"""
 	elif players_move == "4":
 		quit()
 	print(f"{com_prin}       {players_move}")
 
 	if players_move == com_prin:
-		type_text("tie")
-	elif players_move == "🪨" and com_prin == "✂️" or players_move == "✂️" and com_prin == "📄" or players_move == "📄" and com_prin == "🪨":
-		type_text("player win")
+		type_text(f""" __                  
+/{chr(92)} {chr(92)}__  __           
+{chr(92)} {chr(92)} ,_{chr(92)}/{chr(92)}_{chr(92)}     __   
+ {chr(92)} {chr(92)} {chr(92)}/{chr(92)}/{chr(92)} {chr(92)}  /'__`{chr(92)} 
+  {chr(92)} {chr(92)} {chr(92)}_{chr(92)} {chr(92)} {chr(92)}/{chr(92)}  __/ 
+   {chr(92)} {chr(92)}__{chr(92)}{chr(92)} {chr(92)}_{chr(92)} {chr(92)}____{chr(92)} 
+    {chr(92)}/__/ {chr(92)}/_/{chr(92)}/____/
+                     
+                     """)
+	elif players_move == """    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+""" and com_prin == """    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+""" or players_move == """    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+""" and com_prin == """     _______
+---'    ____)____
+           ______)
+          _______)
+         _______)
+---.__________)
+""" or players_move == """     _______
+---'    ____)____
+           ______)
+          _______)
+         _______)
+---.__________)
+""" and com_prin == """    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+""":
+		type_text(f"""       ___                                                                          
+      /{chr(92)}_ {chr(92)}                                                    __                   
+ _____{chr(92)}//{chr(92)} {chr(92)}      __     __  __     __   _ __       __  __  __/{chr(92)}_{chr(92)}    ___     ____  
+/{chr(92)} '__`{chr(92)}{chr(92)} {chr(92)} {chr(92)}   /'__`{chr(92)}  /{chr(92)} {chr(92)}/{chr(92)} {chr(92)}  /'__`{chr(92)}/{chr(92)}`'__{chr(92)}    /{chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)} /' _ `{chr(92)}  /',__{chr(92)} 
+{chr(92)} {chr(92)} {chr(92)}L{chr(92)} {chr(92)}{chr(92)}_{chr(92)} {chr(92)}_/{chr(92)} {chr(92)}L{chr(92)}.{chr(92)}_{chr(92)} {chr(92)} {chr(92)}_{chr(92)} {chr(92)}/{chr(92)}  __/{chr(92)} {chr(92)} {chr(92)}/     {chr(92)} {chr(92)} {chr(92)}_/ {chr(92)}_/ {chr(92)} {chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)}__, `{chr(92)} 
+ {chr(92)} {chr(92)} ,__//{chr(92)}____{chr(92)} {chr(92)}__/.{chr(92)}_{chr(92)}{chr(92)}/`____ {chr(92)} {chr(92)}____{chr(92)}{chr(92)} {chr(92)}_{chr(92)}      {chr(92)} {chr(92)}___x___/'{chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)}/{chr(92)}____/ 
+  {chr(92)} {chr(92)} {chr(92)}/ {chr(92)}/____/{chr(92)}/__/{chr(92)}/_/ `/___/> {chr(92)}/____/ {chr(92)}/_/       {chr(92)}/__//__/   {chr(92)}/_/{chr(92)}/_/{chr(92)}/_/{chr(92)}/___/ 
+   {chr(92)} {chr(92)}_{chr(92)}                     /{chr(92)}___/                                                 
+    {chr(92)}/_/                     {chr(92)}/__/                                                  """)
 		player_score +=1
 	else:
-		type_text("com win")
+		type_text(f"""                                                               
+                                          __                   
+  ___    ___     ___ ___       __  __  __/{chr(92)}_{chr(92)}    ___     ____  
+ /'___{chr(92)} / __`{chr(92)} /' __` __`{chr(92)}    /{chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)} /' _ `{chr(92)}  /',__{chr(92)} 
+/{chr(92)} {chr(92)}__//{chr(92)} {chr(92)}L{chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)}   {chr(92)} {chr(92)} {chr(92)}_/ {chr(92)}_/ {chr(92)} {chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)} {chr(92)}/{chr(92)}__, `{chr(92)} 
+{chr(92)} {chr(92)}____{chr(92)} {chr(92)}____/{chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)}   {chr(92)} {chr(92)}___x___/'{chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)} {chr(92)}_{chr(92)}/{chr(92)}____/
+ {chr(92)}/____/{chr(92)}/___/  {chr(92)}/_/{chr(92)}/_/{chr(92)}/_/    {chr(92)}/__//__/   {chr(92)}/_/{chr(92)}/_/{chr(92)}/_/{chr(92)}/___/ 
+                                                               
+                                                               """)
 		com_score += 1
 	print(f"com: {com_score} player: {player_score}")

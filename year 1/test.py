@@ -1,6 +1,3 @@
-import keyboard
-
-while True:
-    if keyboard.is_pressed('a'):
-        print("The 'a' key is pressed!")
-        break
+for x in range(1,200):
+    print(chr(x),end=":")
+    print(x)

@@ -1,0 +1,32 @@
+import random
+board = [none,none,none,none,none,none,none,none,none]
+define print board(board)
+	iterate thru board
+		if board iteration is a multipule of 3
+			print a new line
+		else
+			print board iteration
+define check win(board)
+	if [0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6] in board are equal
+		return the whatever is the wining players token
+	else
+		return none
+while true
+	print board(board)
+	while move is not valid(player move is not in [1,2,3,4,5,6,7,8,9] and that place is not taken)
+		player move = get data "what is your move"
+	board[player move-1]= player token
+	print board(board)
+	if check win is not none:
+		print player "check win" won
+		board=[none,none,none,none,none,none,none,none,none]
+	else
+	while bot move is not valid
+		bot move=random.randint(1,9)
+	set board[bot move-1]=bot token
+	print board(board)
+	if check win is not none:
+		print player "check win" won
+		board=[none,none,none,none,none,none,none,none,none]
+	
+
