@@ -2,45 +2,48 @@ import os
 import pygame
 import time
 
-# Initialize Pygame and handle sound issues
+# --- INIT ---
 try:
     pygame.mixer.init()
 except pygame.error:
-    print("Using a codespace or pygame is not installed properly. Disabling sound.")
+    print("Sound init failed; disabling sound.")
     os.environ['SDL_AUDIODRIVER'] = 'dummy'
 finally:
     pygame.init()
-    pygame.mixer.init()
-
-# Screen dimensions and setup
+    try:
+        pygame.mixer.init()
+    except:
+        pass
+is_faiding=False
+# --- SCREEN ---
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size()
-pygame.display.set_caption("python metroidvanea")
+pygame.display.set_caption("Python Metroidvania")
 
-# Load player image or use a default rectangle
+# --- PLAYER IMAGE ---
 try:
     player_image = pygame.image.load(r'python metroidvanea\metroidvanea pngs and ohter files\player.png')
     player_image = pygame.transform.scale(player_image, (30, 60))
 except pygame.error:
-    print("Player image not found. Using a default rectangle.")
+    print("Player image not found; using default.")
     player_image = pygame.Surface((30, 60))
-    player_image.fill((255, 0, 0)) # Red rectangle
+    player_image.fill((255, 0, 0))
 
-# Sound functions
+# --- SOUND ---
 def play_sound(track_path):
     try:
         pygame.mixer.music.load(track_path)
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1)
     except pygame.error:
         print("Music file not found or sound disabled.")
 
 def stop_sound():
     pygame.mixer.music.stop()
 
-# Consistent tile size
+# --- CONSTANTS ---
 TILE_SIZE = 30
 
-# Define classes for game elements
+# --- GAME ELEMENTS ---
 class Wall:
     def __init__(self, x, y, width, height):
         self.rect = pygame.Rect(x, y, width, height)
@@ -76,25 +79,24 @@ class Room:
             for x, tile in enumerate(row):
                 if tile == '#':
                     self.walls.append(Wall(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
-    
+
     def add_door(self, door):
         self.doors.append(door)
 
-    def render(self, surface, scale_factor):
+    def render(self, surface, camera_x, camera_y):
         self.room_surface.fill((0, 0, 0))
+        # Draw walls and doors
         for wall in self.walls:
-            pygame.draw.rect(self.room_surface, (0, 255, 0), wall.rect)
+            pygame.draw.rect(self.room_surface, (0, 255, 0),
+                             pygame.Rect(wall.rect.x - camera_x, wall.rect.y - camera_y, TILE_SIZE, TILE_SIZE))
         for door in self.doors:
-            pygame.draw.rect(self.room_surface, (255, 255, 0), door.rect)
+            pygame.draw.rect(self.room_surface, (255, 255, 0),
+                             pygame.Rect(door.rect.x - camera_x, door.rect.y - camera_y, TILE_SIZE, TILE_SIZE))
+        # Draw entities (optional)
         for entity in self.entities:
-            self.room_surface.blit(entity['image'], (entity['x'], entity['y']))
-        
-        scaled_room_surface = pygame.transform.scale(self.room_surface, (int(self.room_width * scale_factor), int(self.room_height * scale_factor)))
-        
-        offset_x = (SCREEN_WIDTH - scaled_room_surface.get_width()) // 2
-        offset_y = (SCREEN_HEIGHT - scaled_room_surface.get_height()) // 2
+            self.room_surface.blit(entity['image'], (entity['x'] - camera_x, entity['y'] - camera_y))
 
-        surface.blit(scaled_room_surface, (offset_x, offset_y))
+        surface.blit(self.room_surface, (0, 0))
 
     def get_door_at(self, player_rect):
         for door in self.doors:
@@ -102,6 +104,7 @@ class Room:
                 return door
         return None
 
+# --- MAIN GAME CLASS ---
 class Game:
     def __init__(self):
         self.rooms = {}
@@ -117,151 +120,263 @@ class Game:
             "speed": 5,
             "y_velocity": 0,
             "is_jumping": False,
+            "jump_pressed": False,
+            "on_ground": False,
         }
         self.gravity = 1
         self.jump_strength = -15
+        self.max_fall_speed = 15
         self.running = True
-        
-        self.scale_factor = min(SCREEN_WIDTH / (20 * TILE_SIZE), SCREEN_HEIGHT / (20 * TILE_SIZE))
+        self.fade_surface = pygame.Surface(screen.get_size())
+        self.fade_surface.fill((0, 0, 0))
+        self.fade_alpha = 0
+        self.fading = False
+        self.next_room = None
 
+    # -----------------------------
+    # ROOM MANAGEMENT
+    # -----------------------------
     def add_room(self, room):
         self.rooms[room.name] = room
 
     def set_current_room(self, room_name, previous_room_name=None):
         self.current_room = self.rooms.get(room_name)
-        if self.current_room:
-            self.current_room.load_room(self.rooms.get(room_name).doors)
-            
-            if previous_room_name:
-                for new_door in self.current_room.doors:
-                    if new_door.destination == previous_room_name:
-                        self.player['x'] = new_door.x_grid * TILE_SIZE + TILE_SIZE
-                        self.player['y'] = new_door.y_grid * TILE_SIZE
-                        break
-            
-            self.player['rect'].topleft = (self.player['x'], self.player['y'])
+        if not self.current_room:
+            print(f"Room '{room_name}' not found.")
+            return
 
-    def move(self, dx, dy):
-        self.player['y_velocity'] += self.gravity
-        if self.player['y_velocity'] > 10:
-            self.player['y_velocity'] = 10
-        
+        self.current_room.load_room(self.rooms.get(room_name).doors)
+
+        # Default safe spawn
+        spawn_x, spawn_y = 100, 100
+
+        # If coming from another room, find the matching door
+        if previous_room_name:
+            for new_door in self.current_room.doors:
+                if new_door.destination == previous_room_name:
+                    # Place player just outside that door, facing inward
+                    spawn_x = new_door.x_grid * TILE_SIZE + TILE_SIZE * 2
+                    spawn_y = new_door.y_grid * TILE_SIZE
+                    break
+
+        self.player['x'] = spawn_x
+        self.player['y'] = spawn_y
+        self.player['rect'].topleft = (self.player['x'], self.player['y'])
+
+    # -----------------------------
+    # MOVEMENT AND PHYSICS
+    # -----------------------------
+    def move(self, dx):
         self.player['x'] += dx
         self.player['rect'].x = self.player['x']
         for wall in self.current_room.walls:
             if self.player['rect'].colliderect(wall.rect):
                 if dx > 0:
                     self.player['rect'].right = wall.rect.left
-                if dx < 0:
+                elif dx < 0:
                     self.player['rect'].left = wall.rect.right
                 self.player['x'] = self.player['rect'].x
 
-        self.player['y'] += dy + self.player['y_velocity']
+    def apply_gravity(self):
+        self.player['y_velocity'] += self.gravity
+        if self.player['y_velocity'] > self.max_fall_speed:
+            self.player['y_velocity'] = self.max_fall_speed
+        self.player['y'] += self.player['y_velocity']
         self.player['rect'].y = self.player['y']
+
+        self.player['on_ground'] = False
         for wall in self.current_room.walls:
             if self.player['rect'].colliderect(wall.rect):
                 if self.player['y_velocity'] > 0:
                     self.player['rect'].bottom = wall.rect.top
+                    self.player['on_ground'] = True
                     self.player['y_velocity'] = 0
                     self.player['is_jumping'] = False
-                if self.player['y_velocity'] < 0:
+                elif self.player['y_velocity'] < 0:
                     self.player['rect'].top = wall.rect.bottom
                     self.player['y_velocity'] = 0
                 self.player['y'] = self.player['rect'].y
 
+    # -----------------------------
+    # INPUT
+    # -----------------------------
     def handle_input(self):
-        keys = pygame.key.get_pressed()
-        dx = 0
-        if keys[pygame.K_LEFT]:
-            dx -= self.player['speed']
-        if keys[pygame.K_RIGHT]:
-            dx += self.player['speed']
-        if keys[pygame.K_UP] and not self.player['is_jumping']:
-            self.player['is_jumping'] = True
-            self.player['y_velocity'] = self.jump_strength
-            
-        self.move(dx, 0)
-        
-        if keys[pygame.K_ESCAPE]:
-            self.running = False
+        global is_faiding
+        if not is_faiding:
+            keys = pygame.key.get_pressed()
+            dx = 0
+            if keys[pygame.K_LEFT]:
+                dx -= self.player['speed']
+            if keys[pygame.K_RIGHT]:
+                dx += self.player['speed']
 
+            # Jump logic
+            jump_key = keys[pygame.K_UP] or keys[pygame.K_SPACE]
+            if jump_key and self.player['on_ground'] and not self.player['jump_pressed']:
+                self.player['y_velocity'] = self.jump_strength
+                self.player['is_jumping'] = True
+                self.player['jump_pressed'] = True
+                self.player['on_ground'] = False
+            if not jump_key and self.player['is_jumping'] and self.player['y_velocity'] < -5:
+                self.player['y_velocity'] = -5
+                self.player['is_jumping'] = False
+            if not jump_key:
+                self.player['jump_pressed'] = False
+
+            self.move(dx)
+            if keys[pygame.K_ESCAPE]:
+                self.running = False
+            if keys[pygame.K_TAB]:
+                self.player["x"]=100
+                self.player["y"]=100
+
+    # -----------------------------
+    # DOORS
+    # -----------------------------
     def check_for_door_and_transition(self):
         door = self.current_room.get_door_at(self.player['rect'])
         if door and door.can_open(self.player['items']):
-            previous_room_name = self.current_room.name
-            self.set_current_room(door.destination, previous_room_name=previous_room_name)
+            self.start_fade(door.destination)
 
+    # -----------------------------
+    # FADE TRANSITION
+    # -----------------------------
+    def start_fade(self, next_room_name):
+        global is_faiding
+        self.fading = "fadeout"
+        self.next_room = next_room_name
+        self.fade_alpha = 0
+
+    def update_fade(self):
+        global is_faiding
+        if not self.fading:
+            return
+        if self.fading == "fadeout":
+            self.fade_alpha += 10
+            if self.fade_alpha >= 255:
+                self.fade_alpha = 255
+                previous = self.current_room.name
+                self.set_current_room(self.next_room, previous_room_name=previous)
+                self.fading = "fadein"
+        elif self.fading == "fadein":
+            self.fade_alpha -= 10
+            if self.fade_alpha <= 0:
+                self.fade_alpha = 0
+                self.fading = False
+                is_faiding=False
+
+    # -----------------------------
+    # MAIN LOOP
+    # -----------------------------
     def run(self):
         clock = pygame.time.Clock()
         try:
             play_sound(r'P:\perl,liam\Chronin7\python metroidvanea\metroidvanea pngs and ohter files\test.mp3')
         except FileNotFoundError:
             print("Music file 'test.mp3' not found.")
-            
+
+        camera_x, camera_y = 0, 0
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-            
+
             self.handle_input()
+            self.apply_gravity()
             self.check_for_door_and_transition()
-            
-            self.current_room.render(screen, self.scale_factor)
-            
-            scaled_player_rect = pygame.Rect(
-                self.player['x'] * self.scale_factor,
-                self.player['y'] * self.scale_factor,
-                self.player['width'] * self.scale_factor,
-                self.player['height'] * self.scale_factor
-            )
-            scaled_player_image = pygame.transform.scale(self.player['image'], scaled_player_rect.size)
-            
-            offset_x = (SCREEN_WIDTH - self.current_room.room_width * self.scale_factor) // 2
-            offset_y = (SCREEN_HEIGHT - self.current_room.room_height * self.scale_factor) // 2
-            
-            screen.blit(scaled_player_image, (scaled_player_rect.x + offset_x, scaled_player_rect.y + offset_y))
-            
+            self.update_fade()
+
+            camera_x = self.player['x'] - SCREEN_WIDTH // 2 + self.player['width'] // 2
+            camera_y = self.player['y'] - SCREEN_HEIGHT // 2 + self.player['height'] // 2
+            camera_x = max(0, min(camera_x, self.current_room.room_width - SCREEN_WIDTH))
+            camera_y = max(0, min(camera_y, self.current_room.room_height - SCREEN_HEIGHT))
+
+            screen.fill((0, 0, 0))
+            self.current_room.render(screen, camera_x, camera_y)
+
+            player_screen_x = self.player['x'] - camera_x
+            player_screen_y = self.player['y'] - camera_y
+            screen.blit(self.player['image'], (player_screen_x, player_screen_y))
+
+            if self.fading:
+                self.fade_surface.set_alpha(self.fade_alpha)
+                screen.blit(self.fade_surface, (0, 0))
+
             pygame.display.flip()
             clock.tick(60)
         pygame.quit()
 
-# Setup game environment with example rooms
+# --- GAME SETUP ---
 def setup_game():
     game = Game()
-    
     main_room_layout = [
-        "####################",
-        "#                  #",
-        "#                  #",
-        "#                  #",
-        "#                  #",
-        "#                  #",
-        "#            #     #",
-        "#D          #  #   #",
-        "#          #       #",
-        "####################",
+        "##############################################################################",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#                                     #                                      #",
+        "#       #                             #                                      #",
+        "#                                     #                                      #",
+        "#               #                     #                                      #",
+        "#                                     #                                      #",
+        "#                  #                  #                                      #",
+        "#       #       #                     #                                      #",
+        "#                                     #                                      #",
+        "#       #     #                       #                                      #",
+        "#                                     #                                      #",
+        "#        #                            #                                      #",
+        "#         #                           #                                      #",
+        "#          #                          #                                      #",
+        "#           #                         #                                      #",
+        "#            #                        #                                      #",
+        "#             #                       #                                      #",
+        "#              #                      #                                      #",
+        "#              #                      #                                      #",
+        "#                 #                   #               ###                    #",
+        "#                #                    #               ###                    #",
+        "#        ##     #                     #         ##     #                     #",
+        "#     #       #                       #       #        #                     #",
+        "#        #                                   #        # #                    #",
+        "#                                  DDDD                                      #",
+        "##############################################################################",
     ]
-
     main_room = Room("MainRoom", main_room_layout)
-    main_room.add_door(Door(1, 7, "ItemRoom"))
+    main_room.add_door(Door(3, 43, "ItemRoom"))
     game.add_room(main_room)
-    
+
     item_room_layout = [
-        "##########",
-        "#        #",
-        "#        #",
-        "#        #",
-        "#       D#",
-        "##########",
+        "##############",
+        "#            #",
+        "#            #",
+        "#            #",
+        "#       D    #",
+        "##############",
     ]
-    
     item_room = Room("ItemRoom", item_room_layout)
     item_room.add_door(Door(8, 4, "MainRoom"))
     game.add_room(item_room)
-    
+
     game.set_current_room("MainRoom")
     return game
 
+# --- RUN ---
 if __name__ == "__main__":
     game = setup_game()
     game.run()
