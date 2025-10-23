@@ -16,7 +16,8 @@ finally:
         pass
 is_faiding=False
 # --- SCREEN ---
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+#screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen=pygame.display.set_mode((150,150))
 SCREEN_WIDTH, SCREEN_HEIGHT = screen.get_size()
 pygame.display.set_caption("Python Metroidvania")
 
@@ -71,6 +72,13 @@ class Room:
         self.walls = []
         self.doors = []
         self.entities = []
+        self.door_locations_x=[]
+        self.door_locations_y=[]
+    def get_door_location(self,choise):
+        if choise=="x":
+            return self.door_locations_y[self.get_door_at(Game.get_player_rec())][0]
+        else:
+            return self.door_locations_y[self.get_door_at(Game.get_player_rec())][1]
 
     def load_room(self, doors):
         self.walls = []
@@ -80,9 +88,10 @@ class Room:
                 if tile == '#':
                     self.walls.append(Wall(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
 
-    def add_door(self, door):
+    def add_door(self, door,spawn_x=100,spawn_y=100):
         self.doors.append(door)
-
+        self.door_locations_x.append(spawn_x)
+        self.door_locations_y.append(spawn_y)
     def render(self, surface, camera_x, camera_y):
         self.room_surface.fill((0, 0, 0))
         # Draw walls and doors
@@ -132,14 +141,15 @@ class Game:
         self.fade_alpha = 0
         self.fading = False
         self.next_room = None
-
+    def get_player_rec(self):
+        return self.player["rect"]
     # -----------------------------
     # ROOM MANAGEMENT
     # -----------------------------
     def add_room(self, room):
         self.rooms[room.name] = room
 
-    def set_current_room(self, room_name, previous_room_name=None):
+    def set_current_room(self, room_name, spawn_x=100, spawn_y=100, previous_room_name=None):
         self.current_room = self.rooms.get(room_name)
         if not self.current_room:
             print(f"Room '{room_name}' not found.")
@@ -148,7 +158,7 @@ class Game:
         self.current_room.load_room(self.rooms.get(room_name).doors)
 
         # Default safe spawn
-        spawn_x, spawn_y = 100, 100
+        
 
         # If coming from another room, find the matching door
         if previous_room_name:
@@ -256,7 +266,7 @@ class Game:
             if self.fade_alpha >= 255:
                 self.fade_alpha = 255
                 previous = self.current_room.name
-                self.set_current_room(self.next_room, previous_room_name=previous)
+                self.set_current_room(self.next_room ,Room.get_door_location(Room,"x"),Room.get_door_location(Room,"y"),previous_room_name=previous)
                 self.fading = "fadein"
         elif self.fading == "fadein":
             self.fade_alpha -= 10
@@ -353,27 +363,37 @@ def setup_game():
         "#                #                    #               ###                    #",
         "#        ##     #                     #         ##     #                     #",
         "#     #       #                       #       #        #                     #",
-        "#        #                                   #        # #                    #",
-        "#                                  DDDD                                      #",
+        "         #                                   #        # #                     ",
+        " d                                                                            ",
         "##############################################################################",
     ]
-    main_room = Room("MainRoom", main_room_layout)
-    main_room.add_door(Door(3, 43, "ItemRoom"))
+    main_room = Room("main room", main_room_layout)
+    main_room.add_door(Door(1, 43, "item room"))
+    main_room.add_door(Door(76, 43, "basic room"))
     game.add_room(main_room)
 
     item_room_layout = [
         "##############",
         "#            #",
         "#            #",
-        "#            #",
-        "#       D    #",
+        "#             ",
+        "#           d ",
         "##############",
     ]
-    item_room = Room("ItemRoom", item_room_layout)
-    item_room.add_door(Door(8, 4, "MainRoom"))
+    item_room = Room("item room", item_room_layout)
+    item_room.add_door(Door(10, 4, "main room"))
     game.add_room(item_room)
-
-    game.set_current_room("MainRoom")
+    basic_room_layout=[
+"############",
+"#          #",
+"           #",
+" d         #",
+"############"
+]
+    basic_room = Room("basic room",basic_room_layout)
+    basic_room.add_door(Door(2,3,"main room"))
+    game.add_room(basic_room)
+    game.set_current_room("main room")
     return game
 
 # --- RUN ---
