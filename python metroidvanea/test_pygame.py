@@ -22,7 +22,7 @@ pygame.display.set_caption("Python Metroidvania")
 
 # --- PLAYER IMAGE ---
 try:
-    player_image = pygame.image.load(r'/Users/allenperl/homework/Chronin7/python metroidvanea/metroidvanea pngs and ohter files/player.png')
+    player_image = pygame.image.load(r'python metroidvanea\metroidvanea pngs and ohter files\player.png')
     player_image = pygame.transform.scale(player_image, (30, 60))
 except pygame.error:
     print("Player image not found; using default.")
@@ -226,6 +226,8 @@ class Game:
             self.move(dx)
             if keys[pygame.K_ESCAPE]:
                 self.running = False
+            if keys[pygame.K_TAB]:
+                print(21)
 
     # -----------------------------
     # DOORS
