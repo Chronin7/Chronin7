@@ -194,6 +194,33 @@ def dice(upper_bound,count,bonus,lowwer_bound=1):
 def heal(heath,total_heal,heal_amount=random.randint(1,4)+random.randint(1,4)+random.randint(1,4)):
     print(f"you healed {heal_amount}, your hp is now {heath+heal_amount}, you have {total_heal-1} heals left")
     return heath+heal_amount
+def get_class_stat(num,stat):
+    if num==1:
+        class_choise=Fighter
+    if num==2:
+        class_choise=Barbarean
+    if num==3:
+        class_choise=Mage
+    if num==4:
+        class_choise=Rouge
+    if num==67:
+        class_choise=Debuger
+    if stat=="max_hp":
+        return class_choise.max_hp
+    elif stat=="hp":
+        return class_choise.hp
+    elif stat=="ac":
+        return class_choise.ac
+    elif stat=="heal_count":
+        return class_choise.heal_count
+    elif stat=="speshal_atakc_mana_cost":
+        return class_choise.speshal_atakc_mana_cost
+    elif stat=="bonus":
+        return class_choise.bonus
+    elif stat=="mana":
+        return class_choise.mana
+def get_mon_stat(monster,stat):
+    pass
 def main():
     choise=0
     while choise not in ["1","2","3","4","67"]:
@@ -217,9 +244,82 @@ ______choose your class______
         choise=input("\r")
     if choise=="1":
         Fighter.__init__(Fighter)
+        class_chosen=Fighter
     elif choise=="2":
         Barbarean.__init__(Barbarean)
+        class_chosen=Barbarean
     elif choise=="3":
         Mage.__init__(Mage)
+        class_chosen=Mage
+    elif choise=="4":
+        Rouge.__init__(Rouge)
+        class_chosen=Rouge
+    elif choise=="67":
+        Debuger.__init__(Debuger)
+        class_chosen=Debuger
+    while get_class_stat(choise,"hp")>0:
+        while choise not in ["1","2","3","4"]:
+            print("""
+______choose your move_______
+|XXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+[][][][][][][][][][][][][][][]
+|                            |
+|    1 to fight monster      |
+|                            |
+|        2 to heal           |
+|                            |
+|    3 to check stats        |
+|                            |
+|        4 to quit           |
+|                            |
+[][][][][][][][][][][][][][][]
+|XXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+==============================
+              {}  {}  {}  {}  """,end="",flush=True)
+            choise=input("\r")
+        if choise=="1":
+            choise=0
+            while choise not in ["1","2","3","4","5","6","7","8","9","10","11","12"]:
+                print("""
+______choose your move_______
+|XXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+[][][][][][][][][][][][][][][]
+|                            |
+|    1 to fight a Dragon     |
+|                            |
+|    2 to fight a Goblin     |
+|                            |
+|    3 to fight a Vampier    |
+|                            |
+|    4 to fight a Beholder   |
+|                            |
+|    5 to fight a Cyclops    |
+|                            |
+|    6 to fight a Worm       |
+|                            |
+|    7 to fight a Mimic      |
+|                            |
+|    8 to fight a Skeleton   |
+|                            |
+|    9 to fight the Tarrasque|
+|                            |
+|    10 to fight a Troll     |
+|                            |
+|    11 to fight a Zombie    |
+|                            |
+|    12 to return            |
+|                            |
+[][][][][][][][][][][][][][][]
+|XXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+==============================
+              {}  {}  {}  {}  """,end="",flush=True)
+                choise=input("\r")
+            if choise !="12":
+                print(f"you will now fight {["a Dragon.","a Goblin.","a Vampier.","a Beholder.","a Cyclops.","a Worm.","a Mimic.","a Skeleton.","the Tarrasque.","a Troll.","a Zombie."](["1","2","3","4","5","6","7","8","9","10","11"].index(choise))}")#250 chars
+                monster=[Dragon,Goblin,Vampier,Beholder,Cyclops,Worm,Mimic,Skeleton,Tarrasque,Troll,Zombie][int(choise)]
+                while get_class_stat(class_chosen,"hp")>0 or 
+            else:
+                pass
+            
 if __name__=="__main__":
     main()
