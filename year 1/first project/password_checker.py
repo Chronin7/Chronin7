@@ -96,6 +96,7 @@ def check_sym(password):
 			return True
 	return False
 def printit(password):
+	recemended=""
 	score=5
 	recemended="good job"
 	if len(password)<8:
@@ -109,6 +110,7 @@ def printit(password):
 		score-=1
 	if not check_upper(password):
 		recemended="add a uppercase letter"
+		bet_password=make_rand()
 		score-=1
 	if not check_sym(password):
 		recemended="add a special character"
