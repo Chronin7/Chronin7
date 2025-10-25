@@ -1,5 +1,5 @@
 #lp combaty 1
-import random,math
+import random,math,time
 level=1
 class Fighter:
     def __init__(self):
@@ -124,76 +124,101 @@ class Dragon:
         self.ac=persentage(16,level)
         self.xp=dice(10,3,0,5)
         self.atack=persentage(10,level)
+    def __str__():
+        return "dragon"
 class Goblin:
     def __init__(self):
         self.hp=persentage(5,level)
         self.ac=persentage(10,level)
         self.xp=dice(3,1,0,1)
         self.atack=persentage(3,level)
+    def __str__():
+        return "goblin"
 class Vampier:
     def __init__(self):
         self.hp=persentage(20,level)
         self.ac=persentage(15,level)
         self.xp=dice(7,3,0,4)
         self.atack=persentage(5,level)
+    def __str__():
+        return "vampier"
 class Beholder:
     def __init__(self):
         self.hp=persentage(25,level)
         self.ac=persentage(19,level)
         self.xp=dice(15,2,0,10)
         self.atack=persentage(10,level)
+    def __str__():
+        return "beholder"
 class Cyclops:
     def __init__(self):
         self.hp=persentage(30,level)
         self.ac=persentage(8,level)
         self.xp=dice(6,3,0,2)
         self.atack=persentage(10,level)
+    def __str__():
+        return "cyclops"
 class Worm:
     def __init__(self):
         self.hp=persentage(50,level)
         self.ac=persentage(18,level)
         self.xp=dice(30,5,0,15)
         self.atack=persentage(15,level)
+    def __str__():
+        return "worm"
 class Mimic:
     def __init__(self):
         self.hp=persentage(5,level)
         self.ac=persentage(5,level)
         self.xp=dice(4,3,0,1)
         self.atack=persentage(2,level)
+    def __str__():
+        return "mimic"
 class Skeleton:
     def __init__(self):
         self.hp=persentage(10,level)
         self.ac=persentage(10,level)
         self.xp=dice(3,2,0,2)
         self.atack=persentage(10,level)
+    def __str__():
+        return "skeleton"
 class Tarrasque:
     def __init__(self):
         self.hp=persentage(100,level)
         self.ac=persentage(20,level)
         self.xp=dice(100,10,0,50)
         self.atack=persentage(30,level)
+    def __str__():
+        return "Tarrasque"
 class Troll:
     def __init__(self):
         self.hp=persentage(12,level)
         self.ac=persentage(14,level)
         self.xp=dice(3,3,0,1)
         self.atack=persentage(9,level)
+    def __str__():
+        return "troll"
 class Zombie:
     def __init__(self):
         self.hp=persentage(1,level)
         self.ac=persentage(1,level)
         self.xp=dice(2,1,0,1)
         self.atack=persentage(1,level)
-
+    def __str__():
+        return "zombie"
 def persentage(hole,part):
     return int((part/hole)*100)
 def dice(upper_bound,count,bonus,lowwer_bound=1):
     for x in range(0,count):
         bonus+=random.randint(lowwer_bound,upper_bound)
     return bonus
-def heal(heath,total_heal,heal_amount=random.randint(1,4)+random.randint(1,4)+random.randint(1,4)):
+def heal(heath,total_heal,max_heal,heal_amount=random.randint(1,persentage(4,level))+random.randint(1,persentage(4,level))+random.randint(1,persentage(4,level))):
+    heal_amount=min(max_heal,heal_amount)
     print(f"you healed {heal_amount}, your hp is now {heath+heal_amount}, you have {total_heal-1} heals left")
-    return heath+heal_amount
+    return heath+heal_amount,total_heal-1
+def get_random_word():
+    return ["destroyed","murdered","dispatched","slaughtered","slew","assassinated","felled","carried off","wasted","croaked","executed","neutralized","massacred","did in","did for","finished","did away with","made away with","butchered","snuffed","annihilated","decimated","cut down","whacked","terminated","killed off","put away","smote","rubbed out","mowed","blotted out","knocked off","took out","euthanized","bumped off","scragged","euthanized","put down","unalived"][random.randint(0,39)]
+    
 def get_class_stat(num,stat):
     if num==1:
         class_choise=Fighter
@@ -219,8 +244,82 @@ def get_class_stat(num,stat):
         return class_choise.bonus
     elif stat=="mana":
         return class_choise.mana
-def get_mon_stat(monster,stat):
-    pass
+def print_stats(class_chosen):
+    print(f"""
+__________your stats__________
+|XXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+[][][][][][][][][][][][][][][]
+|                            |
+| hp: {class_chosen.hp}             
+|                            |
+| max hp: {class_chosen.max_hp}
+|                            |
+| ac: {class_chosen.ac}   
+|                            |
+| heals left: {class_chosen.heal_count}      
+|                            |
+| special atack cost: {class_chosen.speshal_atakc_mana_cost}
+|                            |
+| mana: {class_chosen.mana}
+|                            |
+| damage bonus: {class_chosen.bonus}
+|                            |
+[][][][][][][][][][][][][][][]
+|XXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+===press enter to continue===""")
+    input()
+def combat(monster,class_chosen):
+    monster_name=str(monster)
+    turn = random.randint(1,2)
+    while class_chosen.hp<0 or monster.hp<0:
+        if turn ==1:
+            while True:
+                print("""
+    ______choose your atack______
+    |XXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+    [][][][][][][][][][][][][][][]
+    |                            |
+    |     1 for heal             |
+    |                            |
+    |     2 for normal atack     |
+    |                            |
+    |     3 for special atack    |
+    |                            |
+    |     4 to check stats       |
+    |                            |
+    [][][][][][][][][][][][][][][]
+    |XXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+    ==============================
+                {}  {}  {}  {}  """,end="",flush=True)
+                choise=input("\r")
+                if choise in ["1","2"] or choise=="3" and class_chosen.heal_count>0:
+                    if choise=="1":
+                        class_chosen.norm_atack(class_chosen)
+                    if choise=="2":
+                        class_chosen.speshail_atack(class_chosen)
+                    if choise=="3":
+                        class_chosen.hp,class_chosen.heal_count=heal(class_chosen.hp,class_chosen.max_hp,class_chosen.max_hp)
+                    turn=2
+                    if monster.hp<0:
+                        print(f"the {monster_name} has been {get_random_word()}")
+                    break
+                if choise=="4":
+                    print_stats(class_chosen)
+        print(f"you have {class_chosen.hp} hp left")
+        print(f"the {monster_name} has {monster.hp} hp left")
+        if turn==2:
+            print(f"the {monster_name} atacks ",end="")
+            damage=dice(monster.atack,level)
+            class_chosen.hp-=damage
+            print(f"you take {damage} damage",end="")
+            if class_chosen.hp<0:
+                print("you have... oh no. You died")
+                return
+            print(f"you have {class_chosen.hp} hp left")
+            
+            
+            
+        
 def main():
     choise=0
     while choise not in ["1","2","3","4","67"]:
@@ -315,11 +414,17 @@ ______choose your move_______
               {}  {}  {}  {}  """,end="",flush=True)
                 choise=input("\r")
             if choise !="12":
-                print(f"you will now fight {["a Dragon.","a Goblin.","a Vampier.","a Beholder.","a Cyclops.","a Worm.","a Mimic.","a Skeleton.","the Tarrasque.","a Troll.","a Zombie."](["1","2","3","4","5","6","7","8","9","10","11"].index(choise))}")#250 chars
-                monster=[Dragon,Goblin,Vampier,Beholder,Cyclops,Worm,Mimic,Skeleton,Tarrasque,Troll,Zombie][int(choise)]
-                while get_class_stat(class_chosen,"hp")>0 or 
+                monsters = ["a Dragon.", "a Goblin.", "a Vampier.", "a Beholder.", "a Cyclops.","a Worm.", "a Mimic.", "a Skeleton.", "the Tarrasque.", "a Troll.","a Zombie."]
+                print(f"you will now fight {monsters[choise - 1]}")
+                combat([Dragon,Goblin,Vampier,Beholder,Cyclops,Worm,Mimic,Skeleton,Tarrasque,Troll,Zombie][int(choise)])
             else:
                 pass
-            
+    if choise=="2":
+        class_chosen.hp,class_chosen.heal_count=heal(class_chosen.hp,class_chosen.max_hp,class_chosen.max_hp)
+    if choise=="3":
+        print_stats(class_chosen)
+    if choise=="4":
+        print("goodbye")
+        quit()
 if __name__=="__main__":
     main()
