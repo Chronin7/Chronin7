@@ -22,7 +22,7 @@ pygame.display.set_caption("Python Metroidvania")
 
 # --- PLAYER IMAGE ---
 try:
-    player_image = pygame.image.load(r'python metroidvanea\metroidvanea pngs and ohter files\player.png')
+    player_image = pygame.image.load(r'Chronin7/python metroidvanea/metroidvanea pngs and ohter files/player.png')
     player_image = pygame.transform.scale(player_image, (30, 60))
 except pygame.error:
     print("Player image not found; using default.")
@@ -365,8 +365,8 @@ def setup_game():
         "#            #",
         "#            #",
         "#            #",
-        "#       D    #",
-        "##############",
+        "#       D  #",
+        "###########",
     ]
     item_room = Room("ItemRoom", item_room_layout)
     item_room.add_door(Door(8, 4, "MainRoom"))
