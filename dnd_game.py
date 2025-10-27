@@ -288,7 +288,7 @@ ______choose your atack______
                     if choise=="2":
                         damage=class_chosen.norm_atack()
                         print(f" and deal {damage}")
-                    if choise=="3" and class_chosen.mana>class_chosen.speshal_atakc_mana_cost:
+                    if choise=="3" and class_chosen.mana>=class_chosen.speshal_atakc_mana_cost:
                         damage=class_chosen.speshail_atack()
                         print(f" and deal {damage}")
                         class_chosen.mana-=class_chosen.speshal_atakc_mana_cost
