@@ -1,4 +1,4 @@
-import turtle
+import turtle,math
 buttons = []
 screen = turtle.Screen()
 
@@ -35,10 +35,12 @@ def ref_checkers(square_size,x,y,xo,yo):
 				fill = "white"
 			draw_rectangle(ref_1,[x1, y1],[x2, y2],"black",fill)
 class button:
-	def __init__(self, x1, y1, x2, y2, text, pen_color="black", fill_color="black", text_color="white", font_size=12, font="Arial", font_type="normal"):
+	def __init__(self, x1, y1, x2, y2, text,on_click_function,peramaters, pen_color="black", fill_color="black", text_color="white", font_size=12, font="Arial", font_type="normal"):
 		self.button_turtle = turtle.Turtle()
 		self.button_turtle.hideturtle()
 		self.cords = [[x1, y1], [x2, y2]]
+		self.on_click_function=on_click_function
+		self.perams=peramaters
 		draw_rectangle(self.button_turtle, self.cords[0], self.cords[1], pen_color, fill_color)
 		self.button_turtle.color(text_color)
 		center_x = (x1 + x2) / 2
@@ -56,9 +58,8 @@ class button:
 		max_y = max(y1, y2)
 		return min_x <= x <= max_x and min_y <= y <= max_y
 	def on_click(self):
-		print("test")
-button1=button(1,1,101,101,"hi")
-buttons.append(button1) 
+		self.on_click_function(*self.perams)
+
 ref_1=turtle.Turtle()
 ref_1.hideturtle()
 contestant_1 = turtle.Turtle()
@@ -124,5 +125,52 @@ def global_click_handler(x, y):
 	for b in buttons:
 		if b.is_clicked(x, y):
 			b.on_click()
+def get_valid_type(type_return,prompt,invalid_prompt="invalid input try again",valid=None):
+	to_return=None
+	if valid is isinstance(valid,tuple):
+		while valid[0]<to_return<valid[1]:
+			try:
+				to_return=int(input(prompt))
+				if valid[0]<to_return<valid[1]:
+					return to_return
+				else:
+					chr("3")
+			except:
+				print(invalid_prompt)
+	if valid==None:
+		while True:
+			try:
+				to_return=type_return(input(prompt))
+				return to_return
+			except:
+				print(invalid_prompt)
+	while to_return not in valid:
+		try:
+			to_return=type_return(input(prompt))
+			break
+		except:
+			print(invalid_prompt)
+	return to_return
+amount=[0,0,0,0,0]
+def bet(turtle_num):
+	global amount
+	global balence
+	amount[turtle_num]=get_valid_type(int,f"how much do you want to bet on {["jeff","bob","shelstey","clang","valery"][turtle_num]} \n curent bet: {amount} \n curent ballence: {balence}","ether invalid amount or invalid input",(0,66125646655438184824034357503490176636099264991633465762201498014519123891859268733983653039388726432642995143358504569007771585986934024968669434028350416345702241180663304045682364832214940764929170988448662499142908799298664245623314794704849295304798107198075017717708753814435626352262734959756725609267280962722018526857388403754623314994104842572188601739700249377103859789493522946388742872159309483907924798646897590296799087138432035293041592297258616156208443607672462374144231313952523825412147224367895213575069108067843852391312126679152860656972235771923495366310698192918524201617510712807620967003175264646329092876562122951842146119916941895931718937037709622303904807519784876983985859485514354675809345820163038895549147316490316119029733685356457419092050823362333977133993758927393621966880365414110809808625711116204972494708604941468381375412202718800307572761434643952896448769099158664932122062500535504003852936733767015374683609607646579137867083807813238348719611910693255294339716425075))
+
+balence=100
+button1=button(1,1,101,101,"+",bet,[0])
+buttons.append(button1) 
+
+button1=button(1,1,101,101,"+",bet,[0])
+buttons.append(button2) 
+
+button1=button(1,1,101,101,"+",bet,[0])
+buttons.append(button3) 
+
+button1=button(1,1,101,101,"+",bet,[0])
+buttons.append(button4) 
+
+button1=button(1,1,101,101,"+",bet,[0])
+buttons.append(button5) 
 screen.onscreenclick(global_click_handler)
 screen.mainloop()
