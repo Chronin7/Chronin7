@@ -15,26 +15,27 @@ def start_race():
 	global contestant_5
 	global amount
 	global balence
+	finish=400
 	contestant_1.pendown()
 	contestant_2.pendown()
 	contestant_3.pendown()
 	contestant_4.pendown()
 	contestant_5.pendown()
-	while contestant_1.xcor()<50 or contestant_2.xcor()<50 or contestant_3.xcor()<50 or contestant_4.xcor()<50 or contestant_5.xcor()<50:
-		contestant_1.forward(random.uniform(0,5))
-		contestant_2.forward(random.uniform(0,5))
-		contestant_3.forward(random.uniform(0,5))
-		contestant_4.forward(random.uniform(0,5))
-		contestant_5.forward(random.uniform(0,5))
-	if contestant_1.xcor()>50:
+	while contestant_1.xcor()<finish or contestant_2.xcor()<finish or contestant_3.xcor()<finish or contestant_4.xcor()<finish or contestant_5.xcor()<finish:
+		contestant_1.forward(random.uniform(5,20))
+		contestant_2.forward(random.uniform(5,20))
+		contestant_3.forward(random.uniform(5,20))
+		contestant_4.forward(random.uniform(5,20))
+		contestant_5.forward(random.uniform(5,20))
+	if contestant_1.xcor()>finish:
 		balence+=amount[0]
-	if contestant_2.xcor()>50:
+	if contestant_2.xcor()>finish:
 		balence+=amount[1]
-	if contestant_3.xcor()>50:
+	if contestant_3.xcor()>finish:
 		balence+=amount[2]
-	if contestant_4.xcor()>50:
+	if contestant_4.xcor()>finish:
 		balence+=amount[3]
-	if contestant_5.xcor()>50:
+	if contestant_5.xcor()>finish:
 		balence+=amount[4]
 def reset():
 	global contestant_1
@@ -42,6 +43,11 @@ def reset():
 	global contestant_3
 	global contestant_4
 	global contestant_5
+	contestant_1.clear()
+	contestant_2.clear()
+	contestant_3.clear()
+	contestant_4.clear()
+	contestant_5.clear()
 	contestant_1.penup()
 	contestant_1.goto(-400,400)
 	contestant_2.penup()
@@ -196,7 +202,7 @@ buttons.append(button4)
 
 button5=button(0,-300,50,-250,"+",bet,[4],"black","cyan")
 buttons.append(button5) 
-start=button(-50,-400,100,-350,"+",start_race,[4],"green","green")
+start=button(-50,-400,100,-350,"+",start_race,[],"green","green")
 buttons.append(start) 
 screen.tracer(1)
 contestant_1.shape('turtle')
