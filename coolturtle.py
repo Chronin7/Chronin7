@@ -1,49 +1,75 @@
-from turtle import *
+import turtle
+import time
+import itertools
 
+# Set up the turtle screen
+screen = turtle.Screen()
+screen.setup(width=1000, height=1000)
+screen.title("turtle pit")
+turtle_slave = turtle.Turtle()
+screen.colormode(255)
+screen.bgcolor(0,0,0)
+# Speed up the drawing animation
+turtle_slave.speed(0)
+screen.tracer(0, 0) # The second argument controls update delay, 0 means no delay
 
-speed('fastest')
+size = 100
 
-# turning the turtle to face upwards
-rt(-90)
-
-# the acute angle between
-# the base and branch of the Y
-angle = 30
-
-# function to plot a Y
-def y(sz, level):   
-
-    if level > 0:
-        colormode(255)
+def generate_fade_colors(start_rgb, end_rgb, steps):
+    """
+    Generates a list of RGB colors for a smooth transition.
+    
+    Args:
+        start_rgb (tuple): The starting color (e.g., (255, 0, 0)).
+        end_rgb (tuple): The ending color (e.g., (0, 255, 0)).
+        steps (int): The number of steps in the transition.
         
-        # splitting the rgb range for green
-        # into equal intervals for each level
-        # setting the colour according
-        # to the current level
-        pencolor(0, 255//level, 0)
-        
-        # drawing the base
-        fd(sz)
+    Returns:
+        list: A list of RGB color tuples.
+    """
+    fade_colors = []
+    
+    # Unpack the start and end RGB tuples
+    r1, g1, b1 = start_rgb
+    r2, g2, b2 = end_rgb
+    
+    # Calculate the change per step for each component
+    r_step = (r2 - r1) / steps
+    g_step = (g2 - g1) / steps
+    b_step = (b2 - b1) / steps
+    
+    for i in range(steps):
+        r = int(r1 + r_step * i)
+        g = int(g1 + g_step * i)
+        b = int(b1 + b_step * i)
+        fade_colors.append((r, g, b))
+    
+    # Add the final color to ensure the transition is complete
+    fade_colors.append(end_rgb)
+    return fade_colors
 
-        rt(angle)
+# The sequence of pure colors to fade between
+color_stops = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
+color_cycle = itertools.cycle(color_stops)
 
-        # recursive call for
-        # the right subtree
-        y(0.8 * sz, level-1)
-        
-        pencolor(0, 255//level, 0)
-        
-        lt( 2 * angle )
+# Start with the first color
+current_color = next(color_cycle)
+next_color = next(color_cycle)
 
-        # recursive call for
-        # the left subtree
-        y(0.8 * sz, level-1)
-        
-        pencolor(0, 255//level, 0)
-        
-        rt(angle)
-        fd(-sz)
-         
-        
-# tree of size 80 and level 7
-y(80, 7)
+# Main drawing loop
+step = 0
+while True:
+    # Generate the list of colors for the fade effect
+    fade_steps = 255
+    colors = generate_fade_colors(current_color, next_color, fade_steps)
+
+    for color in colors:
+        step += 1
+        turtle_slave.left(181)
+        turtle_slave.forward(step)
+        turtle_slave.color(color)
+        screen.update()
+
+    # Move to the next transition
+    current_color = next_color
+    next_color = next(color_cycle)
