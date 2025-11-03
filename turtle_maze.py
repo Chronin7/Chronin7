@@ -1,6 +1,7 @@
 import turtle
 import util_functions
 import random
+import copy
 def draw_rectangle(t, bl_cord, tr_cord, pen_color="black", fill_color=""):
     t.color(pen_color, fill_color)
     if fill_color:
@@ -60,34 +61,39 @@ def random_maze():
         board1.append("#")
         board.append(board1)
     board.append(["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"," ","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"])
+    board.append(["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"])
     return board
 unsmooth_maze=random_maze()
 print(["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"," ","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"].index(" "))
-
-def smooth(unsmooth_maze):
-    posx=31
-    posy=51
-    for ypos,x in enumerate(unsmooth_maze):
-        for xpos,y in enumerate(x):
-            if xpos==posx and ypos==posy:
-                print("@",end="")
-            else:
-                print(y,end="")
+def print_board(the_grid):
+    for x in the_grid:
+        for y in x:
+            print(y,end="")
         print()
+def smooth(grid):
+    temp_grid=copy.deepcopy(grid)
+    branch=[]
+    xpos=31
+    ypos=50
     while True:
-        if unsmooth_maze[ypos][xpos-1]!="#":
-            xpos-=1
-        elif unsmooth_maze[ypos-1][xpos]!="#":
-            ypos-=1
-        elif unsmooth_maze[ypos][xpos+1]!="#":
-            xpos+=1
-        else:
-            ypos+=1
-        for ypos,x in enumerate(unsmooth_maze):
-            for xpos,y in enumerate(x):
-                if xpos==posx and ypos==posy:
-                    print("@",end="")
-                else:
-                    print(y,end="")
-            print()
+        temp_grid[xpos][ypos]="x"
+        print_board(temp_grid)
+        up=(temp_grid[xpos][ypos-1],xpos,ypos-1,True if temp_grid[xpos][ypos-1]==" " else False)
+        down=(temp_grid[xpos][ypos+1],xpos,ypos+1,True if temp_grid[xpos][ypos+1]==" " else False)
+        left=(temp_grid[xpos-1][ypos],xpos-1,ypos,True if temp_grid[xpos-1][ypos]==" " else False)
+        right=(temp_grid[xpos+1][ypos],xpos+1,ypos,True if temp_grid[xpos+1][ypos]==" " else False)
+        if up[3]:
+            branch.append(up)
+        if down[3]:
+            branch.append(down)
+        if left[3]:
+            branch.append(left)
+        if right[3]:
+            branch.append(right)
+        xpos=branch[0][1]
+        ypos=branch[0][2]
+        temp_grid[xpos][ypos]="x"
+        print_board(temp_grid)
+        branch.pop()
+        print_board(temp_grid)
 smooth(unsmooth_maze)
