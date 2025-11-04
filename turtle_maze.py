@@ -51,90 +51,55 @@ class button:
         self.text_turtle.color(self.text_color)
         self.text_turtle.write(new_text, align="center", font=(self.font, self.font_size, self.font_type))
 def random_maze():
-    board=[]
-    board.append(["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"," ","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"])
-    for x in range(0,50):
-        board1=["#"]
-        for y in range(0,50):
-            if random.randint(0,3)==3:
-                board1.append("#")
-            else:
-                board1.append(" ")
-        board1.append("#")
-        board.append(board1)
-    board.append(["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"," ","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"])
-    board.append(["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"])
-    return board
-unsmooth_maze=random_maze()
-print(["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"," ","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"].index(" "))
-def print_board(the_grid,t):
-    for xpos,x in enumerate(the_grid):
-        for ypos,y in enumerate(x):
-            if y=="#":
-                t.color("black")
-                t.fillcolor("black")
-                draw_rectangle(t,[-250+10*ypos,250-10*xpos],[-240+10*ypos,260-10*xpos],"black","black")    
-def smooth(grid,t):
-    temp_grid=copy.deepcopy(grid)
-    branch=[]
-    xpos=31
-    ypos=50
-    width=len(temp_grid[0])
-    height=len(temp_grid)
-    branch.append((xpos, ypos))
-    while branch:
-        xpos, ypos = branch[-1] 
-        if temp_grid[xpos][ypos] != 'x':
-            temp_grid[xpos][ypos] = "x"
-        if ypos == 50:
-            print_board(temp_grid,t)
-            return True
-        moves = [(0, -1), (0, 1), (-1, 0), (1, 0)]
-        found_path = False
+    t=turtle.Turtle()
+    ofset=20
+    t.penup()
+    t.goto(0,0)
+    t.pendown()
+    t.goto(0,ofset*20)
+    t.goto(ofset*19,ofset*20)
+    t.penup()
+    t.goto(ofset*20,ofset*20)
+    t.pendown()
+    t.goto(ofset*20,0)
+    t.goto(ofset,0)
+    t.penup()
+    maze=[
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+]
+    for x in range(1,21):
+        for y in range(1,21):
+            if random.randint(1,2)==1:
+                t.goto(x*ofset,y*ofset)
+                t.pendown()
+                t.goto(x*ofset,y*ofset-ofset)
+                t.penup()
+    for x in range(1,21):
+        for y in range(1,21):
+            if random.randint(1,2)==1:
+                t.goto(x*ofset,y*ofset)
+                t.pendown()
+                t.goto(x*ofset-ofset,y*ofset)
+                t.penup()
 
-        for dx, dy in moves:
-            next_x, next_y = xpos + dx, ypos + dy
-
-            # Check boundaries and if the next cell is a valid space ' '
-            if 0 <= next_x < height and 0 <= next_y < height:
-                if temp_grid[next_x][next_y] == " ":
-                    branch.append((next_x, next_y))
-                    found_path = True
-                    break
-        if not found_path:
-            branch.pop() 
-tur=turtle.Turtle()
-while not smooth(unsmooth_maze,tur):
-    unsmooth_maze=random_maze()
-def up():
-    global posy
-    global unsmooth_maze
-    if unsmooth_maze[posx][posy-1]==" ":
-        posy-=1
-def down():
-    global posy
-    global unsmooth_maze
-    if unsmooth_maze[posx][posy+1]==" ":
-        posy+=1
-def left():
-    global posx
-    global unsmooth_maze
-    if unsmooth_maze[posx-1][posy]==" ":
-        posx-=1
-def right():
-    global posx
-    global unsmooth_maze
-    if unsmooth_maze[posx+1][posy]==" ":
-        posx+=1
-screen.update()
-posx=31
-posy=50
-button(-350,-350,-300,-300,"up",up,[],"black","red","black")
-button(-350,-400,-300,-350,"down",down,[],"black","yellow","black")
-button(-400,-400,-350,-350,"left",left,[],"black","green","black")
-button(-250,-400,-300,-350,"right",right,[],"black","blue","black")
+random_maze()
 turtle.done()
-while posx!=1 and posy!=50:
-    screen.update()
-    tur.goto(-250+10*posy,-250+10*(50-posx))
-    
