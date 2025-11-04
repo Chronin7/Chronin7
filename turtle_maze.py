@@ -2,6 +2,8 @@ import turtle
 import util_functions
 import random
 import copy
+screen = turtle.Screen()
+screen.tracer(0)
 def draw_rectangle(t, bl_cord, tr_cord, pen_color="black", fill_color=""):
     t.color(pen_color, fill_color)
     if fill_color:
@@ -65,35 +67,74 @@ def random_maze():
     return board
 unsmooth_maze=random_maze()
 print(["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"," ","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"].index(" "))
-def print_board(the_grid):
-    for x in the_grid:
-        for y in x:
-            print(y,end="")
-        print()
-def smooth(grid):
+def print_board(the_grid,t):
+    for xpos,x in enumerate(the_grid):
+        for ypos,y in enumerate(x):
+            if y=="#":
+                t.color("black")
+                t.fillcolor("black")
+                draw_rectangle(t,[-250+10*ypos,250-10*xpos],[-240+10*ypos,260-10*xpos],"black","black")    
+def smooth(grid,t):
     temp_grid=copy.deepcopy(grid)
     branch=[]
     xpos=31
     ypos=50
-    while True:
-        temp_grid[xpos][ypos]="x"
-        print_board(temp_grid)
-        up=(temp_grid[xpos][ypos-1],xpos,ypos-1,True if temp_grid[xpos][ypos-1]==" " else False)
-        down=(temp_grid[xpos][ypos+1],xpos,ypos+1,True if temp_grid[xpos][ypos+1]==" " else False)
-        left=(temp_grid[xpos-1][ypos],xpos-1,ypos,True if temp_grid[xpos-1][ypos]==" " else False)
-        right=(temp_grid[xpos+1][ypos],xpos+1,ypos,True if temp_grid[xpos+1][ypos]==" " else False)
-        if up[3]:
-            branch.append(up)
-        if down[3]:
-            branch.append(down)
-        if left[3]:
-            branch.append(left)
-        if right[3]:
-            branch.append(right)
-        xpos=branch[0][1]
-        ypos=branch[0][2]
-        temp_grid[xpos][ypos]="x"
-        print_board(temp_grid)
-        branch.pop()
-        print_board(temp_grid)
-smooth(unsmooth_maze)
+    width=len(temp_grid[0])
+    height=len(temp_grid)
+    branch.append((xpos, ypos))
+    while branch:
+        xpos, ypos = branch[-1] 
+        if temp_grid[xpos][ypos] != 'x':
+            temp_grid[xpos][ypos] = "x"
+        if ypos == 50:
+            print_board(temp_grid,t)
+            return True
+        moves = [(0, -1), (0, 1), (-1, 0), (1, 0)]
+        found_path = False
+
+        for dx, dy in moves:
+            next_x, next_y = xpos + dx, ypos + dy
+
+            # Check boundaries and if the next cell is a valid space ' '
+            if 0 <= next_x < height and 0 <= next_y < height:
+                if temp_grid[next_x][next_y] == " ":
+                    branch.append((next_x, next_y))
+                    found_path = True
+                    break
+        if not found_path:
+            branch.pop() 
+tur=turtle.Turtle()
+while not smooth(unsmooth_maze,tur):
+    unsmooth_maze=random_maze()
+def up():
+    global posy
+    global unsmooth_maze
+    if unsmooth_maze[posx][posy-1]==" ":
+        posy-=1
+def down():
+    global posy
+    global unsmooth_maze
+    if unsmooth_maze[posx][posy+1]==" ":
+        posy+=1
+def left():
+    global posx
+    global unsmooth_maze
+    if unsmooth_maze[posx-1][posy]==" ":
+        posx-=1
+def right():
+    global posx
+    global unsmooth_maze
+    if unsmooth_maze[posx+1][posy]==" ":
+        posx+=1
+screen.update()
+posx=31
+posy=50
+button(-350,-350,-300,-300,"up",up,[],"black","red","black")
+button(-350,-400,-300,-350,"down",down,[],"black","yellow","black")
+button(-400,-400,-350,-350,"left",left,[],"black","green","black")
+button(-250,-400,-300,-350,"right",right,[],"black","blue","black")
+turtle.done()
+while posx!=1 and posy!=50:
+    screen.update()
+    tur.goto(-250+10*posy,-250+10*(50-posx))
+    
