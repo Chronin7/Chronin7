@@ -1,7 +1,7 @@
 import turtle
 import util_functions
 import random
-import copy
+from collections import deque
 screen = turtle.Screen()
 screen.tracer(0)
 def draw_rectangle(t, bl_cord, tr_cord, pen_color="black", fill_color=""):
@@ -17,6 +17,13 @@ def draw_rectangle(t, bl_cord, tr_cord, pen_color="black", fill_color=""):
     t.goto(bl_cord[0], bl_cord[1])
     if fill_color:
         t.end_fill()
+b1=[]
+bout=[]
+for x in range(1,21):
+    for x in range(1,21):
+        b1.append(0)
+    bout.append(b1)
+a = [[0 for _ in range(21)] for _ in range(21)]
 class button:
     def __init__(self, x1, y1, x2, y2, text, on_click_function, peramaters, pen_color="black", fill_color="black", text_color="white", font_size=12, font="Arial", font_type="normal"):
         self.button_turtle = turtle.Turtle()
@@ -52,54 +59,77 @@ class button:
         self.text_turtle.write(new_text, align="center", font=(self.font, self.font_size, self.font_type))
 def random_maze():
     t=turtle.Turtle()
-    ofset=20
-    t.penup()
-    t.goto(0,0)
-    t.pendown()
-    t.goto(0,ofset*20)
-    t.goto(ofset*19,ofset*20)
-    t.penup()
-    t.goto(ofset*20,ofset*20)
-    t.pendown()
-    t.goto(ofset*20,0)
-    t.goto(ofset,0)
-    t.penup()
-    maze=[
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-]
-    for x in range(1,21):
-        for y in range(1,21):
-            if random.randint(1,2)==1:
-                t.goto(x*ofset,y*ofset)
+    t.speed(0)
+    offset=20
+    if 1==1:
+        t.penup()
+        t.goto(0,0)
+        t.pendown()
+        t.goto(0,offset*20)
+        t.goto(offset*19,offset*20)
+        t.penup()
+        t.goto(offset*20,offset*20)
+        t.pendown()
+        t.goto(offset*20,0)
+        t.goto(offset,0)
+        t.penup()
+        t.hideturtle()
+    mazex=[[0 for _ in range(20)]for _ in range(20)]
+    mazey=[[0 for _ in range(20)]for _ in range(20)]
+    for x in range(20):
+        for y in range(20):
+            if random.randint(1,3)==1:
+                t.goto(x*offset,y*offset)
                 t.pendown()
-                t.goto(x*ofset,y*ofset-ofset)
+                t.goto(x*offset,y*offset+offset)
                 t.penup()
-    for x in range(1,21):
-        for y in range(1,21):
+                mazex[x][y]=1  
+    for x in range(20):
+        for y in range(20):
             if random.randint(1,2)==1:
-                t.goto(x*ofset,y*ofset)
+                t.goto(x*offset,y*offset)
                 t.pendown()
-                t.goto(x*ofset-ofset,y*ofset)
+                t.goto(x*offset+offset,y*offset)
                 t.penup()
-
-random_maze()
-turtle.done()
+                mazey[x][y]=1
+    return mazex,mazey
+def check_maze(mazex, mazey, start_x, start_y, t):
+    branches = deque()
+    branches.append(((start_x, start_y),(start_x, start_y)))
+    visited = set()
+    goal = (19, 19)
+    t.pensize(9)
+    t.pencolor("red")
+    while branches:
+        current, (px, py) = branches.pop()
+        if current in visited:
+            continue
+        visited.add(current)
+        x, y = current
+        next_to = []
+        t.penup()
+        t.goto(px * 20 + 10, py * 20 + 10)
+        t.pendown()
+        t.goto(x * 20 + 10, y * 20 + 10)
+        if current == goal:
+            return True
+        if x > 0 and mazex[x][y] == 0:
+            next_to.append((x - 1, y))
+        if x < 19 and mazex[x + 1][y] == 0:
+            next_to.append((x + 1, y))
+        if y > 0 and mazey[x][y] == 0:
+            next_to.append((x, y - 1))
+        if y < 19 and mazey[x][y + 1] == 0:
+            next_to.append((x, y + 1))
+        for side in next_to:
+            if side not in visited:
+                branches.append((side, current))
+    return False
+while True:
+    screen.clearscreen()
+    screen.tracer(0)
+    maze_x, maze_y = random_maze()
+    screen.update()
+    if check_maze(maze_x,maze_y,0,0,turtle.Turtle()):
+        break
+screen.mainloop()
