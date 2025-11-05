@@ -130,6 +130,7 @@ while True:
     screen.tracer(0)
     maze_x, maze_y = random_maze()
     screen.update()
+    screen.tracer(0)
     if check_maze(maze_x,maze_y,0,0,turtle.Turtle()):
         break
 screen.mainloop()
