@@ -1,4 +1,4 @@
-def get_valid_type(type_return, prompt, invalid_prompt="Invalid input. Please try again.", valid=None,title="place_bet"):
+def get_valid_type(type_return, prompt, invalid_prompt="Invalid input. Please try again.", valid=None,title=""):
     while True:
         try:
             to_return = type_return(input(prompt))
