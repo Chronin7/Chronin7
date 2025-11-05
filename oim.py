@@ -1,4 +1,2 @@
-#from __future__ import braces
-import antigravity
-import this
-print ('We are the {} who say "{}!"'.format('knights', 'Ni'))
+import util_functions
+util_functions.get_valid_type()
