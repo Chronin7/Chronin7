@@ -3,33 +3,40 @@
 #error 003 is error in type_text function
 #error 004 is error in clear_term function
 #error 005 is error in alternate_random function
-#error 006 is error in
-#error 007 is error in
-#error 008 is error in
-#error 009 is error in
-#error 010 is error in
-#error 011 is error in
-#error 012 is error in
-#error 013 is error in
-#error 014 is error in
-#error 015 is error in
-#error 016 is error in
-#error 017 is error in
-#error 018 is error in
-#error 019 is error in
-#error 020 is error in
-#error 021 is error in
-#error 022 is error in
-#error 023 is error in
-#error 024 is error in
-#error 025 is error in
-#error 026 is error in
-#error 027 is error in
-#error 028 is error in
-#error 029 is error in
-#error 030 is error in
-#error 031 is error in
+#error 006 is error in threads class __init__ function
+#error 007 is error in threads class start function
+#error 008 is error in threads class join function
+#error 009 is error in threads class is_alive function
+#error 010 is error in threads class repeat_function function
+#error 011 is error in threads class repeat_function_until_stop function
+#error 012 is error in threads class get_data function
+#error 013 is error in threads class set_data function
+#error 014 is error in factorial function
+#error 015 is error in fibonacci function
+#error 016 is error in is_prime function
+#error 017 is error in get_ip_adress function
+#error 018 is error in get_mac_address function
+#error 019 is error in get_system_info function
+#error 020 is error in read_file function
+#error 021 is error in write_file function
+#error 022 is error in append_file function
+#error 023 is error in delete_file function
+#error 024 is error in file_exists function
+#error 025 is error in list_files function
+#error 026 is error in create_directory function
+#error 027 is error in delete_directory function
+#error 028 is error in directory_exists function
+#error 029 is error in get_file_size function
+#error 030 is error in get_current_working_directory function
+#error 031 is error in change_working_directory function
 #error 032 is your fault whoever is sitting at the computer
+#error 033 is error in join_paths function
+#error 034 is error in split_path function
+#error 035 is error in get_file_extension function
+#error 036 is error in get_file_name function
+#error 037 is error in copy_file function
+#error 038 is error in move_file function
+#error 039 is error in rename_file function
 def get_valid_type(type_return, prompt, invalid_prompt="Invalid input. Please try again.", valid=None,typing=False,end="",type_speed=False,random_bounds=(0,.1)):
     """
     get_valid_type is a glorified input statement that auto checks and looks like someone is typing if enabled
@@ -96,7 +103,46 @@ def get_error_type(error_number):
         error_number (int): the error number
     """
     try:
-        return [None,"get_valid_type","get_error_type","type_text","clear_term","alternet_random",None,None,None][error_number]
+        return [None,
+        "error 001 is error in get_valid_type function",
+        "error 002 is error in get_error_type function",
+        "error 003 is error in type_text function",
+        "error 004 is error in clear_term function",
+        "error 005 is error in alternate_random function",
+        "error 006 is error in threads class __init__ function",
+        "error 007 is error in threads class start function",
+        "error 008 is error in threads class join function",
+        "error 009 is error in threads class is_alive function",
+        "error 010 is error in threads class repeat_function function",
+        "error 011 is error in threads class repeat_function_until_stop function",
+        "error 012 is error in threads class get_data function",
+        "error 013 is error in threads class set_data function",
+        "error 014 is error in factorial function",
+        "error 015 is error in fibonacci function",
+        "error 016 is error in is_prime function",
+        "error 017 is error in get_ip_adress function",
+        "error 018 is error in get_mac_address function",
+        "error 019 is error in get_system_info function",
+        "error 020 is error in read_file function",
+        "error 021 is error in write_file function",
+        "error 022 is error in append_file function",
+        "error 023 is error in delete_file function",
+        "error 024 is error in file_exists function",
+        "error 025 is error in list_files function",
+        "error 026 is error in create_directory function",
+        "error 027 is error in delete_directory function",
+        "error 028 is error in directory_exists function",
+        "error 029 is error in get_file_size function",
+        "error 030 is error in get_current_working_directory function",
+        "error 031 is error in change_working_directory function",
+        "error 032 is your fault whoever is sitting at the computer",
+        "error 033 is error in join_paths function",
+        "error 034 is error in split_path function",
+        "error 035 is error in get_file_extension function",
+        "error 036 is error in get_file_name function",
+        "error 037 is error in copy_file function",
+        "error 038 is error in move_file function",
+        "error 039 is error in rename_file function"][error_number]
     except:
         print("error 002 occurred, please try again")
 def type_text(text,end="\n",typing=True,random_bounds=(0,.1)):
@@ -326,7 +372,8 @@ def is_prime(n):
         n (int): the number to check
     Returns:
         boolean: True if the number is prime, False if not prime
-    """    try:
+    """    
+    try:
         if n <= 1:
             return False
         for i in range(2, int(n**0.5) + 1):
@@ -382,4 +429,132 @@ def get_system_info():
         print("error 019 occurred, please try again")
 def read_file(file_path):
     """
-    
+    reads a file and returns its contents
+    """
+    try:
+        with open(file_path, 'r') as file:
+            contents = file.read()
+        return contents
+    except:
+        print("error 020 occurred, please try again")
+def write_file(file_path, contents):
+    """
+    writes contents to a file
+    """
+    try:
+        with open(file_path, 'w') as file:
+            file.write(contents)
+    except:
+        print("error 021 occurred, please try again")
+def append_file(file_path, contents):
+    """
+    appends contents to a file
+    """
+    try:
+        with open(file_path, 'a') as file:
+            file.write(contents)
+    except:
+        print("error 022 occurred, please try again")
+def delete_file(file_path):
+    """
+    deletes a file
+    """
+    try:
+        import os
+        os.remove(file_path)
+    except:
+        print("error 023 occurred, please try again")
+def file_exists(file_path):
+    """
+    checks if a file exists
+    Returns:
+        boolean: True if the file exists, False if not
+    """
+    try:
+        import os
+        return os.path.isfile(file_path)
+    except:
+        print("error 024 occurred, please try again")
+def list_files(directory):
+    """
+    lists all files in a directory
+    Returns:
+        list: a list of files in the directory
+    """
+    try:
+        import os
+        return os.listdir(directory)
+    except:
+        print("error 025 occurred, please try again")
+def create_directory(directory):
+    """
+    creates a directory
+    """
+    try:
+        import os
+        os.makedirs(directory, exist_ok=True)
+    except:
+        print("error 026 occurred, please try again")
+def delete_directory(directory):
+    """
+    deletes a directory
+    """
+    try:
+        import os
+        import shutil
+        shutil.rmtree(directory)
+    except:
+        print("error 027 occurred, please try again")
+def directory_exists(directory):
+    """
+    checks if a directory exists
+    Returns:
+        boolean: True if the directory exists, False if not
+    """
+    try:
+        import os
+        return os.path.isdir(directory)
+    except:
+        print("error 028 occurred, please try again")
+def get_file_size(file_path):
+    """
+    gets the size of a file in bytes
+    Returns:
+        int: the size of the file in bytes
+    """
+    try:
+        import os
+        return os.path.getsize(file_path)
+    except:
+        print("error 029 occurred, please try again")
+def get_current_working_directory():
+    """
+    gets the current working directory
+    Returns:
+        string: the current working directory
+    """
+    try:
+        import os
+        return os.getcwd()
+    except:
+        print("error 030 occurred, please try again")
+def change_working_directory(directory):
+    """
+    changes the current working directory
+    """
+    try:
+        import os
+        os.chdir(directory)
+    except:
+        print("error 031 occurred, please try again")
+def join_paths(*paths):
+    """
+    joins multiple paths into a single path
+    Returns:
+        string: the joined path
+    """
+    try:
+        import os
+        return os.path.join(*paths)
+    except:
+        print("error 032 occurred, please try again")
