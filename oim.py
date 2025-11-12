@@ -1,1 +1,48 @@
-food_items={"main course":{"cheese":{"cost":67,"variations":{"american cheese":2,"asiago cheese":17,"blue cheese":18,"bocconcini cheese":14,"brie cheese":3,"burrata cheese":6,"camembert cheese":16,"cheddar cheese":14,"cheese curds":18,"colby cheese":12,"colby-jack cheese":12,"cold-pack cheese":13,"cotija cheese":19,"cottage cheese":13,"cream cheese":17,"emmental cheese":12,"farmer's cheese":5,"feta cheese":21,"fresh mozzarella cheese":15,"gorgonzola cheese":10,"gouda cheese":7132,"gruyere cheese":32,"halloumi cheese":12,"havarti cheese":16,"jarlsberg cheese":15,"limburger cheese":13,"mascarpone cheese":11,"monterey jack cheese":18,"mozzarella cheese":17,"muenster cheese":14,"neufchatel cheese":14,"paneer cheese":17,"parmesan cheese":14,"pepper jack cheese":21,"provolone cheese":18,"ricotta cheese":18,"romano cheese":15,"string cheese":11,"swiss cheese":10,"tetilla cheese":19,"white american cheese":12,"white cheddar cheese":14,"yellow american cheese":13,"yellow cheddar cheese":15}},"hamburger":{"cost":5,"variations":{"cheeseburger":4,"everything burger":8}},"chicken":{"cost":4,"variations":{"chicken nugets":3,"chicken wings":6,"chicken tikka masala":12}},"pho":{"cost":15,"variations":{None:None}},"squid":{"cost":21,"variations":{None:None}},"poutine":{"cost":15,"variations":{None:None}},"clams":{"cost":15,"variations":{None:None}},"fish":{"cost":15,"variations":{"carp":15,"pike":12,"shehorse":17,"goldfish":10,"shark":72}},"other":{"cost":0,"variations":{"prime rib":0}}},"sides":{"computer parts":{"cost":150,"variations":{"cpu":75,"gpu":120,"ram":60,"motherboard":90,"power supply":50,"ssd":80,"hdd":70,"cooling fan":40,"case":55}},"fries":{"cost":15,"variations":{"curly fries":1,"waffle fries":4,"crinkle fries":7,"cactus frys":15}},"rice":{"cost":0.0000046,"variations":{None:None}},"mac & cheese":{"cost":15,"variations":{"extra cheese & mac":5,"bacon mac & cheese ":7}},"biscuits":{"cost":11,"variations":{"cheese biscuits":3,"herb biscuits":4}},"peta bread":{"cost":13,"variations":{None:None}},"cornbred":{"cost":11,"variations":{"honey cornbred":4,"cheese cornbred":5},"cheese":{"cost":67,"variations":{"american cheese":2,"asiago cheese":17,"blue cheese":18,"bocconcini cheese":14,"brie cheese":3,"burrata cheese":6,"camembert cheese":16,"cheddar cheese":14,"cheese curds":18,"colby cheese":12,"colby-jack cheese":12,"cold-pack cheese":13,"cotija cheese":19,"cottage cheese":13,"cream cheese":17,"emmental cheese":12,"farmer's cheese":5,"feta cheese":21,"fresh mozzarella cheese":15,"gorgonzola cheese":10,"gouda cheese":7132,"gruyere cheese":32,"halloumi cheese":12,"havarti cheese":16,"jarlsberg cheese":15,"limburger cheese":13,"mascarpone cheese":11,"monterey jack cheese":18,"mozzarella cheese":17,"muenster cheese":14,"neufchatel cheese":14,"paneer cheese":17,"parmesan cheese":14,"pepper jack cheese":21,"provolone cheese":18,"ricotta cheese":18,"romano cheese":15,"string cheese":11,"swiss cheese":10,"tetilla cheese":19,"white american cheese":12,"white cheddar cheese":14,"yellow american cheese":13,"yellow cheddar cheese":15}},},"chips":{"cost":15,"variations":{"potato chips":3,"tortilla chips":4,"veggie chips":5}},"corn":{"cost":15,"variations":{"buttered corn":3,"seasoned corn":4}},"the arcane arts":{"cost":15,"variations":{"dark magic":50,"light magic":45,"chaos magic":60,"nature magic":30,"blood magic":70,"spirit magic":40,"time magic":80,"space magic":90,"mind magic":55,"soul magic":65,"elemental magic":75,"ancient magic":100,"forbidden magic":120,"divine magic":110,"necromancy":130,"illusion magic":35,"transmutation magic":85,"enchantment magic":95,"summoning magic":105,"alchemy":115}},"lime":{"cost":15,"variations":{"key lime":4,"persian lime":5}},"meme":{"cost":15,"variations":{"dank meme":10,"wholesome meme":8,"surreal meme":12}},},"drinks":{"soda":{"cost":15,"variations":{"cola":3,"lemon-lime":4,"root beer":5,"orange soda":6,"grape soda":7,"cream soda":8,"ginger ale":9,"club soda":10,"sprite":11,"fanta":12,"mountain dew":13,"dr pepper":14}},"fruit juice":{"cost":15,"variations":{"apple juice":3,"orange juice":4,"grape juice":5,"cranberry juice":6,"pineapple juice":7,"mango juice":8,"pomegranate juice":9,"watermelon juice":10}},"water":{"cost":1,"variations":{"sparkling water":2,"mineral water":3,"flavored water":4}},"cheese":{"cost":67,"variations":{"american cheese":2,"asiago cheese":17,"blue cheese":18,"bocconcini cheese":14,"brie cheese":3,"burrata cheese":6,"camembert cheese":16,"cheddar cheese":14,"cheese curds":18,"colby cheese":12,"colby-jack cheese":12,"cold-pack cheese":13,"cotija cheese":19,"cottage cheese":13,"cream cheese":17,"emmental cheese":12,"farmer's cheese":5,"feta cheese":21,"fresh mozzarella cheese":15,"gorgonzola cheese":10,"gouda cheese":7132,"gruyere cheese":32,"halloumi cheese":12,"havarti cheese":16,"jarlsberg cheese":15,"limburger cheese":13,"mascarpone cheese":11,"monterey jack cheese":18,"mozzarella cheese":17,"muenster cheese":14,"neufchatel cheese":14,"paneer cheese":17,"parmesan cheese":14,"pepper jack cheese":21,"provolone cheese":18,"ricotta cheese":18,"romano cheese":15,"string cheese":11,"swiss cheese":10,"tetilla cheese":19,"white american cheese":12,"white cheddar cheese":14,"yellow american cheese":13,"yellow cheddar cheese":15}}}}
+import pyaudio
+import numpy as np
+import math
+import time
+
+# Audio parameters
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 44100
+CHUNK = 1024 # Number of frames per buffer
+REFERENCE_VALUE = 1 # For digital audio normalized to -1 to 1
+
+p = pyaudio.PyAudio()
+
+stream = p.open(format=FORMAT,
+                channels=CHANNELS,
+                rate=RATE,
+                input=True,
+                frames_per_buffer=CHUNK)
+
+print("Measuring sound levels...")
+
+try:
+    while True:
+        data = stream.read(CHUNK)
+        audio_data = np.frombuffer(data, dtype=np.int16)
+
+        # Normalize to -1 to 1 range (assuming 16-bit audio)
+        normalized_audio_data = audio_data / 32768.0
+
+        # Calculate RMS
+        rms = np.sqrt(np.mean(normalized_audio_data**2))
+
+        # Convert to Decibels
+        if rms > 0:
+            db = 20 * math.log10(rms / REFERENCE_VALUE)
+        else:
+            db = -60 # Or a very low number to represent silence
+
+        print(f"Current Decibel Level: {db:.2f} dB")
+        time.sleep(0.1) # Adjust refresh rate as needed
+
+except KeyboardInterrupt:
+    print("Measurement stopped.")
+finally:
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
