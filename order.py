@@ -376,6 +376,7 @@ def print_option(option_chosen, detail_depth):
                 for variation, variation_cost in details['variations'].items():
                     print(f"    {variation} - Additional Cost: {variation_cost}")
 def main():
+    
     print("Welcome to the Food Ordering System")
     print("Here are the available food items:")
     order = []
