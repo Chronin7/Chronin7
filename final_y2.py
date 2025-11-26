@@ -63,30 +63,60 @@ def effect(efec,person):
 	elif 1==1:
 		print()
 class enemy:
-    def __init__(self,name,dresestance,damage,hp,tier,descrip="this shuldent be printed but if it is be proud of yourself, you found a glitch (unless you are the maker, then have an emotional brakedown)"):
-        self.name=name
-        self.res=dresestance
-        self.damage=damage
-        self.hp=hp
-        self.tier=tier
-        self.descrip=descrip
-    def damage(self,damage,dtype):
-        if dtype==self.res:
-            damage=round(damage/2)
-        self.hp-=damage
-        print(f"{self.name} takes {damage} damage")
-def damage(damage,dtype,person):
-	if person==
-def proses_pos(type,pos,map,speshal=None,item=None,gtype="f",iitem="filler"):
+	def __init__(self,name,dresestance,damage,hp,tier,descrip="this shuldent be printed but if it is be proud of yourself, you found a glitch (unless you are the maker, then have an emotional brakedown)"):
+		self.name=name
+		self.res=dresestance
+		self.damage=damage
+		self.hp=hp
+		self.tier=tier
+		self.descrip=descrip
+	def __str__(self):
+		return self.descrip
+	def damage(self,damage,dtype):
+		if dtype==self.res:
+			damage=round(damage/2)
+			print(f"{self.name} is resistant to {dtype} damage!")
+		self.hp-=damage
+		print(f"{self.name} takes {damage} damage!")
+	@property
+	def helth(self):
+		return self.helth
+
+	@helth.setter
+	def helth(self, value):
+		self.hp = value
+		if self.hp <= 0:
+			self.dead()
+
+	def dead(self):
+		print("dead")
+		del self
+	
+def damage(damage,dtype,person,person_list):
+	if person=="e1":
+		person_list[0].damage(damage,dtype)
+	elif person=="e2":
+		person_list[1].damage(damage,dtype)
+	elif person=="e3": 
+		person_list[2].damage(damage,dtype)
+	elif person=="p1":
+		person_list[3]-=damage
+	elif person=="p2":
+		person_list[4]-=damage
+	elif person=="p3":
+		person_list[5]-=damage
+def proses_pos(type,pos,map,speshal=None,item=None,gtype="f",iitem="filler",efect="",descrip="this shuldent be printed but if it is be proud of yourself, you found a glitch (unless you are the maker, then have an emotional brakedown)"):
 	if gtype == "w":
 		print("how did you get here")
 		Location_type = "illegal"
 	elif gtype == "l": 
 		location_type = "illegal"
 	elif gtype == "i":
-		location_type = item_type
-		Inventory.grant(iitem)
+		location_type = "item_type"
+		inventory.grant(inventory,iitem,efect,1,descrip)
 	elif gtype==1:
 		print()
 
 	
+if __name__ == "__main__":
+    print("yes")
