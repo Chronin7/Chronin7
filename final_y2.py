@@ -1,3 +1,7 @@
+import util_functions
+import random
+class LogicError(Exception):
+	print(f"logic error at line {util_functions.get_linenumber()}")
 map=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","l","i","h","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","h","h","h","l","h","h","speshal","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
@@ -59,7 +63,9 @@ def effect(efec,person):
 	elif "heal+" in efec:
 		hp=max_hp
 	elif "mage bomb" in efec:
-		damage(efec[1],efec[2],person)
+		damage(efec[1],"fire","e1")
+		damage(efec[1],"fire","e2")
+		damage(efec[1],"fire","e3")
 	elif 1==1:
 		print()
 class enemy:
@@ -109,14 +115,28 @@ def proses_pos(type,pos,map,speshal=None,item=None,gtype="f",iitem="filler",efec
 	if gtype == "w":
 		print("how did you get here")
 		Location_type = "illegal"
+		monster_spawn=2
 	elif gtype == "l": 
 		location_type = "illegal"
+		monster_spawn=2
 	elif gtype == "i":
+		monster_spawn=speshal
 		location_type = "item_type"
 		inventory.grant(inventory,iitem,efect,1,descrip)
-	elif gtype==1:
-		print()
-
-	
+	elif gtype=="u":
+		print("how did you get here")
+		location_type = "illegal"
+		monster_spawn=2
+	elif gtype=="c":
+		location_type = "cave"
+		monster_spawn=2
+	elif gtype=="b":
+		location_type="bridge"
+		monster_spawn=2
+	elif gtype=="t":
+		location_type="town"
+		monster_spawn=0
+	elif gtype=="f":
+		
 if __name__ == "__main__":
     print("yes")
