@@ -558,3 +558,14 @@ def join_paths(*paths):
         return os.path.join(*paths)
     except:
         print("error 032 occurred, please try again")
+def get_linenumber():
+    """
+    gets the current line number in the code
+    Returns:
+        int: the current line number
+    """
+    try:
+        import inspect
+        return inspect.currentframe().f_back.f_lineno
+    except:
+        print("error 033 occurred, please try again")
