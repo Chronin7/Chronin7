@@ -166,9 +166,9 @@ import random
 class LogicError(Exception):
 	print(f"logic error at line {util_functions.get_linenumber()}")
 map=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","w","w","w","w","w","w","w","l","i","h","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","w","w","w","l","i1","h","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","h","h","h","l","h","h","speshal","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","w","w","w","h","h","h","h","ni","l","l","h","h","i","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","h","h","h","h","ni1","l","l","h","h","i2","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","h","h","h","u","h","h","l","l","h","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","h","h","u","u","h","l","h","s","l","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","u","h","u","c","h","b","h","h","l","l","h","u","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
@@ -176,11 +176,11 @@ map=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w
 ["w","w","w","w","w","w","w","h","u","f","f","f","f","f","f","f","f","f","f","h","u","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","h","f","f","f","f","f","f","s","f","f","f","f","f","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","f","f","f","f","f","f","c","f","f","f","t","p","f","f","f","f","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","w","f","f","s","f","f","f","f","f","f","f","f","p","f","f","ni","f","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","f","i","f","f","f","f","f","f","f","i","p","p","p","f","f","f","f","f","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","f","f","s","f","f","f","f","f","f","f","f","p","f","f","ni2","f","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","f","i3","f","f","f","f","f","f","f","i4","p","p","p","f","f","f","f","f","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","f","f","f","f","f","f","f","f","f","f","p","p","p","f","f","f","f","f","f","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","r","f","f","f","f","f","f","f","f","f","p","p","p","f","f","f","f","f","f","f","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","t","p","r","f","r","f","f","p","p","p","p","p","p","p","f","f","f","f","f","f","f","f","f","f","p","t","w","w","i","w","w"],
+["w","w","w","w","w","t","p","r","f","r","f","f","p","p","p","p","p","p","p","f","f","f","f","f","f","f","f","f","f","p","t","w","w","i5","w","w"],
 ["w","w","w","w","w","w","p","f","b","r","f","f","p","p","p","p","p","p","c","u","f","f","f","f","f","f","f","f","f","f","w","w","f","f","f","w"],
 ["w","w","w","w","w","f","p","f","f","t","r","f","p","p","p","p","p","p","f","f","f","f","f","f","f","f","f","f","f","b","w","f","p","f","f","w"],
 ["w","w","w","w","f","p","p","p","f","f","f","b","r","c","p","spawn","p","p","p","p","f","f","f","f","f","f","f","f","r","s","p","p","p","p","f","w"],
@@ -192,12 +192,12 @@ map=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w
 ["w","w","w","w","w","s","s","f","f","s","s","s","s","s","p","p","p","p","p","p","f","f","f","f","f","f","f","f","f","f","f","f","w","w","w","w"],
 ["w","w","w","w","w","w","s","s","s","s","s","w","w","s","s","s","f","f","f","f","f","f","f","f","f","f","f","w","aw","aw","aw","aw","w","w","w","w"],
 ["w","w","w","w","w","w","s","s","s","s","w","w","w","w","s","s","s","f","f","f","f","s","s","s","s","s","w","aw","aw","aw","aw","aw","aw","w","w","w"],
-["w","w","w","w","w","s","s","s","s","w","w","w","w","w","s","s","s","s","s","s","s","s","s","s","s","w","w","aw","aw","i","aw","aw","aw","w","w","w"],
-["w","w","w","w","w","s","s","s","s","w","w","w","s","s","s","s","s","s","s","s","s","i","s","s","s","w","w","aw","aw","aw","aw","aw","aw","w","w","w"],
-["w","w","w","w","w","i","s","s","w","w","w","s","s","s","s","s","s","s","s","t","s","s","s","s","w","w","w","w","aw","aw","ni","aw","aw","w","w","w"],
+["w","w","w","w","w","s","s","s","s","w","w","w","w","w","s","s","s","s","s","s","s","s","s","s","s","w","w","aw","aw","i6","aw","aw","aw","w","w","w"],
+["w","w","w","w","w","s","s","s","s","w","w","w","s","s","s","s","s","s","s","s","s","i7","s","s","s","w","w","aw","aw","aw","aw","aw","aw","w","w","w"],
+["w","w","w","w","w","i8","s","s","w","w","w","s","s","s","s","s","s","s","s","t","s","s","s","s","w","w","w","w","aw","aw","ni3","aw","aw","w","w","w"],
 ["w","w","w","w","w","s","s","w","w","w","w","s","s","s","s","s","s","s","s","s","s","s","s","w","w","w","w","w","w","aw","aw","aw","w","w","w","w"],
-["w","w","w","w","w","s","s","w","w","w","w","s","s","s","s","s","i","s","s","s","s","s","s","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","s","s","w","w","w","w","w","s","s","s","s","s","s","s","ni","s","s","s","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","s","s","w","w","w","w","s","s","s","s","s","i9","s","s","s","s","s","s","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","s","s","w","w","w","w","w","s","s","s","s","s","s","s","ni4","s","s","s","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","s","s","s","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
@@ -401,17 +401,31 @@ class InventoryManager:
 			enemies.damage(effect["ice core"],"ice",person)
 		elif "chaos gem" in effect:
 			party.magic_attack_choise(person,self,inventory)
+location_dict={
+"h":{"name":"hot land","description":"a land of heat","special":None},
+"l":{"name":"lava land","description":"a land of lava","special":"not valid location"},	
+"w":{"name":"water","description":"a body of water","special":"Not valid location"},
+"i":{"name":"item","description":["You found an item!","youv already sherched here"],"special":"item"},
+"ni":{"name":"nessasary item","description":["You found a nessasary item!","youv already sherched here"],"special":"item"},
+"c":{"name":"cave","description":"a dark cave","special":["desend","ascend"]},
+"s":{"name":"sky lift","description":"a sacred place with powerfull lifting runes","special":["ascend","desend"]},
+"b":{"name":"bridge","description":"a rickety bridge","special":None},
+"t":{"name":"town","description":"a small town","special":"town"},
+"f":{"name":"feild","description":"a wide open feild","special":None},
+"r":{"name":"river","description":"a flowing river","special":"passable with gem of water"},
+"spawn":{"name":"spawn point","description":"the place where your adventure begins","special":None}
+
 monster_dict={
-"dragon":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"dragon scale","quantity":1,"useable":True,"effect":{"heal":50}},"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":None},
-"blob":{"tier":1,"hp":80,"dmg":15,"drops":{"name":"slime gel","quantity":1,"useable":True,"effect":{"heal":20}},"resistance":"water","description":"A gooey blob that oozes around.","speshal spwan location":None},
-"orc":{}
-"troll"
-"goblin"
-"knight"
-"construct"
-"Animated statue" 
-"Possessed cow"
-"mermaid"
+"dragon":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"dragon tooth","quantity":1,"useable":True,"effect":{"buff":50,"xp":50}},"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":["~water","~lava","hot","~river"]},
+"blob":{"tier":1,"hp":80,"dmg":15,"drops":{"name":"slime gel","quantity":1,"useable":True,"effect":{"heal":20,"xp":25}},"resistance":"water","description":"A gooey blob that oozes around.","speshal spwan location":["~water","~lava","~river"]},
+"orc":{"tier":2,"hp":120,"dmg":25,"drops":{"name":"orc tusk","quantity":1,"useable":True,"effect":{"buff":10,"xp":25}},"resistance":"wind","description":"A brutish orc warrior.","speshal spwan location":["~lava","~water","~river"]},
+"troll":{"tier":2,"hp":130,"dmg":28,"drops":{"name":"troll club","quantity":1,"useable":False,"effect":{"buff":10,"xp":50}},"resistance":"wind","description":"A large and strong troll.","speshal spwan location":["~lava","~water","bridge","~river"]},
+"goblin":{"tier":1,"hp":30,"dmg":12,"drops":{"name":"goblin ear","quantity":1,"useable":True,"effect":{"buff":5,"xp":15}},"resistance":"darkness","description":"A sneaky goblin.","speshal spwan location":["~water","~lava","cave","~river"]},
+"knight":{"tier":3,"hp":200,"dmg":40,"drops":{"name":"knight's shield","quantity":1,"useable":False,"effect":{"buff":20,"xp":75}},"resistance":"light","description":"A heavily armored knight.","speshal spwan location":["~water","~lava","town","bridge","~river"]},#if spawn on brige have speshal dialog (none shall pass, its only a flesh wound, tis but a scratch, ive had worse)
+"construct":{"tier":3,"hp":180,"dmg":35,"drops":{"name":"mechanical gear","quantity":1,"useable":False,"effect":{"buff":15,"xp":60}},"resistance":"electric","description":"A mechanical construct brought to life.","speshal spwan location":["~water","~lava","cave","~river"]},
+"Animated statue":{"tier":2,"hp":140,"dmg":22,"drops":{"name":"stone shard","quantity":1,"useable":False,"effect":{"buff":10,"xp":40}},"resistance":"wind","description":"A statue that has come to life.","speshal spwan location":["~water","~lava","cave","hot","~river"]},
+"Possessed cow":{"tier":1,"hp":90,"dmg":18,"drops":{"name":"haunted horn","quantity":1,"useable":False,"effect":{"buff":8,"xp":30}},"resistance":"darkness","description":"A cow possessed by a spirit.","speshal spwan location":["~water","~lava","feild","~river"]},
+"mermaid":{"tier":2,"hp":110,"dmg":20,"drops":{"name":"song of the sea","quantity":1,"useable":True,"effect":{"heal":15,"xp":35}},"resistance":"water","description":"A mystical mermaid.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","river","~town",]},
 "Lava monster"
 "Fish lord"
 "Lava warden"
