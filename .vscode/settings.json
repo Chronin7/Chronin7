@@ -1,5 +1,7 @@
 {
 	"cSpell.words": [
 		"tupple"
-	]
+	],
+	"editor.defaultFormatter": "ms-python.python",
+	"workbench.colorTheme": "Cold Python Theme"
 }
