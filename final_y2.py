@@ -260,7 +260,7 @@ class TeamManager:
 		self.mana_max[person]+=10
 		self.mana[person]=self.mana_max[person]
 		if self.level[person]%7==0:
-			util_functions.monster_spawn_rate=min(util_functions.monster_spawn_rate+5,70)
+			monster_spawn_rate=min(monster_spawn_rate+5,70)
 		self.dmg[person]+=10
 	def add_buff(self,damage_buff,person):
 		self.dmg[person]+=damage_buff
@@ -409,86 +409,390 @@ location_dict={
 "i":{"name":"item","description":["You found an item!","youv already sherched here"],"special":"item"},
 "ni":{"name":"nessasary item","description":["You found a nessasary item!","youv already sherched here"],"special":"item"},
 "c":{"name":"cave","description":"a dark cave","special":["desend","ascend"]},
-"s":{"name":"sky lift","description":"a sacred place with powerfull lifting runes","special":["ascend","desend"]},
+"sk":{"name":"sky lift","description":"a sacred place with powerfull lifting runes","special":["ascend","desend"]},
 "b":{"name":"bridge","description":"a rickety bridge","special":None},
 "t":{"name":"town","description":"a small town","special":"town"},
 "f":{"name":"feild","description":"a wide open feild","special":None},
 "r":{"name":"river","description":"a flowing river","special":"passable with gem of water"},
-"spawn":{"name":"spawn point","description":"the place where your adventure begins","special":None}
-
+"spawn":{"name":"spawn point","description":"the place where your adventure begins","special":None},
+"s":{"name":"snow","description":"a cold snowy area","special":None},
+}
 monster_dict={
-"dragon":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"dragon tooth","quantity":1,"useable":True,"effect":{"buff":50,"xp":50}},"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":["~water","~lava","hot","~river"]},
-"blob":{"tier":1,"hp":80,"dmg":15,"drops":{"name":"slime gel","quantity":1,"useable":True,"effect":{"heal":20,"xp":25}},"resistance":"water","description":"A gooey blob that oozes around.","speshal spwan location":["~water","~lava","~river"]},
+"dragon":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"dragon tooth","quantity":1,"useable":False,"effect":{"buff":50,"xp":50}},"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":["~water","~lava","hot","~river","~snow"]},
+"blob":{"tier":1,"hp":80,"dmg":15,"drops":{"name":"slime gel","quantity":1,"useable":True,"effect":{"heal":20,"xp":25}},"resistance":"water","description":"A gooey blob that oozes around.","speshal spwan location":["~water","~lava","~river","~snow"]},
 "orc":{"tier":2,"hp":120,"dmg":25,"drops":{"name":"orc tusk","quantity":1,"useable":True,"effect":{"buff":10,"xp":25}},"resistance":"wind","description":"A brutish orc warrior.","speshal spwan location":["~lava","~water","~river"]},
 "troll":{"tier":2,"hp":130,"dmg":28,"drops":{"name":"troll club","quantity":1,"useable":False,"effect":{"buff":10,"xp":50}},"resistance":"wind","description":"A large and strong troll.","speshal spwan location":["~lava","~water","bridge","~river"]},
-"goblin":{"tier":1,"hp":30,"dmg":12,"drops":{"name":"goblin ear","quantity":1,"useable":True,"effect":{"buff":5,"xp":15}},"resistance":"darkness","description":"A sneaky goblin.","speshal spwan location":["~water","~lava","cave","~river"]},
+"goblin":{"tier":1,"hp":30,"dmg":12,"drops":{"name":"goblin ear","quantity":1,"useable":False,"effect":{"buff":5,"xp":15}},"resistance":"darkness","description":"A sneaky goblin.","speshal spwan location":["~water","~lava","cave","~river"]},
 "knight":{"tier":3,"hp":200,"dmg":40,"drops":{"name":"knight's shield","quantity":1,"useable":False,"effect":{"buff":20,"xp":75}},"resistance":"light","description":"A heavily armored knight.","speshal spwan location":["~water","~lava","town","bridge","~river"]},#if spawn on brige have speshal dialog (none shall pass, its only a flesh wound, tis but a scratch, ive had worse)
 "construct":{"tier":3,"hp":180,"dmg":35,"drops":{"name":"mechanical gear","quantity":1,"useable":False,"effect":{"buff":15,"xp":60}},"resistance":"electric","description":"A mechanical construct brought to life.","speshal spwan location":["~water","~lava","cave","~river"]},
 "Animated statue":{"tier":2,"hp":140,"dmg":22,"drops":{"name":"stone shard","quantity":1,"useable":False,"effect":{"buff":10,"xp":40}},"resistance":"wind","description":"A statue that has come to life.","speshal spwan location":["~water","~lava","cave","hot","~river"]},
 "Possessed cow":{"tier":1,"hp":90,"dmg":18,"drops":{"name":"haunted horn","quantity":1,"useable":False,"effect":{"buff":8,"xp":30}},"resistance":"darkness","description":"A cow possessed by a spirit.","speshal spwan location":["~water","~lava","feild","~river"]},
-"mermaid":{"tier":2,"hp":110,"dmg":20,"drops":{"name":"song of the sea","quantity":1,"useable":True,"effect":{"heal":15,"xp":35}},"resistance":"water","description":"A mystical mermaid.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","river","~town",]},
-"Lava monster"
-"Fish lord"
-"Lava warden"
-"blain"
-"liam"
-"yeti"
-"ice"
-"Nyx-spawn"
+"mermaid":{"tier":2,"hp":110,"dmg":20,"drops":{"name":"song of the sea","quantity":1,"useable":True,"effect":{"heal":15,"xp":35}},"resistance":"water","description":"A mystical mermaid.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","river","~town","~snow"]},
+"Lava monster":{"tier":2,"hp":160,"dmg":27,"drops":{"name":"lava core","quantity":1,"useable":True,"effect":{"bomb core":12,"xp":45}},"resistance":"fire","description":"A creature made of molten lava.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"Fish lord":{"tier":3,"hp":190,"dmg":33,"drops":{"name":"trident of the deep","quantity":1,"useable":False,"effect":{"buff":25,"xp":80}},"resistance":"water","description":"The ruler of all fish.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"Lava warden":{"tier":3,"hp":210,"dmg":38,"drops":{"name":"ember shield","quantity":1,"useable":False,"effect":{"buff":30,"xp":90}},"resistance":"fire","description":"A guardian of the lava realms.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"blain":{"tier":100,"hp":9999,"dmg":500,"drops":{"name":"debug item","quantity":1,"useable":True,"effect":{"ඞ":9999}},"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
+"liam":{"tier":100,"hp":9999,"dmg":500,"drops":{"name":"debug item","quantity":1,"useable":True,"effect":{"ඞ":9999}},"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
+"yeti":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"yeti fur","quantity":1,"useable":False,"effect":{"buff":20,"xp":50}},"resistance":"ice","description":"A large ape-like creature covered in fur.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"ice cube":{"tier":1,"hp":70,"dmg":12,"drops":{"name":"frost shard","quantity":1,"useable":True,"effect":{"heal":15,"xp":20}},"resistance":"ice","description":"A small cube of ice that has come to life.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"Nyx-spawn":{"tier":3,"hp":200,"dmg":40,"drops":{"name":"shadow essence","quantity":1,"useable":False,"effect":{"buff":30,"xp":75}},"resistance":"darkness","description":"A creature born from the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"phoenix":{"tier":3,"hp":180,"dmg":35,"drops":{"name":"phoenix feather","quantity":1,"useable":True,"effect":{"heal++":30,"xp":60}},"resistance":"fire","description":"A mythical bird that rises from its ashes.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"shadow beast":{"tier":2,"hp":140,"dmg":22,"drops":{"name":"dark fang","quantity":1,"useable":False,"effect":{"buff":15,"xp":40}},"resistance":"darkness","description":"A beast that lurks in the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"ghost":{"tier":1,"hp":60,"dmg":10,"drops":{"name":"ectoplasm","quantity":1,"useable":True,"effect":{"heal":10,"xp":15}},"resistance":"darkness","description":"A wandering spirit.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"zombie":{"tier":1,"hp":50,"dmg":8,"drops":{"name":"rotting flesh","quantity":1,"useable":False,"effect":{"buff":5,"xp":10}},"resistance":"darkness","description":"A reanimated corpse.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"lord king":{"tier":10,"hp":1000,"dmg":100,"drops":{"name":"king's crown","quantity":1,"useable":False,"effect":{"buff":100,"xp":500}},"resistance":"light","description":"The ultimate ruler.","speshal spwan location":["debug"]},
+"lord king's guard":{"tier":5,"hp":500,"dmg":50,"drops":{"name":"guard's emblem","quantity":1,"useable":False,"effect":{"buff":50,"xp":250}},"resistance":"light","description":"The elite guard of the lord king.","speshal spwan location":["debug"]},
+"shadow dragon":{"tier":10,"hp":1200,"dmg":120,"drops":{"name":"shadow scale","quantity":1,"useable":False,"effect":{"buff":120,"xp":600}},"resistance":"darkness","description":"A dragon born from shadows.","speshal spwan location":["debug"]},
+"samus aran":{"tier":50,"hp":3000,"dmg":300,"drops":{"name":"power suit","quantity":1,"useable":False,"effect":{"buff":300,"xp":1500}},"resistance":"electric","description":"A legendary bounty hunter.","speshal spwan location":["debug"]},#nentendo pleese dont sue me
 }
-def get_random_monsters(party_level,locaion):
+def get_random_monsters(party_level,location):
 	monsters=[]
-	num_monsters=random.randint(1,min(max((party_level-random.randint(0,party_level))//33,1),3))
-	for i in range(num_monsters):
-		groop_chalange_total=(party_level//2)+random.randint(0,party_level//2)
-		possible_monsters=[]
-		for j in monster_list):
-		
+	possible_monsters=[]
+	for monster in monster_dict:
+		speshal_locations=monster_dict[monster]["speshal spwan location"]
+		valid_location=False
+		for loc in speshal_locations:
+			if loc.startswith("~"):
+				if loc[1:]!=location["position"]:
+					valid_location=True
+			else:
+				if loc==location["position"]:
+					valid_location=True
+		if valid_location:
+			possible_monsters.append(monster)
+	for i in range(len(party_level)):
+		level=party_level[i]
+		eligible_monsters=[]
+		for monster in possible_monsters:
+			if monster_dict[monster]["tier"]<=level:
+				eligible_monsters.append(monster)
+		if len(eligible_monsters)==0:
+			monster_choice="goblin"
+		else:
+			monster_choice=random.choice(eligible_monsters)
+		monsters.append({"hp":monster_dict[monster_choice]["hp"],"dmg":monster_dict[monster_choice]["dmg"],"drops":monster_dict[monster_choice]["drops"],"resistance":monster_dict[monster_choice]["resistance"],"teir":monster_dict[monster_choice]["tier"],"name":monster_choice,"description":monster_dict[monster_choice]["description"]})
 	return monsters
+def setup_enemy_party(monster_list):
+	hp=[]
+	dmg=[]
+	drops=[]
+	resistance=[]
+	teir=[]
+	name=[]
+	description=[]
+	for monster in monster_list:
+		hp.append(monster["hp"])
+		dmg.append(monster["dmg"])
+		drops.append(monster["drops"])
+		resistance.append(monster["resistance"])
+		teir.append(monster["teir"])
+		name.append(monster["name"])
+		description.append(monster["description"])
+	return TeamManager(hp,dmg,drops,resistance,teir,name,description)
+def debug_spawn():
+	global monster_dict
+	for x in monster_dict:
+		print(x)
+	choice=util_functions.get_valid_type(str,"Choose monster to spawn from: ","that is not a valid monster",list(monster_dict.keys()))
 def process_position(x,y,description,special=None,item=None):
 	pos=map[y][x]
 	if pos=="w":
 		print("not a valid location")
 		location="illegal"
-		util_functions.monster_spawn_rate=2
+		monster_spawn_rate=2
 	elif pos=="l":
 		print("not a valid location")
 		location="illegal"
-		util_functions.monster_spawn_rate=2
+		monster_spawn_rate=2
 	elif pos=="i":
-		util_functions.inventory.grant(item)
+		inventory.grant(item)
 	elif pos=="speshal":
 		if special=="something":
 			pass
+	elif pos=="r":
+		if "gem of water" in inventory.get_inventory():
+			print("you use the gem of water to pass the river")
+		else:
+			print("not a valid location")
+			location="illegal"
+			monster_spawn_rate=2
+	elif pos=="c":
+		if layer=="mid":
+			layer="low"
+			print("you desend into the cave to the lower layer")
+		else:
+			layer="mid"
+			print("you ascend out of the cave to the mid layer")
+	elif pos=="sk":
+		if "gem of wind" not in inventory.get_inventory():
+			print("not a valid location")
+			location="illegal"
+			monster_spawn_rate=2
+		else:
+			if layer=="mid":
+				layer="high"
+				print("you ascend the sky lift to the high layer")
+			else:
+				layer="mid"
+				print("you desend the sky lift to the mid layer")
+	elif pos=="t":
+		print("you enter the town, you can rest here and buy items")
+		while True:
+			choice=util_functions.get_valid_type(str,"do you want to rest, buy items, save, or leave: ","that is not a valid action",["rest","buy items","save","leave"])
+			if choice=="rest":
+				for i in range(len(party.get_continuous_players())):
+					party.heal(party.hp_max[i],i)
+					party.gain_mana(party.mana_max[i],i)
+				print("your party has been fully healed")
+			elif choice=="buy items":
+				print("welcome to the shop, what do you want to buy?")
+				while True:
+					shop_choice=util_functions.get_valid_type(str,"do you want to buy a potion for 10 gold, ether for 15 gold, or leave: ","that is not a valid action",["potion","ether","leave"])
+					if shop_choice=="potion":
+						inventory.grant({"name":"potion","quantity":1,"useable":True,"effect":{"heal":20}})
+						print("you bought a potion")
+					elif shop_choice=="ether":
+						inventory.grant({"name":"ether","quantity":1,"useable":True,"effect":{"ether":15}})
+						print("you bought an ether")
+					elif shop_choice=="leave":
+						print("you leave the shop")
+						break
+			elif choice=="leave":
+				print("you leave the town")
+				break
+			elif choice=="save":
+				print("generating save code")
+				save_code=""
+				save_code+=f"{x_pos},{y_pos},{layer};"
+				for i in range(3):
+					save_code+=f"{party.hp[i]},{party.hp_max[i]},{party.mana[i]},{party.mana_max[i]},{party.dmg[i]},{party.level[i]};"
+				for item in inventory.get_inventory():
+					save_code+=f"{item},{inventory.get_inventory()[item]['quantity']};"
+				print(f"your save code is:\n{save_code}")
 	return {"position":pos,"description":description,"special":special,"item":item}
+def load_save(save_code):
+	global x_pos,y_pos,layer,party,inventory
+	sections=save_code.split(";")
+	pos_section=sections[0].split(",")
+	x_pos=int(pos_section[0])
+	y_pos=int(pos_section[1])
+	layer=pos_section[2]
+	for i in range(3):
+		stats=sections[i+1].split(",")
+		party.hp[i]=int(stats[0])
+		party.hp_max[i]=int(stats[1])
+		party.mana[i]=int(stats[2])
+		party.mana_max[i]=int(stats[3])
+		party.dmg[i]=int(stats[4])
+		party.level[i]=int(stats[5])
+	inventory_items=sections[4:]
+	inventory.inventory={}
+	for item in inventory_items:
+		if item=="":
+			continue
+		item_stats=item.split(",")
+		inventory.inventory[item_stats[0]]={"name":item_stats[0],"quantity":int(item_stats[1]),"useable":True,"effect":{}}
 inventory=InventoryManager({"potion":{"name":"potion","quantity":3,"useable":True,"effect":{"heal":20}}})
-party=TeamManager([100,100,100],[10,10,10],[None,None,None],[None,None,None],[-1,-1,-1],["Zack","Amilia","Clang"],["your friend","you","a compiler for the language c++ that is also a deity"],[1,1,1],[10,0,20],[0,0,0])#setup later
+party=TeamManager([100,100,100],[10,10,10],[None,None,None],[None,None,None],[-1,-1,-1],["Zack","Amilia","Clang"],["your friend","you","a compiler for the language c++ that is also a deity"],[1,1,1],[10,0,20],[0,0,0])
 monster_spawn_rate=20
+debug=False
 if __name__=="__main__":
-	input_play=	util_functions.get_valid_type(str,"Do you want to play?","that is not a valid answer",["yes","no"])
+	input_play=	util_functions.get_valid_type(str,"Do you want to play: ","that is not a valid answer",["yes","no"])
 	if input_play.lower()=="yes":
 		x_pos=15
 		y_pos=18
 		battle_chance=20
+		layer="mid"
 		while len(party.get_continuous_players())>0:
+			if debug:
+				print(f"You are at position x:{x_pos} y:{y_pos} in layer:{layer}")
+			if map[y_pos][x_pos+1]=="w":
+				print("You see a large body of water to the east")
+			if map[y_pos][x_pos-1]=="w":
+				print("You see a large body of water to the west")
+			if map[y_pos+1][x_pos]=="w":
+				print("You see a large body of water to the south")
+			if map[y_pos-1][x_pos]=="w":
+				print("You see a large body of water to the north")
+			if map[y_pos][x_pos+1]=="l":
+				print("You see a large body of lava to the east")
+			if map[y_pos][x_pos-1]=="l":
+				print("You see a large body of lava to the west")
+			if map[y_pos+1][x_pos]=="l":
+				print("You see a large body of lava to the south")
+			if map[y_pos-1][x_pos]=="l":
+				print("You see a large body of lava to the north")
+			if map[y_pos][x_pos+1]=="r":
+				print("You see a flowing river to the east")
+			if map[y_pos][x_pos-1]=="r":
+				print("You see a flowing river to the west")
+			if map[y_pos+1][x_pos]=="r":
+				print("You see a flowing river to the south")
+			if map[y_pos-1][x_pos]=="r":
+				print("You see a flowing river to the north")
+			if map[y_pos][x_pos+1]=="s":
+				print("You see a snowy area to the east")
+			if map[y_pos][x_pos-1]=="s":
+				print("You see a snowy area to the west")
+			if map[y_pos+1][x_pos]=="s":
+				print("You see a snowy area to the south")
+			if map[y_pos-1][x_pos]=="s":
+				print("You see a snowy area to the north")
+			if map[y_pos][x_pos+1]=="h":
+				print("You see a volcanic area to the east")
+			if map[y_pos][x_pos-1]=="h":
+				print("You see a volcanic area to the west")
+			if map[y_pos+1][x_pos]=="h":
+				print("You see a volcanic area to the south")
+			if map[y_pos-1][x_pos]=="h":
+				print("You see a volcanic area to the north")
+			if map[y_pos][x_pos+1]=="f":#forest
+				print("You see a forest to the east")
+			if map[y_pos][x_pos-1]=="f":
+				print("You see a forest to the west")
+			if map[y_pos+1][x_pos]=="f":
+				print("You see a forest to the south")
+			if map[y_pos-1][x_pos]=="f":
+				print("You see a forest to the north")
+			if map[y_pos][x_pos+1]=="t":#town
+				print("You see a town to the east")
+			if map[y_pos][x_pos-1]=="t":
+				print("You see a town to the west")
+			if map[y_pos+1][x_pos]=="t":
+				print("You see a town to the south")
+			if map[y_pos-1][x_pos]=="t":
+				print("You see a town to the north")
+			if map[y_pos][x_pos+1]=="c":#cave
+				print("You see a cave to the east, it could bring you underground")
+			if map[y_pos][x_pos-1]=="c":
+				print("You see a cave to the west, it could bring you underground")
+			if map[y_pos+1][x_pos]=="c":
+				print("You see a cave to the south, it could bring you underground")
+			if map[y_pos-1][x_pos]=="c":
+				print("You see a cave to the north, it could bring you underground")
+			if map[y_pos][x_pos+1]=="sk":#sky lift
+				print("You see a sky lift to the east, it could bring you to higher ground")
+			if map[y_pos][x_pos-1]=="sk":
+				print("You see a sky lift to the west, it could bring you to higher ground")
+			if map[y_pos+1][x_pos]=="sk":
+				print("You see a sky lift to the south, it could bring you to higher ground")
+			if map[y_pos-1][x_pos]=="sk":
+				print("You see a sky lift to the north, it could bring you to higher ground")
+			if map[y_pos][x_pos+1]=="b":#bridge
+				print("You see a bridge to the east")
+			if map[y_pos][x_pos-1]=="b":
+				print("You see a bridge to the west")
+			if map[y_pos+1][x_pos]=="b":
+				print("You see a bridge to the south")
+			if map[y_pos-1][x_pos]=="b":
+				print("You see a bridge to the north")
+			if map[y_pos][x_pos+1]=="spawn":#spawn point
+				print("You see where you started this quest to the east")
+			if map[y_pos][x_pos-1]=="spawn":
+				print("You see where you started this quest to the west")
+			if map[y_pos+1][x_pos]=="spawn":
+				print("You see where you started this quest to the south")
+			if map[y_pos-1][x_pos]=="spawn":
+				print("You see where you started this quest to the north")
+			if map[y_pos][x_pos+1]=="i":#item
+				print("You see something shiny to the east")
+			if map[y_pos][x_pos-1]=="i":
+				print("You see something shiny to the west")
+			if map[y_pos+1][x_pos]=="i":
+				print("You see something shiny to the south")
+			if map[y_pos-1][x_pos]=="i":
+				print("You see something shiny to the north")
+			if map[y_pos][x_pos+1]=="ni":#nessasary item
+				print("You feal something big to the east")
+			if map[y_pos][x_pos-1]=="ni":
+				print("You feal something big to the west")
+			if map[y_pos+1][x_pos]=="ni":
+				print("You feal something big to the south")
+			if map[y_pos-1][x_pos]=="ni":
+				print("You feal something big to the north")
+			if map[y_pos][x_pos+1]=="aw":#acsesable water
+				print("You see some water that looks save enugh to swim in to the east")
+			if map[y_pos][x_pos-1]=="aw":
+				print("You see some water that looks save enugh to swim in to the west")
+			if map[y_pos+1][x_pos]=="aw":
+				print("You see some water that looks save enugh to swim in to the south")
+			if map[y_pos-1][x_pos]=="aw":
+				print("You see some water that looks save enugh to swim in to the north")
+			if map[y_pos][x_pos+1]=="g":#floating ground
+				print("You see some floating ground to the east")
+			if map[y_pos][x_pos-1]=="g":
+				print("You see some floating ground to the west")
+			if map[y_pos+1][x_pos]=="g":
+				print("You see some floating ground to the south")
+			if map[y_pos-1][x_pos]=="g":
+				print("You see some floating ground to the north")
+			if map[y_pos][x_pos+1]=="u":#open sky(top layer)basalt(mid layer)cave wall(underground) (untraversable)
+				if layer=="top":
+					print("You see open sky to the east")
+				elif layer=="mid":
+					print("You see a basalt cliff to the east")
+				else:
+					print("You see a cave wall to the east")
+			if map[y_pos][x_pos-1]=="u":
+				if layer=="top":
+					print("You see open sky to the west")
+				elif layer=="mid":
+					print("You see a basalt cliff to the west")
+				else:
+					print("You see a cave wall to the west")
+			if map[y_pos+1][x_pos]=="u":
+				if layer=="top":
+					print("You see open sky to the south")
+				elif layer=="mid":
+					print("You see a basalt cliff to the south")
+				else:
+					print("You see a cave wall to the south")
+			if map[y_pos-1][x_pos]=="u":
+				if layer=="top":
+					print("You see open sky to the north")
+				elif layer=="mid":
+					print("You see a basalt cliff to the north")
+				else:
+					print("You see a cave wall to the north")
+			if map[y_pos][x_pos+1]=="p":
+				print("You see a feald to the east")
+			if map[y_pos][x_pos-1]=="p":
+				print("You see a feald to the west")
+			if map[y_pos+1][x_pos]=="p":
+				print("You see a feald to the south")
+			if map[y_pos-1][x_pos]=="p":
+				print("You see a feald to the north")
 			print("Choose from north, south, east, west")
-			choice=util_functions.get_valid_type(str,"Choose direction","that is not a valid direction",["north","south","east","west"])
-			if choice=="north":
-				y_pos-=1
-			elif choice=="south":
-				y_pos+=1
-			elif choice=="east":
-				x_pos+=1
-			elif choice=="west":
-				x_pos-=1
+			while True:
+				choice=util_functions.get_valid_type(str,"Choose direction: ","that is not a valid direction",["north","south","east","west"])
+				if choice=="north":
+					y_pos-=1
+				elif choice=="south":
+					y_pos+=1
+				elif choice=="east":
+					x_pos+=1
+				elif choice=="west":
+					x_pos-=1
+				if process_position(x_pos,y_pos,location_dict[map[y_pos][x_pos]]["description"],location_dict[map[y_pos][x_pos]]["special"],None)["position"]=="illegal":
+					print("You cant go that way")
+					if choice=="north":
+						y_pos+=1
+					elif choice=="south":
+						y_pos-=1
+					elif choice=="east":
+						x_pos-=1
+					elif choice=="west":
+						x_pos+=1
+				else:
+					break
 			location=process_position(x_pos,y_pos,None)
 			battle_chance+=monster_spawn_rate*10
 			num=random.randint(1,100)
-			if num<battle_chance:
+			if num>battle_chance:
 				monster_team=TeamManager(get_random_monsters(party.level,location))
-				while len(monster_team.hp)>0 and util_functions.get_continuous_players_length()>0:
-					party.attack(True,util_functions.get_continuous_players(),monster_team,util_functions.inventory)
-					party.attack(False,util_functions.get_continuous_players(),monster_team,util_functions.inventory)
+				while len(monster_team.hp)>0 and party.get_continuous_players_length()>0:
+					party.attack(True,party.get_continuous_players(),monster_team,inventory.get_inventory())
+					party.attack(False,party.get_continuous_players(),monster_team,inventory.get_inventory())
 				while party.xp>=25:
 					party.level_up(1)
 					party.level_up(2)
