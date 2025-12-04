@@ -1,6 +1,6 @@
 
 #setup
-#Define map
+#Define mid
 #Make team manager
 #	Make init
 #		Hp
@@ -96,7 +96,7 @@
 #	Or if bomb is in list efect
 #		Team manager tartget take damage
 #Make prosses position function with x,y,description,speshal is defalt to none, item is defalt to none
-#	pos=location on map
+#	pos=location on mid
 #	If pos is watter
 #		output(“not a valid location
 #		Location is iligal
@@ -165,8 +165,9 @@
 import util_functions
 import random
 class LogicError(Exception):
-	print(f"logic error at line {util_functions.get_linenumber()}")
-map=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+	if util_functions.get_linenumber() != 168:
+		print(f"logic error at line {util_functions.get_linenumber()}")
+mid=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","l","i1","h","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","h","h","h","l","h","h","speshal","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","h","h","h","h","ni1","l","l","h","h","i2","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
@@ -200,6 +201,84 @@ map=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w
 ["w","w","w","w","w","s","s","w","w","w","w","s","s","s","s","s","i9","s","s","s","s","s","s","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","s","s","w","w","w","w","w","s","s","s","s","s","s","s","ni4","s","s","s","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","s","s","s","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"]]
+upper=[["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","sk","g","g","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","g","g","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","g","g","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","sk","g","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","b","b","b","g","g","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","g","b","b","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","g","sk","g","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","g","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","b","u","u","u","u","u","u","boss","boss","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","b","u","u","u","u","u","boss","boss","boss","boss","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","b","u","u","u","u","boss","boss","boss","boss","boss","boss","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","b","u","u","u","u","boss","boss","boss","boss","boss","boss","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","b","u","u","u","u","u","boss","boss","boss","boss","u","u","u","u","u","u","u","u","u","u","g","","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","g","g","u","u","u","u","u","boss","boss","u","u","u","u","u","u","u","u","u","u","g","s","g","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","puzzle","g","g","g","ni","u","u","u","u","u","u","u","u","u","u","g","u","u","b","b","b","g","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","g","g","g","g","g","u","u","u","u","u","u","u","u","u","u","g","g","g","b","b","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","g","spehsal","g","g","u","u","u","u","u","u","u","u","u","u","g","t","s","g","g","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","g","g","u","u","u","u","u","u","u","u","u","u","u","u","g","g","g","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","b","b","g","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","b","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","b","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","u","u","u","u","u","u","u","g","g","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","g","g","u","u","u","u","u","u","g","g","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","g","g","g","g","u","u","u","u","g","g","g","g","g","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","u","b","g","g","g","g","g","g","g","u","u","u","u","g","puzzle","g","speshal","g","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","g","s","g","b","u","g","ni","g","g","g","g","b","u","u","g","g","g","g","g","g","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","u","u","u","u","g","g","u","u","u","b","b","g","g","g","g","g","g","g","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","g","g","g","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","g","g","g","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","g","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"],
+["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"]]
+underground=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","w","w","w","u","u","u","u","u","u","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","u","u","u","h","h","h","l","i","h","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","u","h","u","h","h","u","h","l","l","h","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","u","h","h","h","u","h","u","h","h","h","h","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","u","h","h","h","u","h","h","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","u","h","h","c","h","u","h","u","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","h","h","h","h","h","u","h","h","u","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","u","h","h","h","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","g","u","h","h","h","u","g","g","g","ui","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","c","g","u","h","h","u","g","g","g","ui","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","g","g","u","h","h","u","g","g","g","ui","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","u","g","g","g","g","g","g","g","g","u","g","u","i","g","g","g","ni","u","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","u","i","g","g","g","g","g","g","u","g","g","u","u","u","g","g","ui","g","u","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","g","u","g","u","i","g","g","u","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","u","g","g","g","g","g","g","u","g","g","boss teleport","u","g","g","g","g","g","g","g","i","u","u","u","u","u","u","u","u","w","w"],
+["w","w","w","w","w","w","u","g","g","g","g","g","u","g","g","g","g","u","c","u","g","g","g","g","g","u","g","g","g","g","g","g","g","ni","u","w"],
+["w","w","w","w","w","u","g","g","g","g","g","u","g","g","g","g","g","g","u","u","g","g","g","g","g","u","g","g","g","g","g","g","g","g","u","w"],
+["w","w","w","w","u","g","g","g","g","g","g","u","g","c","g","g","g","g","g","g","g","g","g","g","g","i","u","g","g","g","g","g","g","g","u","w"],
+["w","w","w","w","u","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","g","u","w"],
+["w","w","w","w","u","c","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","u","w","w"],
+["w","w","w","w","u","g","g","g","g","g","g","g","g","g","u","g","g","c","g","g","g","g","g","g","g","u","t","c","g","g","g","g","u","w","w","w"],
+["w","w","w","w","u","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","u","w","w","w"],
+["w","w","w","w","u","g","g","i","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","u","w","w","w"],
+["w","w","w","w","w","u","g","g","g","g","g","u","u","g","g","g","u","g","g","g","g","g","g","g","g","g","g","u","u","u","u","u","w","w","w","w"],
+["w","w","w","w","w","w","u","g","g","g","u","w","w","u","g","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","u","g","g","u","w","w","w","w","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","u","g","c","u","w","w","w","w","w","u","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","u","g","g","u","w","w","w","u","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","u","i","u","w","w","w","u","g","g","g","g","g","i","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","u","u","w","w","w","w","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","u","u","w","w","w","w","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","u","u","w","w","w","w","w","u","u","u","u","u","u","u","g","g","i","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","u","u","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
@@ -443,8 +522,9 @@ monster_dict={
 "lord king":{"tier":10,"hp":1000,"dmg":100,"drops":{"name":"king's crown","quantity":1,"useable":False,"effect":{"buff":100,"xp":500}},"resistance":"light","description":"The ultimate ruler.","speshal spwan location":["debug"]},
 "lord king's guard":{"tier":5,"hp":500,"dmg":50,"drops":{"name":"guard's emblem","quantity":1,"useable":False,"effect":{"buff":50,"xp":250}},"resistance":"light","description":"The elite guard of the lord king.","speshal spwan location":["debug"]},
 "shadow dragon":{"tier":10,"hp":1200,"dmg":120,"drops":{"name":"shadow scale","quantity":1,"useable":False,"effect":{"buff":120,"xp":600}},"resistance":"darkness","description":"A dragon born from shadows.","speshal spwan location":["debug"]},
-"samus aran":{"tier":50,"hp":3000,"dmg":300,"drops":{"name":"power suit","quantity":1,"useable":False,"effect":{"buff":300,"xp":1500}},"resistance":"electric","description":"A legendary bounty hunter.","speshal spwan location":["debug"]},#nentendo pleese dont sue me
-}
+"samus aran":{"tier":50,"hp":3000,"dmg":300,"drops":{"name":"power suit","quantity":1,"useable":False,"effect":{"buff":3000,"xp":1500}},"resistance":"electric","description":"A legendary bounty hunter.","speshal spwan location":["debug"]},#nentendo pleese dont sue me
+"korock":{"tier":0,"hp":1,"dmg":1,"drops":{"name":"the soul of a korock you monster","quantity":1,"useable":False,"effect":{"buff":9999,"xp":9999}},"resistance":"wind","description":"A small plant-like creature from the land of hyrule.","speshal spwan location":["debug"]},
+"nintendo":{"tier":100000000000000000000000000000000000000000000000,"hp":999999999999999999999999999999999999999999999999,"dmg":999999999999999999999999999999999999999999999999,"drops":{"name":"no one can get this item","quantity":1,"useable":False,"effect":{"buff":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,"xp":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}},"resistance":"light","description":"the ultimate being","speshal spwan location":["debug"]}}
 def get_random_monsters(party_level,location):
 	monsters=[]
 	possible_monsters=[]
@@ -495,7 +575,7 @@ def debug_spawn():
 		print(x)
 	choice=util_functions.get_valid_type(str,"Choose monster to spawn from: ","that is not a valid monster",list(monster_dict.keys()))
 def process_position(x,y,description,special=None,item=None):
-	pos=map[y][x]
+	pos=mid[y][x]
 	if pos=="w":
 		print("not a valid location")
 		location="illegal"
@@ -547,13 +627,16 @@ def process_position(x,y,description,special=None,item=None):
 			elif choice=="buy items":
 				print("welcome to the shop, what do you want to buy?")
 				while True:
-					shop_choice=util_functions.get_valid_type(str,"do you want to buy a potion for 10 gold, ether for 15 gold, or leave: ","that is not a valid action",["potion","ether","leave"])
-					if shop_choice=="potion":
+					print(f"you have {inventory.get_inventory().get('gold',{'quantity':0})['quantity']} gold")
+					shop_choice=util_functions.get_valid_type(str,"do you want to buy a potion for 10 gold, ether for 15 gold, or leave: ","that is not a valid action",["potion","ether","leave","debug"])
+					if shop_choice=="potion" and inventory.get_inventory().get("gold",{"quantity":0})["quantity"]<10:
 						inventory.grant({"name":"potion","quantity":1,"useable":True,"effect":{"heal":20}})
 						print("you bought a potion")
-					elif shop_choice=="ether":
+						inventory.get_inventory()["gold"]["quantity"]-=10
+					elif shop_choice=="ether" and inventory.get_inventory().get("gold",{"quantity":0})["quantity"]<15:
 						inventory.grant({"name":"ether","quantity":1,"useable":True,"effect":{"ether":15}})
-						print("you bought an ether")
+						print("you bought ether")
+						inventory.get_inventory()["gold"]["quantity"]-=15
 					elif shop_choice=="leave":
 						print("you leave the shop")
 						break
@@ -592,10 +675,11 @@ def load_save(save_code):
 			continue
 		item_stats=item.split(",")
 		inventory.inventory[item_stats[0]]={"name":item_stats[0],"quantity":int(item_stats[1]),"useable":True,"effect":{}}
-inventory=InventoryManager({"potion":{"name":"potion","quantity":3,"useable":True,"effect":{"heal":20}}})
+inventory=InventoryManager({"potion":{"name":"potion","quantity":3,"useable":True,"effect":{"heal":20}},"ether":{"name":"ether","quantity":2,"useable":True,"effect":{"ether":15}},"gold":{"name":"gold","quantity":50,"useable":False,"effect":{}},"gold":{"name":"gold","quantity":50,"useable":False,"effect":{}}})
 party=TeamManager([100,100,100],[10,10,10],[None,None,None],[None,None,None],[-1,-1,-1],["Zack","Amilia","Clang"],["your friend","you","a compiler for the language c++ that is also a deity"],[1,1,1],[10,0,20],[0,0,0])
 monster_spawn_rate=20
 debug=False
+layer="mid"
 if __name__=="__main__":
 	input_play=	util_functions.get_valid_type(str,"Do you want to play: ","that is not a valid answer",["yes","no"])
 	if input_play.lower()=="yes":
@@ -606,161 +690,161 @@ if __name__=="__main__":
 		while len(party.get_continuous_players())>0:
 			if debug:
 				print(f"You are at position x:{x_pos} y:{y_pos} in layer:{layer}")
-			if map[y_pos][x_pos+1]=="w":
+			if mid[y_pos][x_pos+1]=="w":
 				print("You see a large body of water to the east")
-			if map[y_pos][x_pos-1]=="w":
+			if mid[y_pos][x_pos-1]=="w":
 				print("You see a large body of water to the west")
-			if map[y_pos+1][x_pos]=="w":
+			if mid[y_pos+1][x_pos]=="w":
 				print("You see a large body of water to the south")
-			if map[y_pos-1][x_pos]=="w":
+			if mid[y_pos-1][x_pos]=="w":
 				print("You see a large body of water to the north")
-			if map[y_pos][x_pos+1]=="l":
+			if mid[y_pos][x_pos+1]=="l":
 				print("You see a large body of lava to the east")
-			if map[y_pos][x_pos-1]=="l":
+			if mid[y_pos][x_pos-1]=="l":
 				print("You see a large body of lava to the west")
-			if map[y_pos+1][x_pos]=="l":
+			if mid[y_pos+1][x_pos]=="l":
 				print("You see a large body of lava to the south")
-			if map[y_pos-1][x_pos]=="l":
+			if mid[y_pos-1][x_pos]=="l":
 				print("You see a large body of lava to the north")
-			if map[y_pos][x_pos+1]=="r":
+			if mid[y_pos][x_pos+1]=="r":
 				print("You see a flowing river to the east")
-			if map[y_pos][x_pos-1]=="r":
+			if mid[y_pos][x_pos-1]=="r":
 				print("You see a flowing river to the west")
-			if map[y_pos+1][x_pos]=="r":
+			if mid[y_pos+1][x_pos]=="r":
 				print("You see a flowing river to the south")
-			if map[y_pos-1][x_pos]=="r":
+			if mid[y_pos-1][x_pos]=="r":
 				print("You see a flowing river to the north")
-			if map[y_pos][x_pos+1]=="s":
+			if mid[y_pos][x_pos+1]=="s":
 				print("You see a snowy area to the east")
-			if map[y_pos][x_pos-1]=="s":
+			if mid[y_pos][x_pos-1]=="s":
 				print("You see a snowy area to the west")
-			if map[y_pos+1][x_pos]=="s":
+			if mid[y_pos+1][x_pos]=="s":
 				print("You see a snowy area to the south")
-			if map[y_pos-1][x_pos]=="s":
+			if mid[y_pos-1][x_pos]=="s":
 				print("You see a snowy area to the north")
-			if map[y_pos][x_pos+1]=="h":
+			if mid[y_pos][x_pos+1]=="h":
 				print("You see a volcanic area to the east")
-			if map[y_pos][x_pos-1]=="h":
+			if mid[y_pos][x_pos-1]=="h":
 				print("You see a volcanic area to the west")
-			if map[y_pos+1][x_pos]=="h":
+			if mid[y_pos+1][x_pos]=="h":
 				print("You see a volcanic area to the south")
-			if map[y_pos-1][x_pos]=="h":
+			if mid[y_pos-1][x_pos]=="h":
 				print("You see a volcanic area to the north")
-			if map[y_pos][x_pos+1]=="f":#forest
+			if mid[y_pos][x_pos+1]=="f":#forest
 				print("You see a forest to the east")
-			if map[y_pos][x_pos-1]=="f":
+			if mid[y_pos][x_pos-1]=="f":
 				print("You see a forest to the west")
-			if map[y_pos+1][x_pos]=="f":
+			if mid[y_pos+1][x_pos]=="f":
 				print("You see a forest to the south")
-			if map[y_pos-1][x_pos]=="f":
+			if mid[y_pos-1][x_pos]=="f":
 				print("You see a forest to the north")
-			if map[y_pos][x_pos+1]=="t":#town
+			if mid[y_pos][x_pos+1]=="t":#town
 				print("You see a town to the east")
-			if map[y_pos][x_pos-1]=="t":
+			if mid[y_pos][x_pos-1]=="t":
 				print("You see a town to the west")
-			if map[y_pos+1][x_pos]=="t":
+			if mid[y_pos+1][x_pos]=="t":
 				print("You see a town to the south")
-			if map[y_pos-1][x_pos]=="t":
+			if mid[y_pos-1][x_pos]=="t":
 				print("You see a town to the north")
-			if map[y_pos][x_pos+1]=="c":#cave
+			if mid[y_pos][x_pos+1]=="c":#cave
 				print("You see a cave to the east, it could bring you underground")
-			if map[y_pos][x_pos-1]=="c":
+			if mid[y_pos][x_pos-1]=="c":
 				print("You see a cave to the west, it could bring you underground")
-			if map[y_pos+1][x_pos]=="c":
+			if mid[y_pos+1][x_pos]=="c":
 				print("You see a cave to the south, it could bring you underground")
-			if map[y_pos-1][x_pos]=="c":
+			if mid[y_pos-1][x_pos]=="c":
 				print("You see a cave to the north, it could bring you underground")
-			if map[y_pos][x_pos+1]=="sk":#sky lift
+			if mid[y_pos][x_pos+1]=="sk":#sky lift
 				print("You see a sky lift to the east, it could bring you to higher ground")
-			if map[y_pos][x_pos-1]=="sk":
+			if mid[y_pos][x_pos-1]=="sk":
 				print("You see a sky lift to the west, it could bring you to higher ground")
-			if map[y_pos+1][x_pos]=="sk":
+			if mid[y_pos+1][x_pos]=="sk":
 				print("You see a sky lift to the south, it could bring you to higher ground")
-			if map[y_pos-1][x_pos]=="sk":
+			if mid[y_pos-1][x_pos]=="sk":
 				print("You see a sky lift to the north, it could bring you to higher ground")
-			if map[y_pos][x_pos+1]=="b":#bridge
+			if mid[y_pos][x_pos+1]=="b":#bridge
 				print("You see a bridge to the east")
-			if map[y_pos][x_pos-1]=="b":
+			if mid[y_pos][x_pos-1]=="b":
 				print("You see a bridge to the west")
-			if map[y_pos+1][x_pos]=="b":
+			if mid[y_pos+1][x_pos]=="b":
 				print("You see a bridge to the south")
-			if map[y_pos-1][x_pos]=="b":
+			if mid[y_pos-1][x_pos]=="b":
 				print("You see a bridge to the north")
-			if map[y_pos][x_pos+1]=="spawn":#spawn point
+			if mid[y_pos][x_pos+1]=="spawn":#spawn point
 				print("You see where you started this quest to the east")
-			if map[y_pos][x_pos-1]=="spawn":
+			if mid[y_pos][x_pos-1]=="spawn":
 				print("You see where you started this quest to the west")
-			if map[y_pos+1][x_pos]=="spawn":
+			if mid[y_pos+1][x_pos]=="spawn":
 				print("You see where you started this quest to the south")
-			if map[y_pos-1][x_pos]=="spawn":
+			if mid[y_pos-1][x_pos]=="spawn":
 				print("You see where you started this quest to the north")
-			if map[y_pos][x_pos+1]=="i":#item
+			if mid[y_pos][x_pos+1]=="i":#item
 				print("You see something shiny to the east")
-			if map[y_pos][x_pos-1]=="i":
+			if mid[y_pos][x_pos-1]=="i":
 				print("You see something shiny to the west")
-			if map[y_pos+1][x_pos]=="i":
+			if mid[y_pos+1][x_pos]=="i":
 				print("You see something shiny to the south")
-			if map[y_pos-1][x_pos]=="i":
+			if mid[y_pos-1][x_pos]=="i":
 				print("You see something shiny to the north")
-			if map[y_pos][x_pos+1]=="ni":#nessasary item
+			if mid[y_pos][x_pos+1]=="ni":#nessasary item
 				print("You feal something big to the east")
-			if map[y_pos][x_pos-1]=="ni":
+			if mid[y_pos][x_pos-1]=="ni":
 				print("You feal something big to the west")
-			if map[y_pos+1][x_pos]=="ni":
+			if mid[y_pos+1][x_pos]=="ni":
 				print("You feal something big to the south")
-			if map[y_pos-1][x_pos]=="ni":
+			if mid[y_pos-1][x_pos]=="ni":
 				print("You feal something big to the north")
-			if map[y_pos][x_pos+1]=="aw":#acsesable water
+			if mid[y_pos][x_pos+1]=="aw":#acsesable water
 				print("You see some water that looks save enugh to swim in to the east")
-			if map[y_pos][x_pos-1]=="aw":
+			if mid[y_pos][x_pos-1]=="aw":
 				print("You see some water that looks save enugh to swim in to the west")
-			if map[y_pos+1][x_pos]=="aw":
+			if mid[y_pos+1][x_pos]=="aw":
 				print("You see some water that looks save enugh to swim in to the south")
-			if map[y_pos-1][x_pos]=="aw":
+			if mid[y_pos-1][x_pos]=="aw":
 				print("You see some water that looks save enugh to swim in to the north")
-			if map[y_pos][x_pos+1]=="g":#floating ground
+			if mid[y_pos][x_pos+1]=="g":#floating ground
 				print("You see some floating ground to the east")
-			if map[y_pos][x_pos-1]=="g":
+			if mid[y_pos][x_pos-1]=="g":
 				print("You see some floating ground to the west")
-			if map[y_pos+1][x_pos]=="g":
+			if mid[y_pos+1][x_pos]=="g":
 				print("You see some floating ground to the south")
-			if map[y_pos-1][x_pos]=="g":
+			if mid[y_pos-1][x_pos]=="g":
 				print("You see some floating ground to the north")
-			if map[y_pos][x_pos+1]=="u":#open sky(top layer)basalt(mid layer)cave wall(underground) (untraversable)
+			if mid[y_pos][x_pos+1]=="u":#open sky(top layer)basalt(mid layer)cave wall(underground) (untraversable)
 				if layer=="top":
 					print("You see open sky to the east")
 				elif layer=="mid":
 					print("You see a basalt cliff to the east")
 				else:
 					print("You see a cave wall to the east")
-			if map[y_pos][x_pos-1]=="u":
+			if mid[y_pos][x_pos-1]=="u":
 				if layer=="top":
 					print("You see open sky to the west")
 				elif layer=="mid":
 					print("You see a basalt cliff to the west")
 				else:
 					print("You see a cave wall to the west")
-			if map[y_pos+1][x_pos]=="u":
+			if mid[y_pos+1][x_pos]=="u":
 				if layer=="top":
 					print("You see open sky to the south")
 				elif layer=="mid":
 					print("You see a basalt cliff to the south")
 				else:
 					print("You see a cave wall to the south")
-			if map[y_pos-1][x_pos]=="u":
+			if mid[y_pos-1][x_pos]=="u":
 				if layer=="top":
 					print("You see open sky to the north")
 				elif layer=="mid":
 					print("You see a basalt cliff to the north")
 				else:
 					print("You see a cave wall to the north")
-			if map[y_pos][x_pos+1]=="p":
+			if mid[y_pos][x_pos+1]=="p":
 				print("You see a feald to the east")
-			if map[y_pos][x_pos-1]=="p":
+			if mid[y_pos][x_pos-1]=="p":
 				print("You see a feald to the west")
-			if map[y_pos+1][x_pos]=="p":
+			if mid[y_pos+1][x_pos]=="p":
 				print("You see a feald to the south")
-			if map[y_pos-1][x_pos]=="p":
+			if mid[y_pos-1][x_pos]=="p":
 				print("You see a feald to the north")
 			print("Choose from north, south, east, west")
 			while True:
@@ -773,7 +857,18 @@ if __name__=="__main__":
 					x_pos+=1
 				elif choice=="west":
 					x_pos-=1
-				if process_position(x_pos,y_pos,location_dict[map[y_pos][x_pos]]["description"],location_dict[map[y_pos][x_pos]]["special"],None)["position"]=="illegal":
+				# normalize token for location_dict lookup (strip digits and handle synonyms)
+				token = mid[y_pos][x_pos]
+				# strip trailing digits (e.g., i1 -> i)
+				if isinstance(token, str):
+					while len(token)>0 and token[-1].isdigit():
+						token = token[:-1]
+					# map 'p' (field shorthand) to 'f' key
+					if token == 'p':
+						token = 'f'
+				# guard against missing keys
+				loc_info = location_dict.get(token, {"description":None, "special":None})
+				if process_position(x_pos,y_pos,loc_info["description"],loc_info["special"],None)["position"]=="illegal":
 					print("You cant go that way")
 					if choice=="north":
 						y_pos+=1
@@ -785,14 +880,24 @@ if __name__=="__main__":
 						x_pos+=1
 				else:
 					break
-			location=process_position(x_pos,y_pos,None)
-			battle_chance+=monster_spawn_rate*10
-			num=random.randint(1,100)
-			if num>battle_chance:
-				monster_team=TeamManager(get_random_monsters(party.level,location))
-				while len(monster_team.hp)>0 and party.get_continuous_players_length()>0:
-					party.attack(True,party.get_continuous_players(),monster_team,inventory.get_inventory())
-					party.attack(False,party.get_continuous_players(),monster_team,inventory.get_inventory())
+			# build normalized location info for current tile
+			token = mid[y_pos][x_pos]
+			if isinstance(token, str):
+				while len(token)>0 and token[-1].isdigit():
+					token = token[:-1]
+				if token == 'p':
+					token = 'f'
+			loc_info = location_dict.get(token, {"description":None, "special":None})
+			location = process_position(x_pos,y_pos,loc_info["description"],loc_info["special"],None)
+			battle_chance += monster_spawn_rate*10
+			num = random.randint(1,100)
+			# trigger battle when random number is within chance
+			if num <= battle_chance:
+				monster_list = get_random_monsters(party.level,location)
+				monster_team = setup_enemy_party(monster_list)
+				while len(monster_team.hp) > 0 and len(party.get_continuous_players()) > 0:
+					party.attack(True, party.get_continuous_players(), monster_team, inventory)
+					party.attack(False, party.get_continuous_players(), monster_team, inventory)
 				while party.xp>=25:
 					party.level_up(1)
 					party.level_up(2)
