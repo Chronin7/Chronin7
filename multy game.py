@@ -18,3 +18,4 @@ server_port = 12345
 client_socket.connect((server_ip, server_port))
 client_socket.send()
 client_socket.recv()
+	

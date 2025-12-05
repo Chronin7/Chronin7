@@ -3,5 +3,7 @@
 		"tupple"
 	],
 	"editor.defaultFormatter": "ms-python.python",
-	"workbench.colorTheme": "Cold Python Theme"
+	"workbench.colorTheme": "Cold Python Theme",
+	"python-envs.defaultEnvManager": "ms-python.python:system",
+	"python-envs.pythonProjects": []
 }
