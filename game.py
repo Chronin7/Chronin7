@@ -1,12 +1,7 @@
-# game.py
-# Core game definitions: maps, TeamManager, InventoryManager, party, enemies, and helpers.
-# This file is intended to be imported by a main script. It does NOT depend on util_functions.
-
+# import
 import random
-
-# -------------------------
-# Maps (UNCHANGED)
-# -------------------------
+import util_functions
+# Maps
 mid=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","l","i1","h","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","h","h","h","l","h","h","speshal","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
@@ -117,10 +112,52 @@ underground=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"]]
-
-# -------------------------
-# TeamManager and InventoryManager
-# -------------------------
+#dictonarys
+location_dict={
+"h":{"name":"hot land","description":"a land of heat","special":None},
+"l":{"name":"lava land","description":"a land of lava","special":"not valid location"},	
+"w":{"name":"water","description":"a body of water","special":"Not valid location"},
+"i":{"name":"item","description":["You found an item!","youv already sherched here"],"special":"item"},
+"ni":{"name":"nessasary item","description":["You found a nessasary item!","youv already sherched here"],"special":"item"},
+"c":{"name":"cave","description":"a dark cave","special":["desend","ascend"]},
+"sk":{"name":"sky lift","description":"a sacred place with powerfull lifting runes","special":["ascend","desend"]},
+"b":{"name":"bridge","description":"a rickety bridge","special":None},
+"t":{"name":"town","description":"a small town","special":"town"},
+"f":{"name":"feild","description":"a wide open feild","special":None},
+"r":{"name":"river","description":"a flowing river","special":"passable with gem of water"},
+"spawn":{"name":"spawn point","description":"the place where your adventure begins","special":None},
+"s":{"name":"snow","description":"a cold snowy area","special":None},
+}
+monster_dict={
+"dragon":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"dragon tooth","quantity":1,"useable":False,"effect":{"buff":50,"xp":50}},"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":["~water","~lava","hot","~river","~snow"]},
+"blob":{"tier":1,"hp":80,"dmg":15,"drops":{"name":"slime gel","quantity":1,"useable":True,"effect":{"heal":20,"xp":25}},"resistance":"water","description":"A gooey blob that oozes around.","speshal spwan location":["~water","~lava","~river","~snow"]},
+"orc":{"tier":2,"hp":120,"dmg":25,"drops":{"name":"orc tusk","quantity":1,"useable":True,"effect":{"buff":10,"xp":25}},"resistance":"wind","description":"A brutish orc warrior.","speshal spwan location":["~lava","~water","~river"]},
+"troll":{"tier":2,"hp":130,"dmg":28,"drops":{"name":"troll club","quantity":1,"useable":False,"effect":{"buff":10,"xp":50}},"resistance":"wind","description":"A large and strong troll.","speshal spwan location":["~lava","~water","bridge","~river"]},
+"goblin":{"tier":1,"hp":30,"dmg":12,"drops":{"name":"goblin ear","quantity":1,"useable":False,"effect":{"buff":5,"xp":15}},"resistance":"darkness","description":"A sneaky goblin.","speshal spwan location":["~water","~lava","cave","~river"]},
+"knight":{"tier":3,"hp":200,"dmg":40,"drops":{"name":"knight's shield","quantity":1,"useable":False,"effect":{"buff":20,"xp":75}},"resistance":"light","description":"A heavily armored knight.","speshal spwan location":["~water","~lava","town","bridge","~river"]},#if spawn on brige have speshal dialog (none shall pass, its only a flesh wound, tis but a scratch, ive had worse)
+"construct":{"tier":3,"hp":180,"dmg":35,"drops":{"name":"mechanical gear","quantity":1,"useable":False,"effect":{"buff":15,"xp":60}},"resistance":"electric","description":"A mechanical construct brought to life.","speshal spwan location":["~water","~lava","cave","~river"]},
+"Animated statue":{"tier":2,"hp":140,"dmg":22,"drops":{"name":"stone shard","quantity":1,"useable":False,"effect":{"buff":10,"xp":40}},"resistance":"wind","description":"A statue that has come to life.","speshal spwan location":["~water","~lava","cave","hot","~river"]},
+"Possessed cow":{"tier":1,"hp":90,"dmg":18,"drops":{"name":"haunted horn","quantity":1,"useable":False,"effect":{"buff":8,"xp":30}},"resistance":"darkness","description":"A cow possessed by a spirit.","speshal spwan location":["~water","~lava","feild","~river"]},
+"mermaid":{"tier":2,"hp":110,"dmg":20,"drops":{"name":"song of the sea","quantity":1,"useable":True,"effect":{"heal":15,"xp":35}},"resistance":"water","description":"A mystical mermaid.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","river","~town","~snow"]},
+"Lava monster":{"tier":2,"hp":160,"dmg":27,"drops":{"name":"lava core","quantity":1,"useable":True,"effect":{"bomb core":12,"xp":45}},"resistance":"fire","description":"A creature made of molten lava.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"Fish lord":{"tier":3,"hp":190,"dmg":33,"drops":{"name":"trident of the deep","quantity":1,"useable":False,"effect":{"buff":25,"xp":80}},"resistance":"water","description":"The ruler of all fish.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"Lava warden":{"tier":3,"hp":210,"dmg":38,"drops":{"name":"ember shield","quantity":1,"useable":False,"effect":{"buff":30,"xp":90}},"resistance":"fire","description":"A guardian of the lava realms.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"blain":{"tier":100,"hp":9999,"dmg":500,"drops":{"name":"debug item","quantity":1,"useable":True,"effect":{"ඞ":9999}},"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
+"liam":{"tier":100,"hp":9999,"dmg":500,"drops":{"name":"debug item","quantity":1,"useable":True,"effect":{"ඞ":9999}},"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
+"yeti":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"yeti fur","quantity":1,"useable":False,"effect":{"buff":20,"xp":50}},"resistance":"ice","description":"A large ape-like creature covered in fur.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"ice cube":{"tier":1,"hp":70,"dmg":12,"drops":{"name":"frost shard","quantity":1,"useable":True,"effect":{"heal":15,"xp":20}},"resistance":"ice","description":"A small cube of ice that has come to life.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"Nyx-spawn":{"tier":3,"hp":200,"dmg":40,"drops":{"name":"shadow essence","quantity":1,"useable":False,"effect":{"buff":30,"xp":75}},"resistance":"darkness","description":"A creature born from the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"phoenix":{"tier":3,"hp":180,"dmg":35,"drops":{"name":"phoenix feather","quantity":1,"useable":True,"effect":{"heal++":30,"xp":60}},"resistance":"fire","description":"A mythical bird that rises from its ashes.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"shadow beast":{"tier":2,"hp":140,"dmg":22,"drops":{"name":"dark fang","quantity":1,"useable":False,"effect":{"buff":15,"xp":40}},"resistance":"darkness","description":"A beast that lurks in the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"ghost":{"tier":1,"hp":60,"dmg":10,"drops":{"name":"ectoplasm","quantity":1,"useable":True,"effect":{"heal":10,"xp":15}},"resistance":"darkness","description":"A wandering spirit.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"zombie":{"tier":1,"hp":50,"dmg":8,"drops":{"name":"rotting flesh","quantity":1,"useable":False,"effect":{"buff":5,"xp":10}},"resistance":"darkness","description":"A reanimated corpse.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"lord king":{"tier":10,"hp":1000,"dmg":100,"drops":{"name":"king's crown","quantity":1,"useable":False,"effect":{"buff":100,"xp":500}},"resistance":"light","description":"The ultimate ruler.","speshal spwan location":["debug"]},
+"lord king's guard":{"tier":5,"hp":500,"dmg":50,"drops":{"name":"guard's emblem","quantity":1,"useable":False,"effect":{"buff":50,"xp":250}},"resistance":"light","description":"The elite guard of the lord king.","speshal spwan location":["debug"]},
+"shadow dragon":{"tier":10,"hp":1200,"dmg":120,"drops":{"name":"shadow scale","quantity":1,"useable":False,"effect":{"buff":120,"xp":600}},"resistance":"darkness","description":"A dragon born from shadows.","speshal spwan location":["debug"]},
+"samus aran":{"tier":50,"hp":3000,"dmg":300,"drops":{"name":"power suit","quantity":1,"useable":False,"effect":{"buff":3000,"xp":1500}},"resistance":"electric","description":"A legendary bounty hunter.","speshal spwan location":["debug"]},#nentendo pleese dont sue me
+"korock":{"tier":0,"hp":1,"dmg":1,"drops":{"name":"the soul of a korock you monster","quantity":1,"useable":False,"effect":{"buff":9999,"xp":9999}},"resistance":"wind","description":"A small plant-like creature from the land of hyrule.","speshal spwan location":["debug"]},
+"nintendo":{"tier":100000000000000000000000000000000000000000000000,"hp":999999999999999999999999999999999999999999999999,"dmg":999999999999999999999999999999999999999999999999,"drops":{"name":"no one can get this item","quantity":1,"useable":False,"effect":{"buff":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,"xp":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}},"resistance":"light","description":"the ultimate being","speshal spwan location":["debug"]}}
+#team manager
 class TeamManager:
 	"""
 	TeamManager represents either a party (multiple team members) or a group of enemies.
@@ -138,7 +175,7 @@ class TeamManager:
 		self.teir = list(teir)
 		self.name = list(name)
 		self.description = list(description)
-		
+		# n is number of people in the team
 		n = len(self.hp)
 		if level is None:
 			self.level = [1] * n
@@ -220,11 +257,21 @@ class TeamManager:
 		if 0 <= person < len(self.dmg):
 			self.dmg[person] += damage_buff
 
-	def attack(self, players_go, continuous_players, enemies, inventory=None):
+	def attack(self, players_go, continuous_players, enemies):
+		global inventory
 		"""Handle a round of attacks. continuous_players is a list of player indices still active."""
 		if players_go:
 			for player_index in continuous_players:
-				
+				choise = util_functions.get_valid_type(int,"0 to run away, 1 to attack, 2 to use item: ","that is not a number 0,1 or 2",[0,1,2])
+				if choise == 0:
+					if util_functions.alternate_random((0,5),int)==1:
+						print("the monsters where too fast and caught you as you tried to run away")
+						continue
+					else:
+						print("you successfully ran away!")
+						return "ran"
+				elif choise == 2 and inventory.get_inventory() is not None:
+					inventory.choose_item_and_use(True,continuous_players,enemies)
 				damage = self.dmg[player_index]
 				if len(enemies.hp) == 0:
 					continue
@@ -298,33 +345,33 @@ class InventoryManager:
 	def get_inventory(self):
 		return self.inventory
 
-	def effect_function(self, effect, continuous_players, person):
+	def effect_function(self, effect,party,person):
 		if not isinstance(effect, dict):
 			return
 		# healing and mana effects
 		if "heal" in effect:
-			party.heal(effect["heal"], person)
+			party.heal(10, person)
 		if "heal+" in effect:
-			party.heal(effect["heal+"], person)
+			party.heal(30, person)
 		if "heal++" in effect:
-			party.heal(effect["heal++"], person)
+			party.heal(party.hp_max[person], person)
 		if "ether" in effect:
-			party.gain_mana(effect["ether"], person)
+			party.gain_mana(10, person)
 		if "elixir" in effect:
-			party.gain_mana(effect["elixir"], person)
-			party.heal(effect["elixir"], person)
+			party.gain_mana(10, person)
+			party.heal(10, person)
 		if "hi-ether" in effect:
-			party.gain_mana(effect["hi-ether"], person)
+			party.gain_mana(30, person)
 		if "hi-elixir" in effect:
-			party.gain_mana(effect["hi-elixir"], person)
-			party.heal(effect["hi-elixir"], person)
+			party.gain_mana(party.mana_max[person], person)
+			party.heal(party.hp_max[person], person)
 
-		# special debug / all-heal item
+		# debug item
 		if "ඞ" in effect:
 			for i in range(len(party.hp)):
 				party.heal(party.hp_max[i], i)
 				party.gain_mana(party.mana_max[i], i)
-			dmg = effect.get("debug item", 0)
+			dmg = util_functions.get_valid_type(int,"")
 			for i in range(len(enemies.hp)):
 				enemies.damage(dmg, "normal", i)
 
@@ -347,18 +394,49 @@ class InventoryManager:
 			enemies.damage(effect["electric core"], "electric", person)
 		if "ice core" in effect:
 			enemies.damage(effect["ice core"], "ice", person)
+	def choose_item_and_use(self,usable,party,enemy_party):
+		key=[]
+		if usable:
+			iteration=0
+			print("0 to return")
+			for num,x in enumerate(inventory.get_inventory()):
+				if x["useable"]:
+					iteration+=1
+					print(f"{iteration} for {x}")
+					key.append(x)
+			while True:
+				choise = util_functions.get_valid_type(int,"what do you want to use: ","that is not a valid input, press enter to continue",(0,iteration))
+				if choise==0:
+					return "returned"
+				item=self.inventory[key[choise-1]]
+				key=[]
+				if item["effect"] not in ["heal"]
+				while True:
+					print("0 to return")
+					for num,x in enumerate(enemy_party.get_continuous_players()):
+						key.append(num)
+						print(f"{num+1} to atack {x}")
+					choise=util_functions.get_valid_type(int,"who do you want to atack; ","that is not a valid input, press enter to continue",(0,num+1))
+					if choise==0:
+						break
+					else:
+						choise=enemy_party[]
+				
+		else:
+			iteration=0
+			for num,x in enumerate(inventory.get_inventory()):
+				if not x["useable"]:
+					iteration+=1
+					print(f"{iteration} for {x}")
 
-# -------------------------
-# Example party, enemies, inventory (keeps original idea)
-# -------------------------
 monster_spawn_rate = 20
 
 enemies = TeamManager(
 	hp=[50,50,50],
 	dmg=[10,15,20],
-	drops=[{"name":"bomb core","quantity":1,"useable":True,"effect":{"bomb core":30}},
-		{"name":"lightning core","quantity":1,"useable":True,"effect":{"lightning core":30}},
-		{"name":"blizzard core","quantity":1,"useable":True,"effect":{"blizzard core":30}}],
+	drops=[{"name":"bomb core","quantity":1,"useable":True,"effect":{"fire":30}},
+		{"name":"lightning core","quantity":1,"useable":True,"effect":{"electricity":30}},
+		{"name":"blizzard core","quantity":1,"useable":True,"effect":{"ice":30}}],
 	resistance=["fire","electric","ice"],
 	teir=[1,2,3],
 	name=["Goblin","Orc","Troll"],
@@ -374,7 +452,6 @@ party = TeamManager(
 	name=["Hero","Mage","Rogue"],
 	description=["Brave hero","Wise mage","Sneaky rogue"]
 )
-
 starting_inventory = {
 	"potion": {"name":"potion","quantity":3,"useable":True,"effect":{"heal":30}},
 	"magic weapon": {"name":"magic weapon","quantity":1,"useable":False,"effect":{}},

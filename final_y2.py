@@ -150,6 +150,7 @@ def battle_loop(game_state, enemies_team):
 		if result == "ran":
 			print("You fled the battle.")
 			return "ran"
+		
 		# Remove dead enemies
 		for i in range(len(enemies_team.hp)-1, -1, -1):
 			if enemies_team.hp[i] <= 0:
