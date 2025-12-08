@@ -133,10 +133,6 @@ def spawn_monsters(game_state):
 	return None
 
 def battle_loop(game_state, enemies_team):
-	"""
-	A battle loop that alternates player and enemy turns until one side is defeated or players run.
-	Uses party.attack and enemies_team as TeamManager.
-	"""
 	party_tm = game_state['party']
 	inv = game_state['inventory']
 	players_go = True
@@ -146,7 +142,7 @@ def battle_loop(game_state, enemies_team):
 			print("All players are down.")
 			break
 		# Player turn
-		result = party_tm.attack(True, continuous_players, enemies_team, inv)
+		result = party_tm.attack(True, continuous_players, enemies_team,party_tm)
 		if result == "ran":
 			print("You fled the battle.")
 			return "ran"
@@ -160,7 +156,7 @@ def battle_loop(game_state, enemies_team):
 		if not continuous_players:
 			print("All players are down.")
 			break
-		party_tm.attack(False, continuous_players, enemies_team, inv)
+		party_tm.attack(False, continuous_players, enemies_team,party_tm)
 		# Remove dead players for now need to make a way to revive them
 		for i in range(len(party_tm.hp)):
 			if party_tm.hp[i] <= 0:

@@ -159,12 +159,6 @@ monster_dict={
 "nintendo":{"tier":100000000000000000000000000000000000000000000000,"hp":999999999999999999999999999999999999999999999999,"dmg":999999999999999999999999999999999999999999999999,"drops":{"name":"no one can get this item","quantity":1,"useable":False,"effect":{"buff":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,"xp":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}},"resistance":"light","description":"the ultimate being","speshal spwan location":["debug"]}}
 #team manager
 class TeamManager:
-	"""
-	TeamManager represents either a party (multiple team members) or a group of enemies.
-	The constructor expects lists for hp, dmg, drops, resistance, teir, name, description.
-	Each index corresponds to one member/monster.
-	"""
-
 	def __init__(self, hp, dmg, drops, resistance, teir, name, description, level=None, mana=None, xp=None):
 		# Expect lists for multi-entity teams
 		self.hp_max = list(hp)
@@ -191,9 +185,12 @@ class TeamManager:
 			self.xp = [0] * n
 		else:
 			self.xp = list(xp)
-
+	def __repr__(self):
+		return f'{{"hp_max":self.hp_max,"hp":self.hp,"dmg":self.dmg,"drops":self.drops,"resistance":self.resistance,"teir":self.teir,"name":self.name,"description":self.description,"level":self.level,"max_mana":self.mana_max,"mana":self.mana,"xp":self.xp}}'
+	def __str__(self):
+		return """
+"""
 	def getattribute(self, attr_name, person=0):
-		"""Return an attribute (string) for a given person index if available."""
 		if hasattr(self, attr_name):
 			val = getattr(self, attr_name)
 			try:
@@ -207,8 +204,6 @@ class TeamManager:
 			self.hp[person] = min(self.hp[person] + heal_amount, self.hp_max[person])
 
 	def damage(self, damage_amount, damage_type, person):
-		"""Apply damage to a member. If the member has resistance matching damage_type,
-		reduce damage by half (rounded down)."""
 		if not (0 <= person < len(self.hp)):
 			return
 		actual = damage_amount
@@ -221,9 +216,12 @@ class TeamManager:
 	def if_dead(self, person, targets=None):
 		if 0 <= person < len(self.hp) and self.hp[person] <= 0:
 			self.remove(person, targets)
-
+	def defeated(self):
+		if len(self.get_continuous_players())<1:
+			return True
+		else:
+			return False
 	def remove(self, person, targets=None):
-		"""Handle removal or unconscious state. If tier == 0 treat as player unconscious."""
 		if not (0 <= person < len(self.hp)):
 			return
 		if self.teir[person] == 0:
@@ -257,11 +255,14 @@ class TeamManager:
 		if 0 <= person < len(self.dmg):
 			self.dmg[person] += damage_buff
 
-	def attack(self, players_go, continuous_players, enemies):
+	def attack(self, players_go, continuous_players, enemies,players):
 		global inventory
-		"""Handle a round of attacks. continuous_players is a list of player indices still active."""
 		if players_go:
+			
 			for player_index in continuous_players:
+				print(f"{players.getattribute("name",0)} is at {players.getattribute("hp",0)} hp\n{players.getattribute("name",1)} is at {players.getattribute("hp",1)} hp\n{players.getattribute("name",2)} is at {players.getattribute("hp",2)} hp\n")
+				if enemies.defeated():
+					break
 				choise = util_functions.get_valid_type(int,"0 to run away, 1 to attack, 2 to use item: ","that is not a number 0,1 or 2",[0,1,2])
 				if choise == 0:
 					if util_functions.alternate_random((0,5),int)==1:
@@ -315,11 +316,12 @@ class TeamManager:
 	def gain_mana(self, mana_amount, person):
 		if 0 <= person < len(self.mana):
 			self.mana[person] = min(self.mana[person] + mana_amount, self.mana_max[person])
-
+	def 
 class InventoryManager:
 	def __init__(self, starting_inventory=None):
 		self.inventory = starting_inventory.copy() if starting_inventory else {}
-
+	def __str__(self):
+		return f"{self.get_inventory()}"
 	def use(self, item_name, continuous_players, person):
 		if item_name in self.inventory and self.inventory[item_name].get("useable", False):
 			self.effect_function(self.inventory[item_name].get("effect", {}), continuous_players, person)
@@ -375,7 +377,7 @@ class InventoryManager:
 			for i in range(len(enemies.hp)):
 				enemies.damage(dmg, "normal", i)
 
-		# cores and area effects
+		# items/efects
 		if "bomb core" in effect:
 			dmg = effect["bomb core"]
 			for i in range(len(enemies.hp)):
@@ -410,17 +412,18 @@ class InventoryManager:
 					return "returned"
 				item=self.inventory[key[choise-1]]
 				key=[]
-				if item["effect"] not in ["heal"]
-				while True:
-					print("0 to return")
-					for num,x in enumerate(enemy_party.get_continuous_players()):
-						key.append(num)
-						print(f"{num+1} to atack {x}")
-					choise=util_functions.get_valid_type(int,"who do you want to atack; ","that is not a valid input, press enter to continue",(0,num+1))
-					if choise==0:
-						break
-					else:
-						choise=enemy_party[]
+				if item["effect"] not in ["heal"]:
+					while True:
+						print("0 to return")
+						for num,x in enumerate(enemy_party.get_continuous_players()):
+							key.append(num)
+							print(f"{num+1} to atack {x}")
+						choise=util_functions.get_valid_type(int,"who do you want to atack; ","that is not a valid input, press enter to continue",(0,num+1))
+						if choise==0:
+							break
+						else:
+							choise=enemy_party[choise]
+							self.use(item[3])
 				
 		else:
 			iteration=0
@@ -442,7 +445,6 @@ enemies = TeamManager(
 	name=["Goblin","Orc","Troll"],
 	description=["A weak goblin","A strong orc","A huge troll"]
 )
-
 party = TeamManager(
 	hp=[100,80,60],
 	dmg=[12,8,15],
@@ -460,14 +462,7 @@ starting_inventory = {
 
 inventory = InventoryManager(starting_inventory)
 
-# -------------------------
-# Helper functions for external use
-# -------------------------
 def setup_new_game():
-	"""
-	Return a fresh game state dictionary referencing the party, enemies template, and inventory.
-	The main script can modify or copy these as needed.
-	"""
 	game_state = {}
 	game_state['party'] = party
 	game_state['enemies_template'] = enemies
@@ -477,7 +472,6 @@ def setup_new_game():
 	game_state['battle_chance'] = 20
 	game_state['monster_spawn_rate'] = monster_spawn_rate
 	return game_state
-
 def get_tile_at(pos, area):
 	x, y = pos
 	if area == 'mid':
@@ -489,8 +483,6 @@ def get_tile_at(pos, area):
 	return None
 
 def spawn_monsters_from_template(template, party_levels, max_spawn=3):
-	"""
-	Create a TeamManager of spawned monsters based on a template TeamManager and party levels.	"""
 	avg_level = max(1, sum(party_levels) // len(party_levels))
 	spawn_count = random.randint(1, min(avg_level, max_spawn))
 	spawned_hp = []
