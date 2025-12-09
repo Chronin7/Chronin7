@@ -2,7 +2,7 @@ import random
 import copy
 import util_functions
 try:
-	from game import mid, upper, underground, TeamManager, InventoryManager, party, enemies, inventory, monster_spawn_rate
+	from game import mid, upper, underground, TeamManager, InventoryManager, party, enemies, inventory, monster_spawn_rate, item_dict
 except Exception:
 	# If import fails, inform the user and stop.
 	print("Could not import game definitions from game.py. Make sure your game code (maps, TeamManager, InventoryManager, party, enemies, inventory) is in game.py.")
@@ -50,51 +50,8 @@ def process_position(game_state):
 	if tile is None:
 		print("You are out of bounds.")
 		return
-
-	if tile.startswith('i'):  # item tile like i1, i2...
-		# Example: grant a simple potion for any item tile
-		item = {"name": "potion", "quantity": 1, "useable": True, "effect": {"heal": 30}}
-		inv.grant(item)
-		print(f"You found an item: {item['name']}")
-		# Optionally mark tile as visited by replacing with 'h' (here we won't modify maps)
-		return
-
-	if tile == 'spawn':
-		# Increase local spawn chance
-		game_state['battle_chance'] += game_state['monster_spawn_rate'] * 10
-		print("This area feels dangerous... monsters may appear more often.")
-		return
-
-	if tile == 'town' or tile == 't':
-		# Town interaction: shop, gamble, leave
-		while True:
-			print("\nYou are in a town. Options: shop, gamble, leave")
-			choice = util_functions.get_valid_type(str, "Choose: ", "Not a valid option", ["shop", "gamble", "leave"])
-			if choice == "shop":
-				# Simple shop: sell a potion for 10 gold (we don't track gold in this simple main)
-				print("Shop is not fully implemented in this demo.")
-			elif choice == "gamble":
-				print("Gambling not implemented in this demo.")
-			elif choice == "leave":
-				print("You leave the town.")
-				break
-		return
-
-	if tile == 'speshal' or tile == 'spehsal':
-		print("You found a special tile. Something interesting might happen here.")
-		# Placeholder for special events
-		return
-
-	# Water/lava handling (as in your design)
-	if tile == 'w':
-		print("You are at a wall or water tile; movement may be restricted.")
-		return
-	if tile == 'l':
-		print("This tile is lava or illegal to stand on; be careful.")
-		return
-
-	# Default: nothing special
-	return
+	if "i" in tile:
+		inv.grant(item_dict[tile[-1]])
 
 def spawn_monsters(game_state):
 	"""

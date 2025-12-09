@@ -127,37 +127,80 @@ location_dict={
 "r":{"name":"river","description":"a flowing river","special":"passable with gem of water"},
 "spawn":{"name":"spawn point","description":"the place where your adventure begins","special":None},
 "s":{"name":"snow","description":"a cold snowy area","special":None},
-"u":{"name":"unreachable","description":"tell the maker","speshal"}
+"u":{"name":"unreachable","description":"tell the maker","speshal":"not valid location"},
+"g":{"name":"ground","description":["floating ground","cave floor"],"speashal":None}
+}
+item_dict={
+"dragon tooth":{"useable":False,"effect":{"buff":50,"xp":50}},
+"slime gel":{"useable":True,"effect":{"heal":20,"xp":25}},
+"orc tusk":{"useable":True,"effect":{"buff":10,"xp":25}},
+"troll club":{"useable":False,"effect":{"buff":10,"xp":50}},
+"goblin ear":{"useable":False,"effect":{"buff":5,"xp":15}},
+"knight shield":{"useable":False,"effect":{"buff":20,"xp":75}},
+"mechanical gear":{"useable":False,"effect":{"buff":15,"xp":60}},
+"stone shard":{"useable":False,"effect":{"buff":10,"xp":40}},
+"haunted horn":{"useable":False,"effect":{"buff":8,"xp":30}},
+"song of the sea":{"useable":True,"effect":{"heal":15,"xp":35}},
+"lava core":{"useable":True,"effect":{"bomb core":12,"xp":45}},
+"trident of the deep":{"useable":False,"effect":{"buff":25,"xp":80}},
+"ember shield":{"useable":False,"effect":{"buff":30,"xp":90}},
+"debug item":{"useable":True,"effect":{"ඞ":9999}},
+"yeti fur":{"useable":False,"effect":{"buff":20,"xp":50}},
+"frost shard":{"useable":True,"effect":{"heal":15,"xp":20}},
+"shadow essence":{"useable":False,"effect":{"buff":30,"xp":75}},
+"phoenix feather":{"useable":True,"effect":{"heal":30,"xp":60}},
+"dark fang":{"useable":False,"effect":{"buff":15,"xp":40}},
+"wisp":{"useable":True,"effect":{"heal":10,"xp":15}},
+"rotting flesh":{"useable":False,"effect":{"buff":5,"xp":10}},
+"king's crown":{"useable":False,"effect":{"buff":100,"xp":500}},
+"shadow scale":{"useable":False,"effect":{"buff":120,"xp":600}},
+"guard's emblem":{"useable":False,"effect":{"buff":50,"xp":250}},
+"power suit":{"useable":False,"effect":{"buff":3000,"xp":1500}},
+"the soul of a korock you monster":{"useable":False,"effect":{"buff":9999,"xp":9999}},
+"no one can get this item":{"useable":False,"effect":{"buff":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,"xp":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}},
+"potion":{"useable":True,"effect":{"heal":30}},
+"magic weapon":{"useable":False,"effect":{"buff":30}},
+"water gem":{"useable":False,"effect":{"buff":50}},
+"fire gem":{"useable":False,"effect":{"buff":50}},
+"wind gem":{"useable":False,"effect":{"buff":50}},
+"power gem":{"useable":False,"effect":{"buff":50}},
+"resurrection gem":{"useable":False,"effect":{"buff":50}},
+"dark gem":{"useable":False,"effect":{"buff":50}},
+"frost gem":{"useable":False,"effect":{"buff":50}},
+"mana pouch":{"useable":True,"effect":{"mana":30,"xp":15}},
+"lightning core"
+"blizzard core"
 }
 monster_dict={
-"dragon":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"dragon tooth","quantity":1,"useable":False,"effect":{"buff":50,"xp":50}},"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":["~water","~lava","hot","~river","~snow"]},
-"blob":{"tier":1,"hp":80,"dmg":15,"drops":{"name":"slime gel","quantity":1,"useable":True,"effect":{"heal":20,"xp":25}},"resistance":"water","description":"A gooey blob that oozes around.","speshal spwan location":["~water","~lava","~river","~snow"]},
-"orc":{"tier":2,"hp":120,"dmg":25,"drops":{"name":"orc tusk","quantity":1,"useable":True,"effect":{"buff":10,"xp":25}},"resistance":"wind","description":"A brutish orc warrior.","speshal spwan location":["~lava","~water","~river"]},
-"troll":{"tier":2,"hp":130,"dmg":28,"drops":{"name":"troll club","quantity":1,"useable":False,"effect":{"buff":10,"xp":50}},"resistance":"wind","description":"A large and strong troll.","speshal spwan location":["~lava","~water","bridge","~river"]},
-"goblin":{"tier":1,"hp":30,"dmg":12,"drops":{"name":"goblin ear","quantity":1,"useable":False,"effect":{"buff":5,"xp":15}},"resistance":"darkness","description":"A sneaky goblin.","speshal spwan location":["~water","~lava","cave","~river"]},
-"knight":{"tier":3,"hp":200,"dmg":40,"drops":{"name":"knight's shield","quantity":1,"useable":False,"effect":{"buff":20,"xp":75}},"resistance":"light","description":"A heavily armored knight.","speshal spwan location":["~water","~lava","town","bridge","~river"]},#if spawn on brige have speshal dialog (none shall pass, its only a flesh wound, tis but a scratch, ive had worse)
-"construct":{"tier":3,"hp":180,"dmg":35,"drops":{"name":"mechanical gear","quantity":1,"useable":False,"effect":{"buff":15,"xp":60}},"resistance":"electric","description":"A mechanical construct brought to life.","speshal spwan location":["~water","~lava","cave","~river"]},
-"Animated statue":{"tier":2,"hp":140,"dmg":22,"drops":{"name":"stone shard","quantity":1,"useable":False,"effect":{"buff":10,"xp":40}},"resistance":"wind","description":"A statue that has come to life.","speshal spwan location":["~water","~lava","cave","hot","~river"]},
-"Possessed cow":{"tier":1,"hp":90,"dmg":18,"drops":{"name":"haunted horn","quantity":1,"useable":False,"effect":{"buff":8,"xp":30}},"resistance":"darkness","description":"A cow possessed by a spirit.","speshal spwan location":["~water","~lava","feild","~river"]},
-"mermaid":{"tier":2,"hp":110,"dmg":20,"drops":{"name":"song of the sea","quantity":1,"useable":True,"effect":{"heal":15,"xp":35}},"resistance":"water","description":"A mystical mermaid.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","river","~town","~snow"]},
-"Lava monster":{"tier":2,"hp":160,"dmg":27,"drops":{"name":"lava core","quantity":1,"useable":True,"effect":{"bomb core":12,"xp":45}},"resistance":"fire","description":"A creature made of molten lava.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
-"Fish lord":{"tier":3,"hp":190,"dmg":33,"drops":{"name":"trident of the deep","quantity":1,"useable":False,"effect":{"buff":25,"xp":80}},"resistance":"water","description":"The ruler of all fish.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","~town","~river","~snow"]},
-"Lava warden":{"tier":3,"hp":210,"dmg":38,"drops":{"name":"ember shield","quantity":1,"useable":False,"effect":{"buff":30,"xp":90}},"resistance":"fire","description":"A guardian of the lava realms.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
-"blain":{"tier":100,"hp":9999,"dmg":500,"drops":{"name":"debug item","quantity":1,"useable":True,"effect":{"ඞ":9999}},"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
-"liam":{"tier":100,"hp":9999,"dmg":500,"drops":{"name":"debug item","quantity":1,"useable":True,"effect":{"ඞ":9999}},"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
-"yeti":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"yeti fur","quantity":1,"useable":False,"effect":{"buff":20,"xp":50}},"resistance":"ice","description":"A large ape-like creature covered in fur.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
-"ice cube":{"tier":1,"hp":70,"dmg":12,"drops":{"name":"frost shard","quantity":1,"useable":True,"effect":{"heal":15,"xp":20}},"resistance":"ice","description":"A small cube of ice that has come to life.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
-"Nyx-spawn":{"tier":3,"hp":200,"dmg":40,"drops":{"name":"shadow essence","quantity":1,"useable":False,"effect":{"buff":30,"xp":75}},"resistance":"darkness","description":"A creature born from the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
-"phoenix":{"tier":3,"hp":180,"dmg":35,"drops":{"name":"phoenix feather","quantity":1,"useable":True,"effect":{"heal++":30,"xp":60}},"resistance":"fire","description":"A mythical bird that rises from its ashes.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
-"shadow beast":{"tier":2,"hp":140,"dmg":22,"drops":{"name":"dark fang","quantity":1,"useable":False,"effect":{"buff":15,"xp":40}},"resistance":"darkness","description":"A beast that lurks in the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
-"ghost":{"tier":1,"hp":60,"dmg":10,"drops":{"name":"ectoplasm","quantity":1,"useable":True,"effect":{"heal":10,"xp":15}},"resistance":"darkness","description":"A wandering spirit.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
-"zombie":{"tier":1,"hp":50,"dmg":8,"drops":{"name":"rotting flesh","quantity":1,"useable":False,"effect":{"buff":5,"xp":10}},"resistance":"darkness","description":"A reanimated corpse.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
-"lord king":{"tier":10,"hp":1000,"dmg":100,"drops":{"name":"king's crown","quantity":1,"useable":False,"effect":{"buff":100,"xp":500}},"resistance":"light","description":"The ultimate ruler.","speshal spwan location":["debug"]},
-"lord king's guard":{"tier":5,"hp":500,"dmg":50,"drops":{"name":"guard's emblem","quantity":1,"useable":False,"effect":{"buff":50,"xp":250}},"resistance":"light","description":"The elite guard of the lord king.","speshal spwan location":["debug"]},
-"shadow dragon":{"tier":10,"hp":1200,"dmg":120,"drops":{"name":"shadow scale","quantity":1,"useable":False,"effect":{"buff":120,"xp":600}},"resistance":"darkness","description":"A dragon born from shadows.","speshal spwan location":["debug"]},
-"samus aran":{"tier":50,"hp":3000,"dmg":300,"drops":{"name":"power suit","quantity":1,"useable":False,"effect":{"buff":3000,"xp":1500}},"resistance":"electric","description":"A legendary bounty hunter.","speshal spwan location":["debug"]},#nentendo pleese dont sue me
-"korock":{"tier":0,"hp":1,"dmg":1,"drops":{"name":"the soul of a korock you monster","quantity":1,"useable":False,"effect":{"buff":9999,"xp":9999}},"resistance":"wind","description":"A small plant-like creature from the land of hyrule.","speshal spwan location":["debug"]},
-"nintendo":{"tier":100000000000000000000000000000000000000000000000,"hp":999999999999999999999999999999999999999999999999,"dmg":999999999999999999999999999999999999999999999999,"drops":{"name":"no one can get this item","quantity":1,"useable":False,"effect":{"buff":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,"xp":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}},"resistance":"light","description":"the ultimate being","speshal spwan location":["debug"]}}
+"dragon":{"tier":2,"hp":150,"dmg":30,"drops":item_dict["dragon tooth"],"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":["~water","~lava","hot","~river","~snow"]},
+"blob":{"tier":1,"hp":80,"dmg":15,"drops":item_dict["slime gel"],"resistance":"water","description":"A gooey blob that oozes around.","speshal spwan location":["~water","~lava","~river","~snow"]},
+"orc":{"tier":2,"hp":120,"dmg":25,"drops":item_dict["orc tusk"],"resistance":"wind","description":"A brutish orc warrior.","speshal spwan location":["~lava","~water","~river"]},
+"troll":{"tier":2,"hp":130,"dmg":28,"drops":item_dict["troll club"],"resistance":"wind","description":"A large and strong troll.","speshal spwan location":["~lava","~water","bridge","~river"]},
+"goblin":{"tier":1,"hp":30,"dmg":12,"drops":item_dict["goblin ear"],"resistance":"darkness","description":"A sneaky goblin.","speshal spwan location":["~water","~lava","cave","~river"]},
+"knight":{"tier":3,"hp":200,"dmg":40,"drops":item_dict["knight shield"],"resistance":"light","description":"A heavily armored knight.","speshal spwan location":["~water","~lava","town","bridge","~river"]},#if spawn on brige have speshal dialog (none shall pass, its only a flesh wound, tis but a scratch, ive had worse)
+"construct":{"tier":3,"hp":180,"dmg":35,"drops":item_dict["mechanical gear"],"resistance":"electric","description":"A mechanical construct brought to life.","speshal spwan location":["~water","~lava","cave","~river"]},
+"Animated statue":{"tier":2,"hp":140,"dmg":22,"drops":item_dict["stone shard"],"resistance":"wind","description":"A statue that has come to life.","speshal spwan location":["~water","~lava","cave","hot","~river"]},
+"Possessed cow":{"tier":1,"hp":90,"dmg":18,"drops":item_dict["haunted horn"],"resistance":"darkness","description":"A cow possessed by a spirit.","speshal spwan location":["~water","~lava","feild","~river"]},
+"mermaid":{"tier":2,"hp":110,"dmg":20,"drops":item_dict["song of the sea"],"resistance":"water","description":"A mystical mermaid.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","river","~town","~snow"]},
+"Lava monster":{"tier":2,"hp":160,"dmg":27,"drops":item_dict["lava core"],"resistance":"fire","description":"A creature made of molten lava.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"Fish lord":{"tier":3,"hp":190,"dmg":33,"drops":item_dict["trident of the deep"],"resistance":"water","description":"The ruler of all fish.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"Lava warden":{"tier":3,"hp":210,"dmg":38,"drops":item_dict["ember shield"],"resistance":"fire","description":"A guardian of the lava realms.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"blain":{"tier":100,"hp":9999,"dmg":500,"drops":item_dict["debug item"],"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
+"liam":{"tier":100,"hp":9999,"dmg":500,"drops":item_dict["debug item"],"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
+"yeti":{"tier":2,"hp":150,"dmg":30,"drops":item_dict["yeti fur"],"resistance":"ice","description":"A large ape-like creature covered in fur.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"ice cube":{"tier":1,"hp":70,"dmg":12,"drops":item_dict["frost shard"],"resistance":"ice","description":"A small cube of ice that has come to life.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"Nyx-spawn":{"tier":3,"hp":200,"dmg":40,"drops":item_dict["shadow essence"],"resistance":"darkness","description":"A creature born from the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"phoenix":{"tier":3,"hp":180,"dmg":35,"drops":item_dict["phoenix feather"],"resistance":"fire","description":"A mythical bird that rises from its ashes.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
+"shadow beast":{"tier":2,"hp":140,"dmg":22,"drops":item_dict["dark fang"],"resistance":"darkness","description":"A beast that lurks in the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"ghost":{"tier":1,"hp":60,"dmg":10,"drops":item_dict["wisp"],"resistance":"darkness","description":"A wandering spirit.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"zombie":{"tier":1,"hp":50,"dmg":8,"drops":item_dict["rotting flesh"],"resistance":"darkness","description":"A reanimated corpse.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
+"lord king":{"tier":10,"hp":1000,"dmg":100,"drops":item_dict["king's crown"],"resistance":"light","description":"The ultimate ruler.","speshal spwan location":["debug"]},
+"lord king's guard":{"tier":5,"hp":500,"dmg":50,"drops":item_dict["guard's emblem"],"resistance":"light","description":"The elite guard of the lord king.","speshal spwan location":["debug"]},
+"shadow dragon":{"tier":10,"hp":1200,"dmg":120,"drops":item_dict["shadow scale"],"resistance":"darkness","description":"A dragon born from shadows.","speshal spwan location":["debug"]},
+"samus aran":{"tier":50,"hp":3000,"dmg":300,"drops":item_dict["power suit"],"resistance":"electric","description":"A legendary bounty hunter.","speshal spwan location":["debug"]},#nentendo pleese dont sue me
+"korock":{"tier":0,"hp":1,"dmg":1,"drops":item_dict["the soul of a korock you monster"],"resistance":"wind","description":"A small plant-like creature from the land of hyrule.","speshal spwan location":["debug"]},
+"nintendo":{"tier":100000000000000000000000000000000000000000000000,"hp":999999999999999999999999999999999999999999999999,"dmg":999999999999999999999999999999999999999999999999,"drops":item_dict["no one can get this item"],"resistance":"light","description":"the ultimate being","speshal spwan location":["debug"]}}
+
 #team manager
 class TeamManager:
 	def __init__(self, hp, dmg, drops, resistance, teir, name, description, level=None, mana=None, xp=None):
@@ -318,6 +361,7 @@ class TeamManager:
 		if 0 <= person < len(self.mana):
 			self.mana[person] = min(self.mana[person] + mana_amount, self.mana_max[person])
 	#def 
+
 class InventoryManager:
 	def __init__(self, starting_inventory=None):
 		self.inventory = starting_inventory.copy() if starting_inventory else {}
@@ -348,27 +392,14 @@ class InventoryManager:
 	def get_inventory(self):
 		return self.inventory
 
-	def effect_function(self, effect,party,person):
+	def effect_function(self, effect,party,person,enemies):
 		if not isinstance(effect, dict):
 			return
 		# healing and mana effects
 		if "heal" in effect:
-			party.heal(10, person)
-		if "heal+" in effect:
-			party.heal(30, person)
-		if "heal++" in effect:
-			party.heal(party.hp_max[person], person)
-		if "ether" in effect:
-			party.gain_mana(10, person)
-		if "elixir" in effect:
-			party.gain_mana(10, person)
-			party.heal(10, person)
-		if "hi-ether" in effect:
-			party.gain_mana(30, person)
-		if "hi-elixir" in effect:
-			party.gain_mana(party.mana_max[person], person)
-			party.heal(party.hp_max[person], person)
-
+			party.heal(effect["heal"], person)
+		if "mana" in effect:
+			party.gain_mana(effect["mana",person])
 		# debug item
 		if "ඞ" in effect:
 			for i in range(len(party.hp)):
@@ -435,17 +466,7 @@ class InventoryManager:
 
 monster_spawn_rate = 20
 
-enemies = TeamManager(
-	hp=[50,50,50],
-	dmg=[10,15,20],
-	drops=[{"name":"bomb core","quantity":1,"useable":True,"effect":{"fire":30}},
-		{"name":"lightning core","quantity":1,"useable":True,"effect":{"electricity":30}},
-		{"name":"blizzard core","quantity":1,"useable":True,"effect":{"ice":30}}],
-	resistance=["fire","electric","ice"],
-	teir=[1,2,3],
-	name=["Goblin","Orc","Troll"],
-	description=["A weak goblin","A strong orc","A huge troll"]
-)
+
 party = TeamManager(
 	hp=[100,80,60],
 	dmg=[12,8,15],
@@ -456,9 +477,7 @@ party = TeamManager(
 	description=["Brave hero","Wise mage","Sneaky rogue"]
 )
 starting_inventory = {
-	"potion": {"name":"potion","quantity":3,"useable":True,"effect":{"heal":30}},
-	"magic weapon": {"name":"magic weapon","quantity":1,"useable":False,"effect":{}},
-	"water gem": {"name":"water","quantity":1,"useable":True,"type":"chaos gem","damage":40,"description":"A gem of water"}
+
 }
 
 inventory = InventoryManager(starting_inventory)
