@@ -1,7 +1,7 @@
-# import
+# import do not tuch
 import random
 import util_functions
-# Maps
+# Maps do not tuch
 mid=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","l","i1","h","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","h","h","h","l","h","h","speshal","h","h","h","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
@@ -112,11 +112,11 @@ underground=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"]]
-#dictonarys
+#dictonarys do not tuch
 location_dict={
 "h":{"name":"hot land","description":"a land of heat","special":None},
-"l":{"name":"lava land","description":"a land of lava","special":"not valid location"},	
-"w":{"name":"water","description":"a body of water","special":"Not valid location"},
+"l":{"name":"lava land","description":"tell the maker","special":"not valid location"},	
+"w":{"name":"water","description":"tell the maker","special":"Not valid location"},
 "i":{"name":"item","description":["You found an item!","youv already sherched here"],"special":"item"},
 "ni":{"name":"nessasary item","description":["You found a nessasary item!","youv already sherched here"],"special":"item"},
 "c":{"name":"cave","description":"a dark cave","special":["desend","ascend"]},
@@ -127,6 +127,7 @@ location_dict={
 "r":{"name":"river","description":"a flowing river","special":"passable with gem of water"},
 "spawn":{"name":"spawn point","description":"the place where your adventure begins","special":None},
 "s":{"name":"snow","description":"a cold snowy area","special":None},
+"u":{"name":"unreachable","description":"tell the maker","speshal"}
 }
 monster_dict={
 "dragon":{"tier":2,"hp":150,"dmg":30,"drops":{"name":"dragon tooth","quantity":1,"useable":False,"effect":{"buff":50,"xp":50}},"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":["~water","~lava","hot","~river","~snow"]},
@@ -260,7 +261,7 @@ class TeamManager:
 		if players_go:
 			
 			for player_index in continuous_players:
-				print(f"{players.getattribute("name",0)} is at {players.getattribute("hp",0)} hp\n{players.getattribute("name",1)} is at {players.getattribute("hp",1)} hp\n{players.getattribute("name",2)} is at {players.getattribute("hp",2)} hp\n")
+				print(f'{players.getattribute("name",0)} is at {players.getattribute("hp",0)} hp\n{players.getattribute("name",1)} is at {players.getattribute("hp",1)} hp\n{players.getattribute("name",2)} is at {players.getattribute("hp",2)} hp\n')
 				if enemies.defeated():
 					break
 				choise = util_functions.get_valid_type(int,"0 to run away, 1 to attack, 2 to use item: ","that is not a number 0,1 or 2",[0,1,2])
@@ -316,7 +317,7 @@ class TeamManager:
 	def gain_mana(self, mana_amount, person):
 		if 0 <= person < len(self.mana):
 			self.mana[person] = min(self.mana[person] + mana_amount, self.mana_max[person])
-	# def
+	#def 
 class InventoryManager:
 	def __init__(self, starting_inventory=None):
 		self.inventory = starting_inventory.copy() if starting_inventory else {}
