@@ -316,7 +316,7 @@ class TeamManager:
 	def gain_mana(self, mana_amount, person):
 		if 0 <= person < len(self.mana):
 			self.mana[person] = min(self.mana[person] + mana_amount, self.mana_max[person])
-	def 
+	# def
 class InventoryManager:
 	def __init__(self, starting_inventory=None):
 		self.inventory = starting_inventory.copy() if starting_inventory else {}
