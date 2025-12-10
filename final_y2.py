@@ -2,28 +2,12 @@ import random
 import copy
 import util_functions
 try:
-	from game import mid, upper, underground, TeamManager, InventoryManager, party, enemies, inventory, monster_spawn_rate, item_dict
+	from game import mid, upper, underground, TeamManager, InventoryManager, party, inventory,spawn_monster, monster_spawn_rate, item_dict,setup_new_game,get_tile_at
 except Exception:
 	# If import fails, inform the user and stop.
 	print("Could not import game definitions from game.py. Make sure your game code (maps, TeamManager, InventoryManager, party, enemies, inventory) is in game.py.")
 	raise
 
-def setup_new_game():
-	"""
-	Initialize a fresh party, inventory, and starting position.
-	Returns a dict with game state.
-	"""
-	# copy party/enemies/inventory so we don't mutate original templates
-	game_state = {}
-	game_state['party'] = party  # party is already a TeamManager instance in game.py
-	game_state['enemies_template'] = enemies  # template for enemy types
-	game_state['inventory'] = inventory  # InventoryManager instance
-	# Starting position (as in your design)
-	game_state['pos'] = [15, 18]  # x, y
-	game_state['area'] = 'mid'  # which map we're on: 'mid', 'upper', 'underground'
-	game_state['battle_chance'] = 20  # base battle chance
-	game_state['monster_spawn_rate'] = monster_spawn_rate if 'monster_spawn_rate' in globals() else 20
-	return game_state
 
 def get_tile_at(pos, area):
 	x, y = pos
@@ -52,42 +36,7 @@ def process_position(game_state):
 		return
 	if "i" in tile:
 		inv.grant(item_dict[tile[-1]])
-
-def spawn_monsters(game_state):
-	"""
-	Decide whether to spawn monsters based on battle chance and monster_spawn_rate.
-	Returns a TeamManager instance for the spawned monsters or None.
-	"""
-	chance = game_state['battle_chance']
-	roll = random.randint(1, 100)
-	if roll <= chance:
-		# Determine number of monsters: 1 to min(round((random-num)/33),3) in original pseudo
-		# We'll approximate: spawn_count = random between 1 and min( max(1, party average level), 3)
-		party_levels = game_state['party'].level
-		avg_level = max(1, sum(party_levels) // len(party_levels))
-		spawn_count = random.randint(1, min(avg_level, 3))
-		# Build a list of random monsters based on enemies_template
-		template = game_state['enemies_template']
-		spawned_hp = []
-		spawned_dmg = []
-		spawned_drops = []
-		spawned_res = []
-		spawned_teir = []
-		spawned_name = []
-		spawned_desc = []
-		for _ in range(spawn_count):
-			idx = random.randint(0, len(template.hp)-1)
-			spawned_hp.append(template.hp_max[idx])
-			spawned_dmg.append(template.dmg[idx])
-			spawned_drops.append(template.drops[idx])
-			spawned_res.append(template.resistance[idx])
-			spawned_teir.append(template.teir[idx])
-			spawned_name.append(template.name[idx])
-			spawned_desc.append(template.description[idx])
-		spawned = TeamManager(spawned_hp, spawned_dmg, spawned_drops, spawned_res, spawned_teir, spawned_name, spawned_desc)
-		print(f"Monsters appeared: {', '.join(spawned_name)}")
-		return spawned
-	return None
+# buggie
 
 def battle_loop(game_state, enemies_team):
 	party_tm = game_state['party']
@@ -188,7 +137,7 @@ def main_loop():
 		game_state['battle_chance'] = min(100, game_state.get('battle_chance', 20) + game_state.get('monster_spawn_rate', 20) * 10)
 
 		# Roll for monster spawn
-		spawned = spawn_monsters(game_state)
+		spawned = spawn_monster(party.level)
 		if spawned:
 			result = battle_loop(game_state, spawned)
 			if result == "ran":

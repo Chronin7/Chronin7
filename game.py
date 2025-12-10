@@ -128,7 +128,8 @@ location_dict={
 "spawn":{"name":"spawn point","description":"the place where your adventure begins","special":None},
 "s":{"name":"snow","description":"a cold snowy area","special":None},
 "u":{"name":"unreachable","description":"tell the maker","speshal":"not valid location"},
-"g":{"name":"ground","description":["floating ground","cave floor"],"speashal":None}
+"g":{"name":"ground","description":["floating ground","cave floor"],"speashal":None},
+"aw":{"name":"acsesable water","description":"some nice watter to swim in","speashal":"passable with gem of water"}
 }
 item_dict={
 "dragon tooth":{"useable":False,"effect":{"buff":50,"xp":50}},
@@ -168,8 +169,12 @@ item_dict={
 "dark gem":{"useable":False,"effect":{"buff":50}},
 "frost gem":{"useable":False,"effect":{"buff":50}},
 "mana pouch":{"useable":True,"effect":{"mana":30,"xp":15}},
-"lightning core"
-"blizzard core"
+"lightning core":{"useable":True,"effect":{"lightning core":30}},
+"blizzard core":{"useable":True,"effect":{"blizzard core":30}},
+"fire core":{"useable":True,"effect":{"fire core":30}},
+"electric core":{"useable":True,"effect":{"electric core":30}},
+"ice core":{"useable":True,"effect":{"ice core":30}},
+"ඞ":{"useable":True,"effect":{"buff":1000000,"mana":10000000,"xp":100000}},
 }
 monster_dict={
 "dragon":{"tier":2,"hp":150,"dmg":30,"drops":item_dict["dragon tooth"],"resistance":"fire","description":"A large fire-breathing dragon.","speshal spwan location":["~water","~lava","hot","~river","~snow"]},
@@ -485,7 +490,6 @@ inventory = InventoryManager(starting_inventory)
 def setup_new_game():
 	game_state = {}
 	game_state['party'] = party
-	game_state['enemies_template'] = enemies
 	game_state['inventory'] = inventory
 	game_state['pos'] = [15, 18]  # x, y
 	game_state['area'] = 'mid'
@@ -501,24 +505,10 @@ def get_tile_at(pos, area):
 	if area == 'underground':
 		return underground[y][x]
 	return None
-
-def spawn_monsters_from_template(template, party_levels, max_spawn=3):
+# work on 
+def spawn_monster(party_levels,location,overide=False):
+	global monster_dict
 	avg_level = max(1, sum(party_levels) // len(party_levels))
-	spawn_count = random.randint(1, min(avg_level, max_spawn))
-	spawned_hp = []
-	spawned_dmg = []
-	spawned_drops = []
-	spawned_res = []
-	spawned_teir = []
-	spawned_name = []
-	spawned_desc = []
-	for _ in range(spawn_count):
-		idx = random.randint(0, len(template.hp)-1)
-		spawned_hp.append(template.hp_max[idx])
-		spawned_dmg.append(template.dmg[idx])
-		spawned_drops.append(template.drops[idx])
-		spawned_res.append(template.resistance[idx])
-		spawned_teir.append(template.teir[idx])
-		spawned_name.append(template.name[idx])
-		spawned_desc.append(template.description[idx])
-	return TeamManager(spawned_hp, spawned_dmg, spawned_drops, spawned_res, spawned_teir, spawned_name, spawned_desc)
+	monster=[]
+	if overide:
+		return [monster_dict[overide[0]],monster_dict[overide[2]],monster_dict[overide[3]]]
