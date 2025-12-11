@@ -2,12 +2,12 @@ import random
 import copy
 import util_functions
 try:
-	from game import mid, upper, underground, TeamManager, InventoryManager, party, inventory,spawn_monster, monster_spawn_rate, item_dict,setup_new_game,get_tile_at
+	from game import mid, upper, underground, TeamManager, InventoryManager,location_dict, party, inventory,spawn_monster, monster_spawn_rate, item_dict,setup_new_game,get_tile_at
 except Exception:
 	# If import fails, inform the user and stop.
 	print("Could not import game definitions from game.py. Make sure your game code (maps, TeamManager, InventoryManager, party, enemies, inventory) is in game.py.")
 	raise
-
+level_of_map="mid"
 
 def get_tile_at(pos, area):
 	x, y = pos
@@ -22,25 +22,72 @@ def get_tile_at(pos, area):
 #######################################################################################################################
 #######################################################################################################################
 #1f9
+loot=[False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
+nloot=[False,False,False,False,False,False,False]
 def process_position(game_state):
 	"""
 	Process the tile the party is standing on.
 	Effects: items, special tiles, towns, spawn modifiers, etc.
 	This function keeps the original idea: item grants, special events, towns with shops/gamble.
 	"""
+	global loot
+	global nloot
+	global location_dict
+	global level_of_map
 	x, y = game_state['pos']
 	area = game_state['area']
 	tile = get_tile_at((x, y), area)
 	inv = game_state['inventory']
-
-	# Basic tile handling (extend as needed)
+	out={}
 	if tile is None:
 		print("You are out of bounds.")
 		return
-	if "i" in tile:
+	if "i" in tile and loot[tile[-1]]==False:
 		inv.grant(item_dict[tile[-1]])
-	if "ni" in tile:
+	if "ni" in tile and nloot[tile[-1]]==False:
 		inv.grant(item_dict[tile[-1]])
+	if "h" in tile:
+		return location_dict["h"]
+	if "l" in tile:
+		return location_dict["l"]
+	if "w" in tile:
+		return location_dict["w"]
+	if "c" in tile:
+		if level_of_map =="underground":                                  #V to godhood
+			choise=util_functions.get_valid_type(str,"do you want to ascend: ","that is not an option, press enter to continue",["yes","no"])
+			if choise == "yes":
+				print("you climb up to middle earth")
+				level_of_map="mid"
+			if choise == "no":
+					print("you stay underground")
+		else:
+			choise=util_functions.get_valid_type(str,"do you want to descend: ","that is not an option, press enter to continue",["yes","no"])
+			if choise == "yes":
+				print("you climb underground")
+				level_of_map="underground"
+			if choise == "no":
+					print("you stay underground")
+		else:
+	if "sk" in tile:
+		
+	if "b" in tile:
+		return location_dict["b"]
+	if "t" in tile:
+		return location_dict["t"]
+	if "f" in tile:
+		return location_dict["f"]
+	if "r" in tile:
+     
+	if "spawn" in tile:
+		return location_dict["spawn"]
+	if "s" in tile:
+		return location_dict["s"]
+	if "u" in tile:
+     
+	if "g" in tile:
+		
+	if "aw" in tile:
+		
 #######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################

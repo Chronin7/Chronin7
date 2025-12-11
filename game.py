@@ -78,36 +78,36 @@ upper=[["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u",
 ["u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u","u"]]
 underground=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","u","u","u","u","u","u","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","w","w","w","w","u","u","u","h","h","h","l","i","h","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","w","w","w","u","u","u","h","h","h","l","i9","h","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","u","h","u","h","h","u","h","l","l","h","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","u","h","h","h","u","h","u","h","h","h","h","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","u","h","h","h","u","h","h","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","u","h","h","c","h","u","h","u","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","u","h","h","h","h","h","u","h","h","u","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","u","g","g","g","g","g","u","h","h","h","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","w","u","g","g","g","g","g","g","u","h","h","h","u","g","g","g","ui","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","w","u","g","g","g","g","g","c","g","u","h","h","u","g","g","g","ui","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","w","u","g","g","g","g","g","g","g","u","h","h","u","g","g","g","ui","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","u","g","g","g","g","g","g","g","g","u","g","u","i","g","g","g","ni","u","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","u","i","g","g","g","g","g","g","u","g","g","u","u","u","g","g","ui","g","u","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","w","u","g","g","g","g","g","g","u","g","u","i","g","g","u","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","w","u","g","g","g","g","g","g","u","g","g","boss teleport","u","g","g","g","g","g","g","g","i","u","u","u","u","u","u","u","u","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","g","u","h","h","h","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","c","g","u","h","h","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","g","g","u","h","h","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","u","g","g","g","g","g","g","g","g","u","g","u","i11","g","g","g","n","u","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","u","i10","g","g","g","g","g","g","u","g","g","u","u","u","g","g","u","g","u","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","w","u","g","g","g","g","g","g","u","g","u","i12","g","g","u","u","g","g","g","u","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","w","u","g","g","g","g","g","g","u","g","g","boss teleport","u","g","g","g","g","g","g","g","i13","u","u","u","u","u","u","u","u","w","w"],
 ["w","w","w","w","w","w","u","g","g","g","g","g","u","g","g","g","g","u","c","u","g","g","g","g","g","u","g","g","g","g","g","g","g","ni","u","w"],
 ["w","w","w","w","w","u","g","g","g","g","g","u","g","g","g","g","g","g","u","u","g","g","g","g","g","u","g","g","g","g","g","g","g","g","u","w"],
-["w","w","w","w","u","g","g","g","g","g","g","u","g","c","g","g","g","g","g","g","g","g","g","g","g","i","u","g","g","g","g","g","g","g","u","w"],
+["w","w","w","w","u","g","g","g","g","g","g","u","g","c","g","g","g","g","g","g","g","g","g","g","g","i14","u","g","g","g","g","g","g","g","u","w"],
 ["w","w","w","w","u","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","g","u","w"],
 ["w","w","w","w","u","c","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","g","g","g","g","u","g","g","g","g","g","g","g","u","w","w"],
 ["w","w","w","w","u","g","g","g","g","g","g","g","g","g","u","g","g","c","g","g","g","g","g","g","g","u","t","c","g","g","g","g","u","w","w","w"],
-["w","w","w","w","u","g","g","i","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","u","w","w","w"],
+["w","w","w","w","u","g","g","i15","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","u","w","w","w"],
 ["w","w","w","w","w","u","g","g","g","g","g","u","u","g","g","g","u","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","u","g","g","g","u","w","w","u","g","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","u","g","g","u","w","w","w","w","u","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","u","g","c","u","w","w","w","w","w","u","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","u","g","g","u","w","w","w","u","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","u","i","u","w","w","w","u","g","g","g","g","g","i","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","u","i16","u","w","w","w","u","g","g","g","g","g","i17","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","u","u","w","w","w","w","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","u","u","w","w","w","w","u","g","g","g","g","g","g","g","g","g","g","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
-["w","w","w","w","w","u","u","w","w","w","w","w","u","u","u","u","u","u","u","g","g","i","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
+["w","w","w","w","w","u","u","w","w","w","w","w","u","u","u","u","u","u","u","g","g","i18","u","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","u","u","u","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"],
@@ -123,7 +123,7 @@ location_dict={
 "sk":{"name":"sky lift","description":"a sacred place with powerfull lifting runes","special":["ascend","desend"]},
 "b":{"name":"bridge","description":"a rickety bridge","special":None},
 "t":{"name":"town","description":"a small town","special":"town"},
-"f":{"name":"feild","description":"a wide open feild","special":None},
+"f":{"name":"forest","description":"a dense forest","special":None},
 "r":{"name":"river","description":"a flowing river","special":"passable with gem of water"},
 "spawn":{"name":"spawn point","description":"the place where your adventure begins","special":None},
 "s":{"name":"snow","description":"a cold snowy area","special":None},
@@ -494,11 +494,7 @@ class InventoryManager:
 							break
 						else:
 							choise=enemy_party[choise]
-							self.use(item[3])
-#######################################################################################################################
-#######################################################################################################################
-#######################################################################################################################
-				
+							self.use(item[3])				
 		else:
 			iteration=0
 			for num,x in enumerate(inventory.get_inventory()):
@@ -508,11 +504,9 @@ class InventoryManager:
 	def __str__(self):
 		out=""
 		for x in self.get_inventory():
-			out+=f"{self.get_inventory()[x]}\n{self.get_inventory()[x]["effect"]}"                                    #
+			out+=f"{self.get_inventory()[x]}\n{self.get_inventory()[x]["effect"]}"
+		return out
 monster_spawn_rate = 20                                                                                               #
-#######################################################################################################################
-#######################################################################################################################
-#######################################################################################################################
 
 
 party = TeamManager(
@@ -548,7 +542,6 @@ def get_tile_at(pos, area):
 	if area == 'underground':
 		return underground[y][x]
 	return None
-# work on 
 def spawn_monster(party_levels,location,overide=False):
 	global monster_dict
 	avg_level = max(1, sum(party_levels) // len(party_levels))
@@ -563,4 +556,4 @@ def spawn_monster(party_levels,location,overide=False):
 			spanable.remove(x)
 	print(spanable)
 if __name__=="__main__":
-	print(spawn_monster([3,3,3],location_dict["h"],["dragon","dragon","NULL"]))
+	print(spawn_monster([3,3,3],location_dict["h"],["yeti","dragon","NULL"]))
