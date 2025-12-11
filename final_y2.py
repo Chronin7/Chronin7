@@ -21,7 +21,7 @@ def get_tile_at(pos, area):
 #######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
-#1f9
+#1f9d
 loot=[False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
 nloot=[False,False,False,False,False,False,False]
 def process_position(game_state):
