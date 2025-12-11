@@ -66,10 +66,22 @@ def process_position(game_state):
 				print("you climb underground")
 				level_of_map="underground"
 			if choise == "no":
+					print("you stay in middle earth")
+	if "sk" in tile:
+		if level_of_map =="mid":
+			choise=util_functions.get_valid_type(str,"do you want to ascend: ","that is not an option, press enter to continue",["yes","no"])
+			if choise == "yes":
+				print("you climb up to middle earth")
+				level_of_map="mid"
+			if choise == "no":
 					print("you stay underground")
 		else:
-	if "sk" in tile:
-		
+			choise=util_functions.get_valid_type(str,"do you want to descend: ","that is not an option, press enter to continue",["yes","no"])
+			if choise == "yes":
+				print("you get lifted skyward")
+				level_of_map="underground"
+			if choise == "no":
+					print("you stay in middle earth")
 	if "b" in tile:
 		return location_dict["b"]
 	if "t" in tile:
@@ -77,17 +89,23 @@ def process_position(game_state):
 	if "f" in tile:
 		return location_dict["f"]
 	if "r" in tile:
-     
+		if inventory["water gem"]
+			return {"name":"river","description":"a flowing river","special":"passable with gem of water"}
+		return "go back"
 	if "spawn" in tile:
 		return location_dict["spawn"]
 	if "s" in tile:
 		return location_dict["s"]
 	if "u" in tile:
-     
+		return location_dict["u"]
 	if "g" in tile:
-		
+		if level_of_map=="underground":
+			return {"name":"ground","description":"cave floor","speashal":None}
+		return {"name":"ground","description":"floating ground","speashal":None}
 	if "aw" in tile:
-		
+		if inventory["water gem"]
+			return location_dict["aw"]
+		return "go back"
 #######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
