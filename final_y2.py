@@ -18,7 +18,10 @@ def get_tile_at(pos, area):
 	if area == 'underground':
 		return underground[y][x]
 	return None
-
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+#1f9
 def process_position(game_state):
 	"""
 	Process the tile the party is standing on.
@@ -36,8 +39,11 @@ def process_position(game_state):
 		return
 	if "i" in tile:
 		inv.grant(item_dict[tile[-1]])
-# buggie
-
+	if "ni" in tile:
+		inv.grant(item_dict[tile[-1]])
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 def battle_loop(game_state, enemies_team):
 	party_tm = game_state['party']
 	inv = game_state['inventory']
@@ -137,7 +143,7 @@ def main_loop():
 		game_state['battle_chance'] = min(100, game_state.get('battle_chance', 20) + game_state.get('monster_spawn_rate', 20) * 10)
 
 		# Roll for monster spawn
-		spawned = spawn_monster(party.level)
+		spawned = spawn_monster(party.level,)
 		if spawned:
 			result = battle_loop(game_state, spawned)
 			if result == "ran":

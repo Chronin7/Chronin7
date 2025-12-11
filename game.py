@@ -114,8 +114,8 @@ underground=[["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w
 ["w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w","w"]]
 #dictonarys do not tuch
 location_dict={
-"h":{"name":"hot land","description":"a land of heat","special":None},
-"l":{"name":"lava land","description":"tell the maker","special":"not valid location"},	
+"h":{"name":"hot","description":"a land of heat","special":None},
+"l":{"name":"lava","description":"tell the maker","special":"not valid location"},	
 "w":{"name":"water","description":"tell the maker","special":"Not valid location"},
 "i":{"name":"item","description":["You found an item!","youv already sherched here"],"special":"item"},
 "ni":{"name":"nessasary item","description":["You found a nessasary item!","youv already sherched here"],"special":"item"},
@@ -190,8 +190,8 @@ monster_dict={
 "Lava monster":{"tier":2,"hp":160,"dmg":27,"drops":item_dict["lava core"],"resistance":"fire","description":"A creature made of molten lava.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
 "Fish lord":{"tier":3,"hp":190,"dmg":33,"drops":item_dict["trident of the deep"],"resistance":"water","description":"The ruler of all fish.","speshal spwan location":["water","~lava","~hot","~feild","~cave","~bridge","~town","~river","~snow"]},
 "Lava warden":{"tier":3,"hp":210,"dmg":38,"drops":item_dict["ember shield"],"resistance":"fire","description":"A guardian of the lava realms.","speshal spwan location":["~water","lava","hot","~feild","~cave","~bridge","~town","~river","~snow"]},
-"blain":{"tier":100,"hp":9999,"dmg":500,"drops":item_dict["debug item"],"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
-"liam":{"tier":100,"hp":9999,"dmg":500,"drops":item_dict["debug item"],"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
+"blain":{"tier":100,"hp":9999,"dmg":500,"drops":item_dict["ඞ"],"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
+"liam":{"tier":100,"hp":9999,"dmg":500,"drops":item_dict["ඞ"],"resistance":"darkness","description":"one of the makers of the game","speshal spwan location":["debug"]},
 "yeti":{"tier":2,"hp":150,"dmg":30,"drops":item_dict["yeti fur"],"resistance":"ice","description":"A large ape-like creature covered in fur.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
 "ice cube":{"tier":1,"hp":70,"dmg":12,"drops":item_dict["frost shard"],"resistance":"ice","description":"A small cube of ice that has come to life.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
 "Nyx-spawn":{"tier":3,"hp":200,"dmg":40,"drops":item_dict["shadow essence"],"resistance":"darkness","description":"A creature born from the shadows.","speshal spwan location":["~water","~lava","~hot","~feild","~cave","~bridge","~town","~river","snow"]},
@@ -204,7 +204,9 @@ monster_dict={
 "shadow dragon":{"tier":10,"hp":1200,"dmg":120,"drops":item_dict["shadow scale"],"resistance":"darkness","description":"A dragon born from shadows.","speshal spwan location":["debug"]},
 "samus aran":{"tier":50,"hp":3000,"dmg":300,"drops":item_dict["power suit"],"resistance":"electric","description":"A legendary bounty hunter.","speshal spwan location":["debug"]},#nentendo pleese dont sue me
 "korock":{"tier":0,"hp":1,"dmg":1,"drops":item_dict["the soul of a korock you monster"],"resistance":"wind","description":"A small plant-like creature from the land of hyrule.","speshal spwan location":["debug"]},
-"nintendo":{"tier":100000000000000000000000000000000000000000000000,"hp":999999999999999999999999999999999999999999999999,"dmg":999999999999999999999999999999999999999999999999,"drops":item_dict["no one can get this item"],"resistance":"light","description":"the ultimate being","speshal spwan location":["debug"]}}
+"nintendo":{"tier":100000000000000000000000000000000000000000000000,"hp":999999999999999999999999999999999999999999999999,"dmg":999999999999999999999999999999999999999999999999,"drops":item_dict["no one can get this item"],"resistance":"light","description":"the ultimate being","speshal spwan location":["debug"]},
+"NULL":{"tier":None,"hp":None,"dmg":None,"drops":"ඞ","resistance":None,"description":None,"speshal spwan location":["debug"]}
+}
 
 #team manager
 class TeamManager:
@@ -237,7 +239,37 @@ class TeamManager:
 	def __repr__(self):
 		return f'{{"hp_max":self.hp_max,"hp":self.hp,"dmg":self.dmg,"drops":self.drops,"resistance":self.resistance,"teir":self.teir,"name":self.name,"description":self.description,"level":self.level,"max_mana":self.mana_max,"mana":self.mana,"xp":self.xp}}'
 	def __str__(self):
-		return """
+		return f"""
+{self.name[0]}: {"!!!OUT!!!"if self.defeated(0) else ""}
+max hp:{self.hp_max[0]}
+hp:{self.hp[0]}
+damage:{self.dmg[0]}
+max mana:{self.mana_max[0]}
+mana:{self.mana[0]}
+level:{self.level[0]}
+XP:{self.xp[0]}
+resistance{self.resistance[0]}
+description:{self.description[0]}
+{self.name[1]}: {"!!!OUT!!!"if self.defeated(1) else ""}
+max hp:{self.hp_max[1]}
+hp:{self.hp[1]}
+damage:{self.dmg[1]}
+max mana:{self.mana_max[1]}
+mana:{self.mana[1]}
+level:{self.level[1]}
+XP:{self.xp[1]}
+resistance{self.resistance[1]}
+description:{self.description[1]}
+{self.name[2]}: {"!!!OUT!!!"if self.defeated(2) else ""}
+max hp:{self.hp_max[2]}
+hp:{self.hp[2]}
+damage:{self.dmg[2]}
+max mana:{self.mana_max[2]}
+mana:{self.mana[2]}
+level:{self.level[2]}
+XP:{self.xp[2]}
+resistance{self.resistance[2]}
+description:{self.description[2]}
 """
 	def getattribute(self, attr_name, person=0):
 		if hasattr(self, attr_name):
@@ -265,7 +297,9 @@ class TeamManager:
 	def if_dead(self, person, targets=None):
 		if 0 <= person < len(self.hp) and self.hp[person] <= 0:
 			self.remove(person, targets)
-	def defeated(self):
+	def defeated(self,person=None):
+		if person:
+			return self.get_continuous_players()[person]
 		if len(self.get_continuous_players())<1:
 			return True
 		else:
@@ -370,7 +404,7 @@ class TeamManager:
 class InventoryManager:
 	def __init__(self, starting_inventory=None):
 		self.inventory = starting_inventory.copy() if starting_inventory else {}
-	def __str__(self):
+	def __repr__(self):
 		return f"{self.get_inventory()}"
 	def use(self, item_name, continuous_players, person):
 		if item_name in self.inventory and self.inventory[item_name].get("useable", False):
@@ -461,6 +495,9 @@ class InventoryManager:
 						else:
 							choise=enemy_party[choise]
 							self.use(item[3])
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 				
 		else:
 			iteration=0
@@ -468,8 +505,14 @@ class InventoryManager:
 				if not x["useable"]:
 					iteration+=1
 					print(f"{iteration} for {x}")
-
-monster_spawn_rate = 20
+	def __str__(self):
+		out=""
+		for x in self.get_inventory():
+			out+=f"{self.get_inventory()[x]}\n{self.get_inventory()[x]["effect"]}"                                    #
+monster_spawn_rate = 20                                                                                               #
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 
 
 party = TeamManager(
@@ -510,5 +553,14 @@ def spawn_monster(party_levels,location,overide=False):
 	global monster_dict
 	avg_level = max(1, sum(party_levels) // len(party_levels))
 	monster=[]
+	spanable=[]
 	if overide:
-		return [monster_dict[overide[0]],monster_dict[overide[2]],monster_dict[overide[3]]]
+		return [monster_dict[overide[0]],monster_dict[overide[1]],monster_dict[overide[2]]]
+	for x in monster_dict:
+		spanable.append(x)
+	for x in monster_dict:
+		if not (location["name"] in monster_dict[x]["speshal spwan location"] and "~" not in monster_dict[x]["speshal spwan location"]):
+			spanable.remove(x)
+	print(spanable)
+if __name__=="__main__":
+	print(spawn_monster([3,3,3],location_dict["h"],["dragon","dragon","NULL"]))
