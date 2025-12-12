@@ -10,7 +10,10 @@ from final_map_y2 import *
 # dictonarys do not tuch
 class Location:
 	def __init__(
-		self, name: str, description: Union[str,list[str]], special: Union[str, list[str], None] = None
+		self,
+		name: str,
+		description: Union[str, list[str]],
+		special: Union[str, list[str], None] = None,
 	):
 		self.name = name
 		self.description = description
@@ -56,13 +59,13 @@ location_dict: dict[str, Location] = {
 	"u": Location(
 		name="unreachable", description="tell the maker", special="not valid location"
 	),
-	"g": Location(name="ground", description=["floating ground","cave floor"]),
+	"g": Location(name="ground", description=["floating ground", "cave floor"]),
 	"aw": Location(
 		name="acsesable water",
 		description="some nice watter to swim in",
 		special="passable with gem of water",
 	),
-	"p": Location(name="feild",description="a wide open feild")
+	"p": Location(name="feild", description="a wide open feild"),
 }
 
 
@@ -87,71 +90,72 @@ class Effect:
 
 
 class Item:
-	def __init__(self, useable: bool, effect: Effect):
+	def __init__(self, useable: bool,count:int, effect: Effect):
 		self.usable = useable
+		self.count=count
 		self.effect = effect
 
 
 ITEM_DICT: dict[str, Item] = {
-	"dragon tooth": Item(useable=False, effect=Effect(buff=50, xp=50)),
-	"slime gel": Item(useable=True, effect=Effect(heal=20, xp=25)),
-	"orc tusk": Item(useable=True, effect=Effect(buff=10, xp=25)),
-	"troll club": Item(useable=False, effect=Effect(buff=10, xp=50)),
-	"goblin ear": Item(useable=False, effect=Effect(buff=5, xp=15)),
-	"knight shield": Item(useable=False, effect=Effect(buff=20, xp=75)),
-	"mechanical gear": Item(useable=False, effect=Effect(buff=15, xp=60)),
-	"stone shard": Item(useable=False, effect=Effect(buff=10, xp=40)),
-	"haunted horn": Item(useable=False, effect=Effect(buff=8, xp=30)),
-	"song of the sea": Item(useable=True, effect=Effect(heal=15, xp=35)),
+	"dragon tooth": Item(useable=False,count=1, effect=Effect(buff=50, xp=50)),
+	"slime gel": Item(useable=True,count=1, effect=Effect(heal=20, xp=25)),
+	"orc tusk": Item(useable=True,count=1, effect=Effect(buff=10, xp=25)),
+	"troll club": Item(useable=False,count=1, effect=Effect(buff=10, xp=50)),
+	"goblin ear": Item(useable=False,count=1, effect=Effect(buff=5, xp=15)),
+	"knight shield": Item(useable=False,count=1, effect=Effect(buff=20, xp=75)),
+	"mechanical gear": Item(useable=False,count=1, effect=Effect(buff=15, xp=60)),
+	"stone shard": Item(useable=False,count=1, effect=Effect(buff=10, xp=40)),
+	"haunted horn": Item(useable=False,count=1, effect=Effect(buff=8, xp=30)),
+	"song of the sea": Item(useable=True,count=1, effect=Effect(heal=15, xp=35)),
 	"lava core": Item(
-		useable=True, effect=Effect(dmg=12, damage_type="bomb_core", xp=45)
+		useable=True,count=1, effect=Effect(dmg=12, damage_type="bomb_core", xp=45)
 	),
-	"trident of the deep": Item(useable=False, effect=Effect(buff=25, xp=80)),
-	"ember shield": Item(useable=False, effect=Effect(buff=30, xp=90)),
-	"debug item": Item(useable=True, effect=Effect(ඞ=9999)),
-	"yeti fur": Item(useable=False, effect=Effect(buff=20, xp=50)),
-	"frost shard": Item(useable=True, effect=Effect(heal=15, xp=20)),
-	"shadow essence": Item(useable=False, effect=Effect(buff=30, xp=75)),
-	"phoenix feather": Item(useable=True, effect=Effect(heal=30, xp=60)),
-	"dark fang": Item(useable=False, effect=Effect(buff=15, xp=40)),
-	"wisp": Item(useable=True, effect=Effect(heal=10, xp=15)),
-	"rotting flesh": Item(useable=False, effect=Effect(buff=5, xp=10)),
-	"king's crown": Item(useable=False, effect=Effect(buff=100, xp=500)),
-	"shadow scale": Item(useable=False, effect=Effect(buff=120, xp=600)),
-	"guard's emblem": Item(useable=False, effect=Effect(buff=50, xp=250)),
-	"power suit": Item(useable=False, effect=Effect(buff=3000, xp=1500)),
+	"trident of the deep": Item(useable=False,count=1, effect=Effect(buff=25, xp=80)),
+	"ember shield": Item(useable=False,count=1, effect=Effect(buff=30, xp=90)),
+	"debug item": Item(useable=True,count=1, effect=Effect(ඞ=9999)),
+	"yeti fur": Item(useable=False,count=1, effect=Effect(buff=20, xp=50)),
+	"frost shard": Item(useable=True,count=1, effect=Effect(heal=15, xp=20)),
+	"shadow essence": Item(useable=False,count=1, effect=Effect(buff=30, xp=75)),
+	"phoenix feather": Item(useable=True,count=1, effect=Effect(heal=30, xp=60)),
+	"dark fang": Item(useable=False,count=1, effect=Effect(buff=15, xp=40)),
+	"wisp": Item(useable=True,count=1, effect=Effect(heal=10, xp=15)),
+	"rotting flesh": Item(useable=False,count=1, effect=Effect(buff=5, xp=10)),
+	"king's crown": Item(useable=False,count=1, effect=Effect(buff=100, xp=500)),
+	"shadow scale": Item(useable=False,count=1, effect=Effect(buff=120, xp=600)),
+	"guard's emblem": Item(useable=False,count=1, effect=Effect(buff=50, xp=250)),
+	"power suit": Item(useable=False,count=1, effect=Effect(buff=3000, xp=1500)),
 	"the soul of a korock you monster": Item(
-		useable=False, effect=Effect(buff=9999, xp=9999)
+		useable=False,count=1, effect=Effect(buff=9999, xp=9999)
 	),
 	"no one can get this item": Item(
-		useable=False,
+		useable=False,count=1,
 		effect=Effect(
 			buff=100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
 			xp=100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
 		),
 	),
-	"potion": Item(useable=True, effect=Effect(heal=30)),
-	"magic weapon": Item(useable=False, effect=Effect(buff=30)),
-	"water gem": Item(useable=False, effect=Effect(buff=50)),
-	"fire gem": Item(useable=False, effect=Effect(buff=50)),
-	"wind gem": Item(useable=False, effect=Effect(buff=50)),
-	"power gem": Item(useable=False, effect=Effect(buff=50)),
-	"resurrection gem": Item(useable=False, effect=Effect(buff=50)),
-	"dark gem": Item(useable=False, effect=Effect(buff=50)),
-	"frost gem": Item(useable=False, effect=Effect(buff=50)),
-	"mana pouch": Item(useable=True, effect=Effect(mana=30, xp=15)),
+	"potion": Item(useable=True,count=1, effect=Effect(heal=30)),
+	"magic weapon": Item(useable=False,count=1, effect=Effect(buff=30)),
+	"water gem": Item(useable=False,count=1, effect=Effect(buff=50)),
+	"fire gem": Item(useable=False,count=1, effect=Effect(buff=50)),
+	"wind gem": Item(useable=False,count=1, effect=Effect(buff=50)),
+	"power gem": Item(useable=False,count=1, effect=Effect(buff=50)),
+	"resurrection gem": Item(useable=False,count=1, effect=Effect(buff=50)),
+	"dark gem": Item(useable=False,count=1, effect=Effect(buff=50)),
+	"frost gem": Item(useable=False,count=1, effect=Effect(buff=50)),
+	"mana pouch": Item(useable=True,count=1, effect=Effect(mana=30, xp=15)),
 	"lightning core": Item(
-		useable=True, effect=Effect(dmg=30, damage_type="lightning_core")
+		useable=True,count=1, effect=Effect(dmg=30, damage_type="lightning_core")
 	),
 	"blizzard core": Item(
-		useable=True, effect=Effect(dmg=30, damage_type="blizzard_core")
+		useable=True,count=1, effect=Effect(dmg=30, damage_type="blizzard_core")
 	),
-	"fire core": Item(useable=True, effect=Effect(dmg=30, damage_type="fire_core")),
+	"fire core": Item(useable=True,count=1, effect=Effect(dmg=30, damage_type="fire_core")),
 	"electric core": Item(
-		useable=True, effect=Effect(dmg=30, damage_type="electric_core")
+		useable=True,count=1, effect=Effect(dmg=30, damage_type="electric_core")
 	),
-	"ice core": Item(useable=True, effect=Effect(dmg=30, damage_type="ice_core")),
-	"ඞ": Item(useable=True, effect=Effect(buff=1000000, mana=10000000, xp=100000)),
+	"ice core": Item(useable=True,count=1, effect=Effect(dmg=30, damage_type="ice_core")),
+	"ඞ": Item(useable=True,count=1, effect=Effect(buff=1000000, mana=10000000, xp=100000)),
 }
 
 
@@ -552,7 +556,7 @@ class TeamManager:
 		teir: list[int],
 		name: list[str],
 		description: list[str],
-		level: Union[list[int], None ]= None,
+		level: Union[list[int], None] = None,
 		mana: Union[list[int], None] = None,
 		xp: Union[list[int], None] = None,
 	):
@@ -646,7 +650,7 @@ description:{self.description[2]}
 		if 0 <= person < len(self.hp) and self.hp[person] <= 0:
 			self.remove(person, targets)
 
-	def defeated(self, person: Union[int , None] = None):
+	def defeated(self, person: Union[int, None] = None):
 		if person:
 			return self.get_continuous_players()[person]
 		if len(self.get_continuous_players()) < 1:
@@ -805,9 +809,9 @@ class InventoryManager:
 
 	def grant(self, item_name: str):
 		if item_name in self.inventory:
-			self.inventory["count"] += 1
+			self.inventory[item_name] += 1
 		else:
-			self.inventory["count"] = 1
+			self.inventory[item_name] = 1
 
 	def get_length(self):
 		return len(self.inventory)
@@ -903,13 +907,10 @@ class InventoryManager:
 				if not item.usable:
 					iteration += 1
 					print(f"{iteration} for {item_name}")
+
 	###### wth
 	def __str__(self):
-		out = ""
-		for count, name in enumerate(self.inventory):
-			item = ITEM_DICT[name]
-			out += f"{count} {name[1]}:{item.effect}/n"
-		return out
+		return str(self.inventory)
 
 
 monster_spawn_rate = 20  #
@@ -962,12 +963,18 @@ def spawn_monster(
 	# avg_level = max(1, sum(party_levels) // len(party_levels))
 	spawnable: list[Monster] = []
 	for name in override:
-		spawnable.append(monster_dict[name])
+		return spawnable.append(monster_dict[name])
 	for monster in monster_dict.values():
 		if f"~{location.name}" not in monster.spawn_locations:
 			spawnable.append(monster)
-	
-
+	random.shuffle(spawnable)
+	count=random.randint(1,3)
+	out=[]
+	for x in range(count):
+		out.append(spawnable[x])
+	return out
 
 if __name__ == "__main__":
-	print(spawn_monster([3, 3, 3], location_dict["h"], ["yeti", "dragon", "NULL"]))
+	inventory=InventoryManager()
+	inventory.grant("potion")
+	print(inventory)
