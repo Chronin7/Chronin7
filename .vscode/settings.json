@@ -1,9 +1,12 @@
 {
 	"cSpell.words": [
+		"spawnable",
 		"tupple"
 	],
 	"editor.defaultFormatter": "ms-python.python",
-	"workbench.colorTheme": "Cold Python Theme",
 	"python-envs.defaultEnvManager": "ms-python.python:system",
-	"python-envs.pythonProjects": []
+	"python-envs.pythonProjects": [],
+	"[python]": {
+		"editor.defaultFormatter": "ms-python.black-formatter"
+	}
 }
