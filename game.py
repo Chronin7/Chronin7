@@ -960,21 +960,31 @@ def spawn_monster(
 	party_levels: list[int], location: Location, override: list[str] = []
 ):
 	global monster_dict
-	# avg_level = max(1, sum(party_levels) // len(party_levels))
+	avg_level = max(1, sum(party_levels) // len(party_levels))
 	spawnable: list[Monster] = []
+	
+	# Process override list
 	for name in override:
-		return spawnable.append(monster_dict[name])
+		if name in monster_dict:
+			spawnable.append(monster_dict[name])
+	
+	# Process monsters based on location
 	for monster in monster_dict.values():
 		if f"~{location.name}" not in monster.spawn_locations:
 			spawnable.append(monster)
+	
 	random.shuffle(spawnable)
-	count=random.randint(1,3)
-	out=[]
+	count = min(random.randint(1, 3), len(spawnable))  # Ensure we don't exceed available monsters
+	out = []
+	
 	for x in range(count):
 		out.append(spawnable[x])
+		print(spawnable,x)
+	print(out)
 	return out
 
 if __name__ == "__main__":
 	inventory=InventoryManager()
 	inventory.grant("potion")
 	print(inventory)
+	spawn_monster([3,3,3],location_dict["h"])
