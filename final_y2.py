@@ -67,7 +67,6 @@ def process_position(game_state):
 				level_of_map="underground"
 			if choise == "no":
 					print("you stay underground")
-		else:
 	if "sk" in tile:
 		
 	if "b" in tile:
