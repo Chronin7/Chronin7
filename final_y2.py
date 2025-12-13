@@ -1,9 +1,7 @@
-from lib2to3.fixes.fix_methodattrs import MAP
-from logging import PlaceHolder, exception
+from logging import PlaceHolder 
 import random
 import copy
 from tkinter import N
-from uu import Error
 from game import MAP_HEIGHT, MAP_WIDTH, GameState, Location
 import util_functions
 
@@ -206,7 +204,7 @@ def battle_loop(game_state: GameState, enemies_team: TeamManager):
     inv = game_state.inventory
     players_go = True
     while any(hp > 0 for hp in party_tm.hp) and any(hp > 0 for hp in enemies_team.hp):
-        continuous_players = party_tm.get_continuous_players()
+        continuous_players = party_tm.get_conscious_players()
         if not continuous_players:
             print("All players are down.")
             break
@@ -215,14 +213,14 @@ def battle_loop(game_state: GameState, enemies_team: TeamManager):
         if result == "ran":
             print("You fled the battle.")
             return "ran"
-
+╗
         # Remove dead enemies
         for i in range(len(enemies_team.hp) - 1, -1, -1):
             if enemies_team.hp[i] <= 0:
                 inventory.grant(enemies_team[])
                 enemies_team.remove(i, list(range(len(enemies_team.hp))))
         # Enemy turn
-        continuous_players = party_tm.get_continuous_players()
+        continuous_players = party_tm.get_conscious_players()
         if not continuous_players:
             print("All players are down.")
             break
@@ -230,7 +228,7 @@ def battle_loop(game_state: GameState, enemies_team: TeamManager):
         # Remove dead players for now need to make a way to revive them
         for i in range(len(party_tm.hp)):
             if party_tm.hp[i] <= 0:
-                party_tm.if_dead(i)
+                party_tm.remove_dead(i)
     # Award XP for surviving players
     if any(hp > 0 for hp in party_tm.hp) and not any(hp > 0 for hp in enemies_team.hp):
         xp_gain = 10 * len(enemies_team.hp)

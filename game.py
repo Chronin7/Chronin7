@@ -1,10 +1,13 @@
 # import do not tuch
 from enum import Enum
+from html import entities
 import random
 from re import I
 from typing import Union
 import util_functions
 from final_map_y2 import *
+
+# hi
 
 
 # dictonarys do not tuch
@@ -90,7 +93,7 @@ class Effect:
 
 
 class Item:
-    def __init__(self, name:str,  useable: bool, count: int, effect: Effect):
+    def __init__(self, name: str, useable: bool, count: int, effect: Effect):
         self.name = name
         self.usable = useable
         self.count = count
@@ -108,10 +111,18 @@ ITEM_LIST: list[Item] = [
     Item(name="stone shard", useable=False, count=1, effect=Effect(buff=10, xp=40)),
     Item(name="haunted horn", useable=False, count=1, effect=Effect(buff=8, xp=30)),
     Item(name="song of the sea", useable=True, count=1, effect=Effect(heal=15, xp=35)),
-    Item(name="lava core",
-        useable=True, count=1, effect=Effect(dmg=12, damage_type="bomb_core", xp=45)
+    Item(
+        name="lava core",
+        useable=True,
+        count=1,
+        effect=Effect(dmg=12, damage_type="bomb_core", xp=45),
     ),
-    Item(name="trident of the deep", useable=False, count=1, effect=Effect(buff=25, xp=80)),
+    Item(
+        name="trident of the deep",
+        useable=False,
+        count=1,
+        effect=Effect(buff=25, xp=80),
+    ),
     Item(name="ember shield", useable=False, count=1, effect=Effect(buff=30, xp=90)),
     Item(name="debug item", useable=True, count=1, effect=Effect(ඞ=9999)),
     Item(name="yeti fur", useable=False, count=1, effect=Effect(buff=20, xp=50)),
@@ -125,8 +136,14 @@ ITEM_LIST: list[Item] = [
     Item(name="shadow scale", useable=False, count=1, effect=Effect(buff=120, xp=600)),
     Item(name="guard's emblem", useable=False, count=1, effect=Effect(buff=50, xp=250)),
     Item(name="power suit", useable=False, count=1, effect=Effect(buff=3000, xp=1500)),
-    Item(name="the soul of a korock you monster", useable=False, count=1, effect=Effect(buff=9999, xp=9999)),
-    Item(name="no one can get this item", 
+    Item(
+        name="the soul of a korock you monster",
+        useable=False,
+        count=1,
+        effect=Effect(buff=9999, xp=9999),
+    ),
+    Item(
+        name="no one can get this item",
         useable=False,
         count=1,
         effect=Effect(
@@ -144,23 +161,41 @@ ITEM_LIST: list[Item] = [
     Item(name="dark gem", useable=False, count=1, effect=Effect(buff=50)),
     Item(name="frost gem", useable=False, count=1, effect=Effect(buff=50)),
     Item(name="mana pouch", useable=True, count=1, effect=Effect(mana=30, xp=15)),
-    Item(name="lightning core", 
-        useable=True, count=1, effect=Effect(dmg=30, damage_type="lightning_core")
+    Item(
+        name="lightning core",
+        useable=True,
+        count=1,
+        effect=Effect(dmg=30, damage_type="lightning_core"),
     ),
-    Item(name="blizzard core", 
-        useable=True, count=1, effect=Effect(dmg=30, damage_type="blizzard_core")
+    Item(
+        name="blizzard core",
+        useable=True,
+        count=1,
+        effect=Effect(dmg=30, damage_type="blizzard_core"),
     ),
-    Item(name="fire core", 
-        useable=True, count=1, effect=Effect(dmg=30, damage_type="fire_core")
+    Item(
+        name="fire core",
+        useable=True,
+        count=1,
+        effect=Effect(dmg=30, damage_type="fire_core"),
     ),
-    Item(name="electric core", 
-        useable=True, count=1, effect=Effect(dmg=30, damage_type="electric_core")
+    Item(
+        name="electric core",
+        useable=True,
+        count=1,
+        effect=Effect(dmg=30, damage_type="electric_core"),
     ),
-    Item(name="ice core", 
-        useable=True, count=1, effect=Effect(dmg=30, damage_type="ice_core")
+    Item(
+        name="ice core",
+        useable=True,
+        count=1,
+        effect=Effect(dmg=30, damage_type="ice_core"),
     ),
-    Item(name="ඞ", 
-        useable=True, count=1, effect=Effect(buff=1000000, mana=10000000, xp=100000)
+    Item(
+        name="ඞ",
+        useable=True,
+        count=1,
+        effect=Effect(buff=1000000, mana=10000000, xp=100000),
     ),
 ]
 
@@ -168,128 +203,163 @@ ITEM_DICT = {item.name: item for item in ITEM_LIST}
 
 
 # the gbu 57 bunker buster can punch thru 60 meters of solid concrete. (sing to the tune of wellerman)
-class Monster:
+class Character:
     def __init__(
         self,
         name: str,
-        tier: int,
+        level: int,
         hp: int,
         dmg: int,
-        drops: Item,
-        resistance: str,
         description: str,
-        spawn_locations: list[str],
+        xp: int = 0,
+        resistance: str = "none",
+        drops: list[Item] = [],
+        spawn_locations: list[str] = [],
+        npc: bool = True,
     ) -> None:
         self.name = name
-        self.tier = tier
+        self.level = level
         self.hp = hp
+        self.hp_max = hp
+        self.mana = 0
+        self.mana_max = 15
         self.dmg = dmg
-        self.drops = drops
+        self.xp = xp
         self.resistance = resistance
         self.description = description
+        self.drops = drops
         self.spawn_locations = spawn_locations
+        self.npc = npc
+
+    def defeated(self):
+        return self.hp <= 0
+
+    def details(self):
+        return f"""{self.name}: {'!!!OUT!!!' if self.defeated() else ''}
+  hp:{self.hp}
+  max hp:{self.hp_max}
+  damage:{self.dmg}
+  max mana:{self.mana_max}
+  mana:{self.mana}
+  level:{self.level}
+  xp:{self.xp}
+  resistance{self.resistance[0]}
+  description:{self.description[0]}"""
 
     def __str__(self):
         return str(f"{self.name}\n  hp:{self.hp}\ndescription:{self.description}")
 
+    def heal(self, amount: int):
+        self.hp = min(self.hp_max, self.hp + amount)
+        print(f"{self.name} +{amount}hp (HP now {self.hp})")
 
-monster_list: list[Monster] = [
-    Monster(
+    def damage(self, amount: int, type: str = "basic"):
+        if self.resistance == type:
+            amount //= 2
+        self.hp = max(0, self.hp - amount)
+        print(f"{self.name} took {amount} damage (HP now {self.hp})")
+
+    def gain_mana(self, amount: int):
+        self.mana = min(self.mana_max, self.mana + amount)
+
+
+monster_list: list[Character] = [
+    Character(
         name="dragon",
-        tier=4,
+        level=4,
         hp=150,
         dmg=30,
-        drops=ITEM_DICT["dragon tooth"],
+        drops=[ITEM_DICT["dragon tooth"]],
         resistance="fire",
         description="A large fire-breathing dragon.",
         spawn_locations=["~water", "~lava", "hot", "~river", "~snow"],
     ),
-    Monster(
+    Character(
         name="blob",
-        tier=1,
+        level=1,
         hp=80,
         dmg=15,
-        drops=ITEM_DICT["slime gel"],
+        drops=[ITEM_DICT["slime gel"]],
         resistance="water",
         description="A gooey blob that oozes around.",
         spawn_locations=["~water", "~lava", "~river", "~snow"],
     ),
-    Monster(
+    Character(
         name="orc",
-        tier=5,
+        level=5,
         hp=120,
         dmg=25,
-        drops=ITEM_DICT["orc tusk"],
+        drops=[ITEM_DICT["orc tusk"]],
         resistance="wind",
         description="A brutish orc warrior.",
         spawn_locations=["~lava", "~water", "~river"],
     ),
-    Monster(
+    Character(
         name="troll",
-        tier=3,
+        level=3,
         hp=130,
         dmg=28,
-        drops=ITEM_DICT["troll club"],
+        drops=[ITEM_DICT["troll club"]],
         resistance="wind",
         description="A large and strong troll.",
         spawn_locations=["~lava", "~water", "bridge", "~river"],
     ),
-    Monster(
+    Character(
         name="goblin",
-        tier=1,
+        level=1,
         hp=30,
         dmg=12,
-        drops=ITEM_DICT["goblin ear"],
+        drops=[ITEM_DICT["goblin ear"]],
         resistance="darkness",
         description="A sneaky goblin.",
         spawn_locations=["~water", "~lava", "cave", "~river"],
     ),
-    Monster(
+    Character(
         name="knight",
-        tier=3,
+        level=3,
         hp=200,
         dmg=40,
-        drops=ITEM_DICT["knight shield"],
+        drops=[ITEM_DICT["knight shield"]],
         resistance="light",
         description="A heavily armored knight.",
         spawn_locations=["~water", "~lava", "town", "bridge", "~river"],
     ),  # if spawn on b)ige have speshal dialog (none shall pass, its only a flesh wound, tis but a scratch, ive had worse)
-    Monster(
+    Character(
         name="construct",
-        tier=5,
+        level=5,
         hp=180,
         dmg=35,
-        drops=ITEM_DICT["mechanical gear"],
+        drops=[ITEM_DICT["mechanical gear"]],
         resistance="electric",
         description="A mechanical construct brought to life.",
         spawn_locations=["~water", "~lava", "cave", "~river"],
     ),
-    Monster(
+    Character(
         name="Animated statue",
-        tier=3,
+        level=3,
         hp=140,
         dmg=22,
-        drops=ITEM_DICT["stone shard"],
+        drops=[ITEM_DICT["stone shard"]],
         resistance="wind",
         description="A statue that has come to life.",
         spawn_locations=["~water", "~lava", "cave", "hot", "~river"],
     ),
-    Monster(
+    Character(
         name="Possessed cow",
-        tier=1,
+        level=1,
         hp=90,
         dmg=18,
-        drops=ITEM_DICT["haunted horn"],
+        drops=[ITEM_DICT["haunted horn"]],
         resistance="darkness",
         description="A cow possessed by a spirit.",
         spawn_locations=["~water", "~lava", "feild", "~river"],
     ),
-    Monster(
+    Character(
         name="mermaid",
-        tier=2,
+        level=2,
         hp=110,
         dmg=20,
-        drops=ITEM_DICT["song of the sea"],
+        drops=[ITEM_DICT["song of the sea"]],
         resistance="water",
         description="A mystical mermaid.",
         spawn_locations=[
@@ -304,12 +374,12 @@ monster_list: list[Monster] = [
             "~snow",
         ],
     ),
-    Monster(
+    Character(
         name="Lava monster",
-        tier=3,
+        level=3,
         hp=160,
         dmg=27,
-        drops=ITEM_DICT["lava core"],
+        drops=[ITEM_DICT["lava core"]],
         resistance="fire",
         description="A creature made of molten lava.",
         spawn_locations=[
@@ -324,12 +394,12 @@ monster_list: list[Monster] = [
             "~snow",
         ],
     ),
-    Monster(
+    Character(
         name="Fish lord",
-        tier=5,
+        level=5,
         hp=190,
         dmg=33,
-        drops=ITEM_DICT["trident of the deep"],
+        drops=[ITEM_DICT["trident of the deep"]],
         resistance="water",
         description="The ruler of all fish.",
         spawn_locations=[
@@ -344,12 +414,12 @@ monster_list: list[Monster] = [
             "~snow",
         ],
     ),
-    Monster(
+    Character(
         name="Lava warden",
-        tier=5,
+        level=5,
         hp=210,
         dmg=38,
-        drops=ITEM_DICT["ember shield"],
+        drops=[ITEM_DICT["ember shield"]],
         resistance="fire",
         description="A guardian of the lava realms.",
         spawn_locations=[
@@ -364,32 +434,32 @@ monster_list: list[Monster] = [
             "~snow",
         ],
     ),
-    Monster(
+    Character(
         name="blain",
-        tier=100,
+        level=100,
         hp=9999,
         dmg=500,
-        drops=ITEM_DICT["ඞ"],
+        drops=[ITEM_DICT["ඞ"]],
         resistance="darkness",
         description="one of the makers of the game",
         spawn_locations=["debug"],
     ),
-    Monster(
+    Character(
         name="liam",
-        tier=100,
+        level=100,
         hp=9999,
         dmg=500,
-        drops=ITEM_DICT["ඞ"],
+        drops=[ITEM_DICT["ඞ"]],
         resistance="darkness",
         description="one of the makers of the game",
         spawn_locations=["debug"],
     ),
-    Monster(
+    Character(
         name="yeti",
-        tier=2,
+        level=2,
         hp=150,
         dmg=30,
-        drops=ITEM_DICT["yeti fur"],
+        drops=[ITEM_DICT["yeti fur"]],
         resistance="ice",
         description="A large ape-like creature covered in fur.",
         spawn_locations=[
@@ -404,12 +474,12 @@ monster_list: list[Monster] = [
             "snow",
         ],
     ),
-    Monster(
+    Character(
         name="ice cube",
-        tier=1,
+        level=1,
         hp=70,
         dmg=12,
-        drops=ITEM_DICT["frost shard"],
+        drops=[ITEM_DICT["frost shard"]],
         resistance="ice",
         description="A small cube of ice that has come to life.",
         spawn_locations=[
@@ -424,12 +494,12 @@ monster_list: list[Monster] = [
             "snow",
         ],
     ),
-    Monster(
+    Character(
         name="Nyx-spawn",
-        tier=4,
+        level=4,
         hp=200,
         dmg=40,
-        drops=ITEM_DICT["shadow essence"],
+        drops=[ITEM_DICT["shadow essence"]],
         resistance="darkness",
         description="A creature born from the shadows.",
         spawn_locations=[
@@ -444,12 +514,12 @@ monster_list: list[Monster] = [
             "snow",
         ],
     ),
-    Monster(
+    Character(
         name="phoenix",
-        tier=3,
+        level=3,
         hp=180,
         dmg=35,
-        drops=ITEM_DICT["phoenix feather"],
+        drops=[ITEM_DICT["phoenix feather"]],
         resistance="fire",
         description="A mythical bird that rises from its ashes.",
         spawn_locations=[
@@ -464,12 +534,12 @@ monster_list: list[Monster] = [
             "~snow",
         ],
     ),
-    Monster(
+    Character(
         name="shadow beast",
-        tier=2,
+        level=2,
         hp=140,
         dmg=22,
-        drops=ITEM_DICT["dark fang"],
+        drops=[ITEM_DICT["dark fang"]],
         resistance="darkness",
         description="A beast that lurks in the shadows.",
         spawn_locations=[
@@ -484,12 +554,12 @@ monster_list: list[Monster] = [
             "snow",
         ],
     ),
-    Monster(
+    Character(
         name="ghost",
-        tier=1,
+        level=1,
         hp=60,
         dmg=10,
-        drops=ITEM_DICT["wisp"],
+        drops=[ITEM_DICT["wisp"]],
         resistance="darkness",
         description="A wandering spirit.",
         spawn_locations=[
@@ -504,12 +574,12 @@ monster_list: list[Monster] = [
             "snow",
         ],
     ),
-    Monster(
+    Character(
         name="zombie",
-        tier=1,
+        level=1,
         hp=50,
         dmg=8,
-        drops=ITEM_DICT["rotting flesh"],
+        drops=[ITEM_DICT["rotting flesh"]],
         resistance="darkness",
         description="A reanimated corpse.",
         spawn_locations=[
@@ -524,62 +594,62 @@ monster_list: list[Monster] = [
             "snow",
         ],
     ),
-    Monster(
+    Character(
         name="lord king",
-        tier=10,
+        level=10,
         hp=1000,
         dmg=100,
-        drops=ITEM_DICT["king's crown"],
+        drops=[ITEM_DICT["king's crown"]],
         resistance="light",
         description="The ultimate ruler.",
         spawn_locations=["debug"],
     ),
-    Monster(
+    Character(
         name="lord king's guard",
-        tier=9,
+        level=9,
         hp=500,
         dmg=50,
-        drops=ITEM_DICT["guard's emblem"],
+        drops=[ITEM_DICT["guard's emblem"]],
         resistance="light",
         description="The elite guard of the lord king.",
         spawn_locations=["debug"],
     ),
-    Monster(
+    Character(
         name="shadow dragon",
-        tier=10,
+        level=10,
         hp=1200,
         dmg=120,
-        drops=ITEM_DICT["shadow scale"],
+        drops=[ITEM_DICT["shadow scale"]],
         resistance="darkness",
         description="A dragon born from shadows.",
         spawn_locations=["debug"],
     ),
-    Monster(
+    Character(
         name="samus aran",
-        tier=50,
+        level=50,
         hp=3000,
         dmg=300,
-        drops=ITEM_DICT["power suit"],
+        drops=[ITEM_DICT["power suit"]],
         resistance="electric",
         description="A legendary bounty hunter.",
         spawn_locations=["debug"],
     ),  # nentendo please dont sue me
-    Monster(
+    Character(
         name="korock",
-        tier=0,
+        level=0,
         hp=1,
         dmg=1,
-        drops=ITEM_DICT["the soul of a korock you monster"],
+        drops=[ITEM_DICT["the soul of a korock you monster"]],
         resistance="wind",
         description="A small plant-like creature from the land of hyrule.",
         spawn_locations=["debug"],
     ),
-    Monster(
+    Character(
         name="nintendo",
-        tier=100000000000000000000000000000000000000000000000,
+        level=100000000000000000000000000000000000000000000000,
         hp=999999999999999999999999999999999999999999999999,
         dmg=999999999999999999999999999999999999999999999999,
-        drops=ITEM_DICT["no one can get this item"],
+        drops=[ITEM_DICT["no one can get this item"]],
         resistance="light",
         description="the ultimate being",
         spawn_locations=["debug"],
@@ -588,249 +658,179 @@ monster_list: list[Monster] = [
 
 monster_dict = {monster.name: monster for monster in monster_list}
 
+group_attack_spells=[
+    "lightning_core",
+    "bomb_core",
+    "blizzard_core",
+]
+
+mana_costs={"bomb core":15,"fire core":10,"lightning core":15,"electric core":10,"blizzard core":15,"ice core":10}
 # team manager
 class TeamManager:
-    def __init__(
-        self,
-        hp: list[int],
-        dmg: list[int],
-        drops: Union[list[Item], None],
-        resistance: list[str],
-        teir: list[int],
-        name: list[str],
-        description: list[str],
-        level: Union[list[int], None] = None,
-        mana: Union[list[int], None] = None,
-        xp: Union[list[int], None] = None,
-    ):
-        # Expect lists for multi-entity teams
-        self.hp_max = hp
-        self.hp = hp
-        self.dmg = dmg
-        self.drops = drops
-        self.resistance = resistance
-        self.teir = teir
-        self.name = name
-        self.description = description
-        # n is number of people in the team
-        n = len(self.hp)
-        if level is None:
-            self.level = [1] * n
-        else:
-            self.level = list(level)
-        if mana is None:
-            self.mana_max = [10] * n
-            self.mana = [10] * n
-        else:
-            self.mana_max = list(mana)
-            self.mana = list(mana)
-        if xp is None:
-            self.xp = [0] * n
-        else:
-            self.xp = list(xp)
+    @staticmethod
+    def get_start_team():
+        return TeamManager(
+            [
+                Character(
+                    name=f"character {i}",
+                    level=1,
+                    hp=50,
+                    dmg=15,
+                    description=f"character {i}",
+                    xp=0,
+                    npc=False,
+                )
+                for i in range(1, 4)
+            ]
+        )
+
+    def __init__(self, characters: list[Character] = []):
+        self.characters = characters
 
     def __repr__(self):
         return f'{"hp_max":self.hp_max,"hp":self.hp,"dmg":self.dmg,"drops":self.drops,"resistance":self.resistance,"teir":self.teir,"name":self.name,"description":self.description,"level":self.level,"max_mana":self.mana_max,"mana":self.mana,"xp":self.xp}'
 
     def __str__(self):
-        return f"""
-{self.name[0]}: {"!!!OUT!!!"if self.defeated(0) else ""}
-max hp:{self.hp_max[0]}
-hp:{self.hp[0]}
-damage:{self.dmg[0]}
-max mana:{self.mana_max[0]}
-mana:{self.mana[0]}
-level:{self.level[0]}
-XP:{self.xp[0]}
-resistance{self.resistance[0]}
-description:{self.description[0]}
-{self.name[1]}: {"!!!OUT!!!"if self.defeated(1) else ""}
-max hp:{self.hp_max[1]}
-hp:{self.hp[1]}
-damage:{self.dmg[1]}
-max mana:{self.mana_max[1]}
-mana:{self.mana[1]}
-level:{self.level[1]}
-XP:{self.xp[1]}
-resistance{self.resistance[1]}
-description:{self.description[1]}
-{self.name[2]}: {"!!!OUT!!!"if self.defeated(2) else ""}
-max hp:{self.hp_max[2]}
-hp:{self.hp[2]}
-damage:{self.dmg[2]}
-max mana:{self.mana_max[2]}
-mana:{self.mana[2]}
-level:{self.level[2]}
-XP:{self.xp[2]}
-resistance{self.resistance[2]}
-description:{self.description[2]}
-"""
+        return "\n".join([c.details() for c in self.characters])
 
-    def getattribute(self, attr_name: str, person: int = 0):
-        if hasattr(self, attr_name):
-            val = getattr(self, attr_name)
-            try:
-                return val[person]
-            except Exception:
-                return val
-        return None
-
-    def heal(self, heal_amount: int, person: int):
-        if 0 <= person < len(self.hp):
-            self.hp[person] = min(self.hp[person] + heal_amount, self.hp_max[person])
-
-    def damage(self, damage_amount: int, damage_type: str, person: int):
-        if not (0 <= person < len(self.hp)):
-            return
-        actual = damage_amount
-        if self.resistance and person < len(self.resistance):
-            if self.resistance[person] == damage_type:
-                actual = damage_amount // 2
-        self.hp[person] = max(self.hp[person] - actual, 0)
-        print(f"{self.name[person]} took {actual} damage (HP now {self.hp[person]})")
-
-    def if_dead(self, person: int, targets: list[int] = []):
+    def remove_dead(self, person: int, targets: list[int] = []):
         if 0 <= person < len(self.hp) and self.hp[person] <= 0:
             self.remove(person, targets)
 
-    def defeated(self, person: Union[int, None] = None):
-        if person:
-            return self.get_continuous_players()[person]
-        if len(self.get_continuous_players()) < 1:
-            return True
-        else:
-            return False
-
-    def remove(self, person: int, targets: list[int] = []):
-        if not (0 <= person < len(self.hp)):
+    def remove(self, person: Character):
+        if person.hp > 0:
             return
-        if self.teir[person] == 0:
-            print(f"{self.name[person]} is unconscious")
-            self.hp[person] = -1
+        if not person.npc:
+            print(f"{person.name} is unconscious")
+            person.hp = -1
             if person in targets:
                 try:
                     targets.remove(person)
                 except ValueError:
                     pass
         else:
-            if self.drops:
-                print(f"You got {self.drops[person]} and killed {self.name[person]}")
+            for drop in person.drops:
+                print(f"You got {drop.name} and killed {person.name}")
+                inventory.grant(drop)
+                
             if 0 <= person < len(targets):
                 targets.pop(person)
 
-    def level_up(self, person: int):
+    def level_up(self, person: Character):
         global monster_spawn_rate
         if not (0 <= person < len(self.level)):
             return
-        self.level[person] += 1
-        self.hp_max[person] += 10
-        self.hp[person] = self.hp_max[person]
-        self.mana_max[person] += 10
-        self.mana[person] = self.mana_max[person]
-        if self.level[person] % 7 == 0:
+        person.level += 1
+        person.hp_max += 10
+        person.hp = person.hp_max
+        person.mana_max += 10
+        person.mana = person.mana_max
+        if person.level % 7 == 0:
             monster_spawn_rate = min(monster_spawn_rate + 5, 70)
-        self.dmg[person] += 10
+        person.dmg += 10
 
-    def add_buff(self, damage_buff: int, person: int):
-        if 0 <= person < len(self.dmg):
-            self.dmg[person] += damage_buff
+    def add_buff(self, damage_buff: int, person: Character):
+        person.dmg += damage_buff
 
-    def attack(
+    def player_turn(
         self,
-        players_go: int,
-        continuous_players: list[int],
         enemies: "TeamManager",
-        players: "TeamManager",
     ):
         global inventory
-        if players_go:
+        conscious_players = self.get_conscious_players()
+        conscious_enemies = enemies.get_conscious_players()
+        for player in conscious_players:
+            print(f"{player.name} is at {player.hp}")
+            while True:
 
-            for player_index in continuous_players:
-                print(
-                    f'{players.getattribute("name",0)} is at {players.getattribute("hp",0)} hp\n{players.getattribute("name",1)} is at {players.getattribute("hp",1)} hp\n{players.getattribute("name",2)} is at {players.getattribute("hp",2)} hp\n'
-                )
-                if enemies.defeated():
-                    break
-                choise = util_functions.get_valid_type(
-                    int,
-                    "0 to run away, 1 to attack, 2 to use item: ",
-                    "that is not a number 0,1 or 2",
-                    [0, 1, 2],
-                )
-                if choise == 0:
+                castable_spells = [spell for (spell, cost) in mana_costs.items() if cost <= player.mana]
+
+                possible_actions = ["attack", "run"]
+                if (inventory.has_usable_items()):
+                    possible_actions.append('use item')
+                if len(castable_spells) > 0:
+                    possible_actions.append('magic')
+
+                choice = util_functions.select_item(possible_actions, "What would you like to do?: ", force_selection=True)
+                if choice == "run":
                     if util_functions.alternate_random((0, 5), int) == 1:
-                        print(
-                            "the monsters where too fast and caught you as you tried to run away"
-                        )
-                        continue
+                        print("the monsters where too fast and caught you as you tried to run away")
+                        break
                     else:
                         print("you successfully ran away!")
                         return "ran"
-                elif choise == 2 and len(inventory.get_inventory()) > 0:
-                    inventory.choose_item_and_use(True, players, enemies)
-                damage = self.dmg[player_index]
-                if len(enemies.hp) == 0:
-                    continue
-                target = random.randint(0, len(enemies.hp) - 1)
-                enemies.damage(damage, "normal", target)
-                enemies.if_dead(target, list(range(len(enemies.hp))))
-        else:
-            for i in range(len(enemies.hp)):
-                if enemies.hp[i] <= 0:
-                    continue
-                tier_val = (
-                    enemies.teir[i]
-                    if i < len(enemies.teir) and enemies.teir[i] > 0
-                    else 1
-                )
-                num = random.randint(1, max(1, tier_val))
-                if num == 1:
-                    if not continuous_players:
-                        continue
-                    target = random.choice(continuous_players)
-                    enemies.damage(enemies.dmg[i], "normal", target)
-                    self.if_dead(target, continuous_players)
-                elif num == 2:
-                    for j in continuous_players:
-                        enemies.damage(enemies.dmg[i], "normal", j)
-                        self.if_dead(j, continuous_players)
-                elif num == 3:
-                    if not continuous_players:
-                        continue
-                    target = random.choice(continuous_players)
-                    enemies.damage(enemies.dmg[i] // 2, "resistant", target)
-                    self.if_dead(target, continuous_players)
-                elif num == 4:
-                    for j in continuous_players:
-                        enemies.damage(enemies.dmg[i] // 2, "resistant", j)
-                        self.if_dead(j, continuous_players)
+                elif choice=="use items":
+                    if "returned" == inventory.choose_item_and_use(True, self, enemies):
+                        continue 
+                elif choice=="magic":
+                    while True:
+                        spell = util_functions.select_item(
+                            castable_spells,
+                            "what spell would you like to cast?: ",
+                        )
+                        if spell == None:
+                            continue
+                        if choice in group_attack_spells:
+                            for enemy in conscious_enemies:
+                                enemy.damage(player.dmg)
+                        player.mana -= mana_costs[spell]
+                        return "cast spell"
+                elif choice=="attack":
+                    target = util_functions.select_item(
+                        conscious_enemies,
+                        "what enemy do you want to attack: ")
+                    target.damage(player.dmg, "normal", target)
+                    target.remove_dead(target, list(range(len(enemies.hp))))
 
-    def get_continuous_players(self):
-        continuous_players: list[int] = []
-        for i in range(len(self.hp)):
-            if self.hp[i] > 0:
-                continuous_players.append(i)
-        return continuous_players
-
-    def get_continuous_player_names(self):
-        continuous_players: list[str] = []
-        for i in range(len(self.hp)):
-            if self.hp[i] > 0:
-                continuous_players.append(self.name[i])
-        return continuous_players
-
-    def gain_mana(self, mana_amount: int, person: int):
-        if 0 <= person < len(self.mana):
-            self.mana[person] = min(
-                self.mana[person] + mana_amount, self.mana_max[person]
+    def enemy_turn(self, enemies: "TeamManager"):
+        for i in range(len(enemies.hp)):
+            if enemies.hp[i] <= 0:
+                continue
+            tier_val = (
+                enemies.teir[i]
+                if i < len(enemies.teir) and enemies.teir[i] > 0
+                else 1
             )
+            num = random.randint(1, max(1, tier_val))
+            if num == 1:
+                if not continuous_players:
+                    continue
+                target = random.choice(continuous_players)
+                enemies.damage(enemies.dmg[i], "normal", target)
+                self.remove_dead(target, continuous_players)
+            elif num == 2:
+                for j in continuous_players:
+                    enemies.damage(enemies.dmg[i], "normal", j)
+                    self.remove_dead(j, continuous_players)
+            elif num == 3:
+                if not continuous_players:
+                    continue
+                target = random.choice(continuous_players)
+                enemies.damage(enemies.dmg[i] // 2, "resistant", target)
+                self.remove_dead(target, continuous_players)
+            elif num == 4:
+                for j in continuous_players:
+                    enemies.damage(enemies.dmg[i] // 2, "resistant", j)
+                    self.remove_dead(j, continuous_players)
 
-    # def
+    def get_conscious_players(self):
+        return [character for character in self.characters if character.hp > 0]
+
+
+class InventoryItem:
+    def __init__(self, item: Item, count: int = 0):
+        self.item = item
+        self.count = count
 
 
 class InventoryManager:
-    def __init__(self, starting_inventory: dict[str, int] = {}):
-        self.inventory = starting_inventory.copy()
+    def __init__(
+        self,
+        starting_inventory: set[Item] = {ITEM_DICT["potion"], ITEM_DICT["mana pouch"]},
+    ):
+        self.inventory = {
+            item.name: InventoryItem(item=item) for item in starting_inventory
+        }
 
     def __repr__(self):
         return f"{self.get_inventory()}"
@@ -838,23 +838,11 @@ class InventoryManager:
     def has_item(self, item_name: str):
         return item_name in self.inventory
 
-    def use(
-        self, item_name: str, party: TeamManager, person: int, enemies: "TeamManager"
-    ):
-        item = ITEM_DICT[item_name]
-        if item and item_name in self.inventory and item.usable:
-            self.effect_function(item.effect, party, person, enemies)
-            self.inventory[item_name] -= 1
-            if self.inventory[item_name] <= 0:
-                self.inventory.pop(item_name)
+    def grant(self, item: Item):
+        if item.name in self.inventory:
+            self.inventory[item.name].count += 1
         else:
-            raise Exception(f"Item '{item_name}' not usable or not found")
-
-    def grant(self, item_name: str):
-        if item_name in self.inventory:
-            self.inventory[item_name] += 1
-        else:
-            self.inventory[item_name] = 1
+            self.inventory[item.name] = InventoryItem(item)
 
     def get_length(self):
         return len(self.inventory)
@@ -862,94 +850,79 @@ class InventoryManager:
     def get_inventory(self):
         return self.inventory
 
-    def effect_function(
-        self, effect: Effect, party: TeamManager, person: int, enemies: TeamManager
-    ):
-        if not isinstance(effect, dict):
-            return
-        # healing and mana effects
-        if effect.heal > 0:
-            party.heal(effect.heal, person)
-        if effect.mana > 0:
-            party.gain_mana(effect.mana, person)
-        # debug item
-        if effect.ඞ > 0:
-            for i in range(len(party.hp)):
-                party.heal(party.hp_max[i], i)
-                party.gain_mana(party.mana_max[i], i)
-            dmg = util_functions.get_valid_type(int, "")
-            for i in range(len(enemies.hp)):
-                enemies.damage(dmg, "normal", i)
+    def pick_enemy_target(self, enemies: TeamManager):
+        return util_functions.select_item(
+            enemies.get_conscious_players(),
+            "who do you want to attack: ",
+        )
 
-        if effect.dmg > 0:
-            # items/efects
-            if effect.damage_type == "bomb_core":
-                for i in range(len(enemies.hp)):
-                    enemies.damage(effect.dmg, "fire", i)
-            if effect.damage_type == "lightning_core":
-                for i in range(len(enemies.hp)):
-                    enemies.damage(effect.dmg, "electric", i)
-            if effect.damage_type == "blizzard_core":
-                for i in range(len(enemies.hp)):
-                    enemies.damage(effect.dmg, "ice", i)
-            if effect.damage_type == "fire_core":
-                enemies.damage(effect.dmg, "fire", person)
-            if effect.damage_type == "electric_core":
-                enemies.damage(effect.dmg, "electric", person)
-            if effect.damage_type == "ice_core":
-                enemies.damage(effect.dmg, "ice", person)
-
+    def pick_friendly_target(self, party: TeamManager):
+        return util_functions.select_item(
+            party.characters,
+            "which character do ou want to have these effects applied to: ",
+        )
+    
+    def has_usable_items(self):
+        for i_item in self.inventory.values():
+            if i_item.item.usable:
+                return True
+        return False
+    
     def choose_item_and_use(
         self, usable: bool, party: TeamManager, enemy_party: TeamManager
     ):
-        key: list[str] = []
+        key: list[InventoryItem] = []
         if usable:
-            iteration = 0
-            print("0 to return")
-            for item_name in self.inventory:
-                item = ITEM_DICT[item_name]
-                if item.usable:
-                    iteration += 1
-                    print(f"{iteration} for {item_name}")
-                    key.append(item_name)
             while True:
-                choise: int = util_functions.get_valid_type(
-                    int,
+                i_item = util_functions.select_item(
+                    [
+                        i_item
+                        for i_item in self.inventory.values()
+                        if i_item.item.usable
+                    ],
                     "what do you want to use: ",
-                    "that is not a valid input, press enter to continue",
-                    (0, iteration),
                 )
-                if choise == 0:
+                if i_item == None:
                     return "returned"
-                item_name = key[choise - 1]
-                item = ITEM_DICT[item_name]
-                enemy_key: list[int] = []
-                if item.effect.dmg > 0:
-                    while True:
-                        print("0 to return")
-                        for num, name in enumerate(
-                            enemy_party.get_continuous_player_names()
-                        ):
-                            enemy_key.append(num)
-                            print(f"{num+1} to atack {name}")
-                            choise = util_functions.get_valid_type(
-                                int,
-                                "who do you want to atack; ",
-                                "that is not a valid input, press enter to continue",
-                                (0, num + 1),
-                            )
-                            if choise == 0:
-                                break
-                            else:
-                                choise = enemy_key[choise]
-                                self.use(item_name, party, choise, enemy_party)
+                effect = i_item.item.effect
+                attack_item = effect.dmg > 0
+
+                if effect.ඞ > 0:
+                    for c in party.characters:
+                        c.heal(c.hp_max)
+                        c.gain_mana(c.mana_max)
+                    dmg = util_functions.get_valid_type(int, "")
+                    for character in party.characters:
+                        character.damage(dmg, "normal")
+                elif attack_item:
+                    if effect.damage_type in [
+                        "lightning_core",
+                        "bomb_core",
+                        "blizzard_core",
+                    ]:
+                        for character in enemy_party.get_conscious_players():
+                            character.damage(effect.dmg, effect.damage_type)
+                    else:
+                        target = self.pick_enemy_target(enemy_party)
+                        if target == None:
+                            continue
+                        target.damage(effect.dmg, effect.damage_type)
+                else:
+                    target = self.pick_friendly_target(party)
+                    if target == None:
+                        continue
+                    if effect.heal > 0:
+                        target.heal(effect.heal)
+                    if effect.mana > 0:
+                        target.gain_mana(effect.mana)
+                i_item.count -= 1
+                if i_item.count == 0:
+                    self.inventory.pop(i_item.item.name)
         else:
-            iteration = 0
-            for num, item_name in enumerate(inventory.get_inventory()):
-                item = ITEM_DICT[item_name]
-                if not item.usable:
-                    iteration += 1
-                    print(f"{iteration} for {item_name}")
+            for i, i_item in enumerate(
+                [x for x in self.inventory.values() if not x.item.usable]
+            ):
+                print(f"{i + 1} for {i_item.item.name}")
 
     ###### wth
     def __str__(self):
@@ -1003,7 +976,7 @@ def spawn_monster(
     party_levels: list[int], location: Location, override: list[str] = []
 ):
     global monster_dict
-    spawnable: list[Monster] = []
+    spawnable: list[Character] = []
 
     # Process override list
     if len(override) > 0:
@@ -1013,13 +986,13 @@ def spawn_monster(
     else:
         # Process monsters based on location
         avg_level = max(1, sum(party_levels) // len(party_levels))
-        possible: list[Monster] = []
+        possible: list[Character] = []
         not_location = f"~{location.name}"
         for monster in monster_dict.values():
             if (
                 not_location not in monster.spawn_locations
                 and "debug" not in monster.spawn_locations
-                and monster.tier <= avg_level
+                and monster.level <= avg_level
             ):
                 possible.append(monster)
                 random.choice(possible)

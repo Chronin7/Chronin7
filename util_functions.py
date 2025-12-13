@@ -1,4 +1,5 @@
 # util_functions.py
+from collections.abc import Iterable
 import random
 import time
 import os
@@ -40,7 +41,7 @@ def clear_term():
     except Exception as e:
         raise RuntimeError("error 004 occurred in clear_term") from e
 
-def get_valid_type(type_return, prompt, invalid_prompt="Invalid input. Please try again.",
+def get_valid_type(type_return: type, prompt, invalid_prompt="Invalid input. Please try again.",
                    valid=None, typing=False, end="", type_speed=False, random_bounds=(0, .1)):
     """
     Prompt the user until they provide a value that can be converted to type_return
@@ -95,6 +96,39 @@ def get_valid_type(type_return, prompt, invalid_prompt="Invalid input. Please tr
     except Exception as e:
         raise RuntimeError("error 001 occurred in get_valid_type") from e
 
+def select_item[T](
+        items: Iterable[T],
+        prompt: str,
+        invalid_prompt: str="that is not a valid input, press enter to continue",
+        force_selection: bool=False
+    ):
+    choices: dict[int, T] = {}
+    if force_selection:
+        print("0 to return")
+    key = 1
+    for item in items:
+        choices[key] = item
+        print(f"{key} {item}")
+        key += 1
+    choice: int = get_valid_type(int, prompt, invalid_prompt, (1 if force_selection else 0,len(choices)))
+    if choice == 0:
+        return None
+    return choices[choice]
+def getch():
+    import sys, termios, tty
+
+    fd = sys.stdin.fileno()
+    orig = termios.tcgetattr(fd)
+
+    try:
+        tty.setcbreak(fd)  # or tty.setraw(fd) if you prefer raw mode's behavior.
+        return sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSAFLUSH, orig)
+#def menu(*options,curser="⁍"):
+#    while True:
+#        if getch()=="w":
+#            item-=1
 # -------------------------
 # Error helper
 # -------------------------
