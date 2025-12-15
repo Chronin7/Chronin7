@@ -264,8 +264,10 @@ while True:
 	ep = 0
 	if input("do you want to play(y/n)").lower()!="y":
 		break
-	if input("do you have epalepsy(y/n): ").lower() != "y":
-		ep = 1
+	if input("are you drunk(y/n): ").lower() != "y":
+		print("dont drink its bad for your health")
+		time.sleep(1)
+		print("ʸᵉᵗ ᵍʳᵒʷᵗʰ ᵐⁱⁿᵈ ˢᵉᵗ")
 	initGame()
 	while True:
 		if location.description == "keyboard":
