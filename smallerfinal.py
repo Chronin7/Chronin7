@@ -199,7 +199,7 @@ def useItem():
 
 def keyboard():
 	print("You have found the keyboard!")
-	if input("do you type(y/n):").lower=="y":
+	if input("do you type(y/n):").lower()=="y":
 		print("""Traceback (most recent call last):
   File "/Users/this is a joke/personal/pythonPlay/game.py", line ∞, in <all>
     item = banana
@@ -207,11 +207,11 @@ def keyboard():
   File "/Users/also a joke/personal/pythonPlay/game.py", line ∞, in lemon
     raise Exception(f"Invalid rarity {good food}")
 Exception: Invalid rarity 2037946809832759832""")
-		time.sleep(.01)
+		time.sleep(3)
 		print("BACK FROM THE DEAD CODE")
 		print("hahaha")
 		print("P.S. you win")
-		return "dead"
+		quit()
 	else:
 		return "dead"
 
